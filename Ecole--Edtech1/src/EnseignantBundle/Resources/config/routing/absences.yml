@@ -1,0 +1,27 @@
+absences_index:
+    path:     /
+    defaults: { _controller: "EnseignantBundle:Absences:index" }
+    methods:  GET
+
+absences_show:
+    path:     /{id}/show
+    defaults: { _controller: "EnseignantBundle:Absences:show" }
+    methods:  GET
+
+absences_new:
+    path:     /new
+    defaults: { _controller: "EnseignantBundle:Absences:new" }
+    methods:  [GET, POST]
+
+absences_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EnseignantBundle:Absences:edit" }
+    methods:  [GET, POST]
+
+absences_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EnseignantBundle:Absences:delete" }
+
+absences_changeretat:
+    path:   /{id}/changeretat
+    defaults: { _controller: "EnseignantBundle:Absences:changeretat" }

@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <header id="head" class="secondary">
+        <div class="container">
+            <h1>SUJET</h1>
+        </div>
+    </header>
+
+    <table>
+        <tbody>
+        <ul>
+            <li>
+                <a style="float: right; margin-right: 40px; font-size: 50px" href="{{ path('sujet_index') }}"><i class="fa fa-arrow-circle-o-left"></i></a>
+            </li>
+        </ul>
+        <div class="container">
+            <div class="row">
+                <!-- Article content -->
+                <section class="col-sm-12 maincontent" style="border-style: groove;margin-top: 40px">
+                    <h1>{{ sujet.titre }}</h1>
+                    <h3 style="color: #00aced">{{ sujet.date|date('Y-m-d H:i:s') }} by {{ sujet.id }}</h3>
+                    <p style="font-size: 32px">
+                        {{ sujet.description }}
+                    </p>
+                    <div style="margin-bottom: 50px ;font-size: 17px">
+                        {% set break = false %}
+                        {% for a in aa if not break%}
+                            {% if sujet.id==a.sujet.id %}
+                                <a href="{{ path('dislikeshow', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightcoral;"><i class="fa fa-thumbs-up"></i></button></a> <span style="font-weight: bold">{{ sujet.score }}</span>
+                                {% set break = true %}
+                            {% endif %}
+                            {% if sujet.id!=a.sujet.id  %}
+                                <a href="{{ path('likeshow', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightgrey;"><i class="fa fa-thumbs-o-up"></i></button></a> <span style="font-weight: bold">{{ sujet.score }}</span>
+                                {% set break = true %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if aa is empty %}
+                            <a href="{{ path('likeshow', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightgrey;"><i class="fa fa-thumbs-o-up"></i></button></a> <span style="font-weight: bold">{{ sujet.score }}</span>
+                        {% endif %}
+
+                        {% if app.user.id==sujet.createur  %}
+                            <a href="{{ path('sujet_edit', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightgrey;"><i class="fa fa-pencil-square"> </i></button></a>
+                            <a href="{{ path('supprimer', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightgrey;"><i class="fa fa-trash-o"> </i></button></a>
+                        {% endif %}
+
+                    </div>
+                    {% for commentaire in commentaires %}
+                        <div style="border-style: groove;margin-bottom: 10px">
+                            <div style="margin-left: 10px;margin-bottom: 5px">
+                                <h5>{{ commentaire.createur }} <span style="float: right">{{ commentaire.date|date('Y-m-d H:i:s') }}</span></h5>
+                                <p style="font-size: 22px">
+                                    {{ commentaire.texte }}
+                                </p>
+                               {% if app.user.id==commentaire.createur  %}
+                                    <button class="btn btn-dark" style="padding: 4px 10px;background-color: lightsteelblue;"><a href="{{ path('commentaire_edit', { 'id': commentaire.id }) }}"><i class="fa fa-pencil-square"> edit</i></a></button>
+                                    <button class="btn btn-dark" style="padding: 4px 10px;background-color: lightsteelblue;"><a href="{{ path('supprimer_commentaire', { 'id': commentaire.id }) }}"><i class="fa fa-trash-o"> delete</i></a></button>
+                               {% else %}
+                                   <a href="{{ path('signaler_commentaire', { 'id': commentaire.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightsteelblue;"><i class="fa fa-exclamation-triangle"> </i></button></a>
+                               {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-light mt-20">
+                        {{ form_start(form) }}
+                        <div class="form-group">
+                            <label>{{ form_label(form.texte) }}</label>
+                            {{ form_widget(form.texte, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+
+                        <input type="submit" class="btn btn-two" value="Create" style="margin-bottom: 5px"/>
+                        {{ form_end(form) }}
+                    </div>
+
+                </section>
+            </div>
+        </div>
+        </tbody>
+    </table>
+
+
+{% endblock %}

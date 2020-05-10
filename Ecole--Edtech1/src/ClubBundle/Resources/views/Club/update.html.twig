@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block title %}ClubBundle:Club:update{% endblock title %}
+{% block body %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+    {{ form_start(form) }}
+
+    <br/><br/><br/><br/>
+    <h1>Modifier Club</h1>
+    <table>
+        <tr>
+            <td class="mailbox-name"> Nom du Club</td>
+            <td> {{ form_widget(form.nomclub, { 'attr': {'class': "size20",'placeholder': "nom club"} }) }}</td>
+        </tr>
+        <tr>
+            <td class="mailbox-name"> Responsabl du Club</td>
+            <td> {{ form_widget(form.User, { 'attr': {'size':"1",'class': ""} }) }}</td>
+        </tr>
+    </table>
+    <br/>
+    <button style="position: absolute;left: 37%" class="au-btn au-btn-icon au-btn--green au-btn--small" type="submit">Modify</button>
+
+    {{ form_end(form) }}
+
+{% endblock body %}

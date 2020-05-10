@@ -1,0 +1,81 @@
+{% extends 'back/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {% block course %}
+
+        <div class="col-md-12" style="margin-top: 120px">
+            <!-- DATA TABLE -->
+            <h3 class="title-5 m-b-35">Signaler</h3>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>ID Objet</th>
+                        <th>NB Signal</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for signal in signalers %}
+                        <tr class="tr-shadow">
+                            <td>{{ signal.id }}</td>
+                            <td>
+                                <span class="block-email">{{ signal.type }}</span>
+                            </td>
+                            {% if signal.type starts with 's' %}
+                                <td><a href="{{ path('back_commentaire', { 'id': signal.sujet.id }) }}">{{ signal.sujet.id }}</a></td>
+
+                            {% else %}
+
+                                <td>{{ signal.commentaire.id }}</td>
+                            {% endif %}
+
+                            <td>
+                                <span class="status--process">{{ signal.nombre }} signal</span>
+                            </td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a href="{{ path('back_signalersuppall', { 'id': signal.id }) }}" style="margin-right: 10px"><button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="zmdi zmdi-check"></i></button>
+                                    </a>
+                                    <a href="{{ path('back_signalersupp', { 'id': signal.id }) }}"><button class="item" data-toggle="tooltip" data-placement="top" title="Deny">
+                                            <i class="zmdi zmdi-block"></i></button>
+                                        </a>
+
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE -->
+        </div>
+
+
+    {% endblock course %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

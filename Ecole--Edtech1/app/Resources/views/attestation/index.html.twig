@@ -1,0 +1,45 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="section-title">Liste de vos demandes d'attestation de présence</h1>
+            <table width=70%">
+        <thead>
+            <tr>
+                <th>Nom du demandeur</th>
+                <th>Prénom du demandeur</th>
+                <th>Date de la demande</th>
+                <th>Etat de la demande</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attestation in attestations %}
+            <tr>
+                <td>{{ attestation.parent.nom }}</td>
+                <td>{{ attestation.parent.prenom }}</td>
+                <td>{% if attestation.date %}{{ attestation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ attestation.etat }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('attestationsupp', { 'id': attestation.id }) }}" {% if attestation.etat=='traitee' %}hidden{% endif %}>Supprimer</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+<br/>
+    <ul>
+        <li>
+            <a href="{{ path('attestationnew', {'parent':app.user.id }) }}" class="btn">Demander une nouvelle attestation</a>
+        </li>
+    </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

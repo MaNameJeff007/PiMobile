@@ -1,0 +1,23 @@
+moyennes_index:
+    path:     /
+    defaults: { _controller: "EnseignantBundle:Moyennes:index" }
+    methods:  GET
+
+moyennes_show:
+    path:     /{id}/show
+    defaults: { _controller: "EnseignantBundle:Moyennes:show" }
+    methods:  GET
+
+moyennes_new:
+    path:     /new/{ideleve}/{idmatiere}/{trimestre}
+    defaults: { _controller: "EnseignantBundle:Moyennes:new" }
+    methods:  [GET, POST]
+
+moyennes_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EnseignantBundle:Moyennes:edit" }
+    methods:  [GET, POST]
+
+moyennes_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EnseignantBundle:Moyennes:delete" }

@@ -1,0 +1,125 @@
+{% extends "Back/base.html.twig" %}
+{% block title %}Gestion Evenements{% endblock %}
+{% block body %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+    <div class="main-content">
+    <h1 style="position: absolute;right: 32%">Create Your Event</h1>
+    <br/><br/>
+    <br/>
+    <div class="col-md-12">
+
+    <div class="table-data__tool">
+    <div class="table-data__tool-left">
+    <table size="70%">
+
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title">
+                <h3 class="text-center title-2">Evenement</h3>
+            </div>
+            <hr>
+            {{ form_start(form) }}
+            <div class="form-group">
+                <label for="cc-payment" class="control-label mb-1">Evenement</label>
+                <span class="form-control">{{ form_widget(form.nomEvenement, { 'attr': {'class': "size20",'placeholder': "Evenement"} }) }}</span>
+            </div>
+            <div class="form-group">
+                <label for="cc-name" class="control-label mb-1">Date et heure du Début:</label>
+                <span class="form-control"> {{ form_widget(form.heureDebut) }}</span>
+            </div>
+            <div class="form-group">
+                <label for="cc-number" class="control-label mb-1">Date et heure Fin:</label>
+                <span class="form-control">{{ form_widget(form.heureFin) }}</span>
+            </div>
+            <div class="form-group">
+                <label for="cc-number" class="control-label mb-1">Choose File</label>
+                <span class="form-control">{{ form_widget(form.file) }}</span>
+            </div>
+            <div class="form-group">
+                <label for="cc-number" class="control-label mb-1">Club gérant </label>
+                <span class="form-control">{{ form_widget(form.Club) }}</span>
+            </div>
+            <div>
+                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block"
+                        style="background-color: #63c76a">
+                    <i class="fa fa-"></i>&nbsp;
+                    <span id="payment-button-amount">Create</span>
+                    <span id="payment-button-sending" style="display:none;">Sending…</span>
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+
+    <div class="table-responsive table-responsive-data2">
+        <table class="table table-data2">
+            <thead >
+            <tr bgcolor="#f5deb3">
+                <th>Nom du evenement</th>
+                <th>Date et Heure du début evenement</th>
+                <th>Date et Heure du fin evenement</th>
+                <th>Nom Club</th>
+                <th>Logo</th>
+                <th colspan="2 " >Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="tr-shadow">
+            <tr class="spacer"></tr>
+
+            {% for c in Evenement %}
+                <tr class="tr-shadow">
+
+                    <td class="main-content">{{ c.nomEvenement }}</td>
+                    <td class="main-content">{{ c.heureDebut|date }}</td>
+                    <td class="main-content">{{ c.heureFin|date }}</td>
+                    <td class="main-content">{{ c.Club.nomclub }}</td>
+                    <td><img src="{{ asset('images/') }}{{ c.nomImage }}"
+                             style="width: 50px;height: 50px">
+                    </td>
+
+                    <td class="main-content"><a href="{{ path('updateEvent',{"id":c.id}) }}">update <i
+                                    class="zmdi zmdi-edit"></i></a></td>
+
+                    <td><a href="{{ path('deleteEvent',{"id":c.id}) }}">delete <i
+                                    class="zmdi zmdi-delete"></i></a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            <tr class="spacer"></tr>
+            </tbody>
+        </table>
+        <br/>
+        <br/>
+        {# display navigation #}
+
+
+
+
+    </div>
+
+    <br/>
+
+{% endblock body %}

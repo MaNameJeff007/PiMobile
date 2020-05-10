@@ -1,0 +1,47 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block title %}Page Parent{% endblock %}
+
+{% block base %}
+
+    <h1 style="position: absolute;right: 47%">Our Activities</h1>
+    <br/><br/><br/><br/><br/>
+
+
+    <table class="table table-data2" id="resultSearchClub">
+        <section class="col-sm-12 maincontent" style="border-style: groove">
+            <thead>
+            <tr class="row">
+                <th>Nom Activité</th>
+                <th>Type Activite</th>
+                <th>Responsable</th>
+                <th>Rating&nbsp;&nbsp;<a href="{{ path('Front_tri_activity') }}"><img style="width: 20px;" alt="" src="{{ asset('images/icon/sort.png') }}"></a></th>
+                <th>Rate</th>
+            </tr>
+            </thead>
+        </section>
+        <tbody>
+
+        {% for c in Activity %}
+
+            <tr class="row">
+                <td class="main-content">{{ c.nomActivite }}</td>
+                <td class="main-content">{{ c.typeActivite }}</td>
+                <td class="main-content">{{ c.User }}</td>
+                <td class="main-content">{{ c.vote }}</td>
+                <td class="main-content">
+                    {% if( USER  in c.UsersVote) %}
+                        <a href="{{ path('FrontvoteActivityminus',{'idA':c.id}) }}"><img style="width: 27px;" src="{{ asset('images/icon/liked.png') }}"></a>
+                    {% else %}
+                        <a href="{{ path('FrontvoteActivityplus',{'idA':c.id}) }}"><img style="width: 27px;" src="{{ asset('images/icon/notLiked.png') }}"></a>
+                    {% endif %}
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        <tr class="spacer"></tr>
+        </tbody>
+    </table>
+
+{% endblock %}

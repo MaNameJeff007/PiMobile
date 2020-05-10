@@ -1,0 +1,51 @@
+scolarite_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+supprimer_classe:
+    path:     /class/{id}
+    defaults: { _controller: ScolariteBundle:Classe:supprimer }
+supprimer_matiere:
+    path:     /mat/{id}
+    defaults: { _controller: ScolariteBundle:Matiere:supprimerM }
+supprimer_coeff:
+    path:     /coefficient/{id}
+    defaults: { _controller: ScolariteBundle:Coeff:supprimerC }
+emploi_classe:
+    path:     /emploi/{id}
+    defaults: { _controller: ScolariteBundle:Seance:seanceT }
+emploi_classe1:
+    path:     /emploi1/{id}
+    defaults: { _controller: ScolariteBundle:Seance:seanceTF }
+emploi_En:
+    path:     /emploiE/{id}
+    defaults: { _controller: ScolariteBundle:Seance:seanceE }
+mail_Env:
+    path:     /mail
+    defaults: { _controller: ScolariteBundle:Classe:sendMail }
+not_show:
+    path:     /not
+    defaults: { _controller: ScolariteBundle:Notification:display }
+not_count:
+    path:     /not1
+    defaults: { _controller: ScolariteBundle:Notification:Count }
+not_seen:
+    path:     /not1/{id}
+    defaults: { _controller: ScolariteBundle:Notification:MarkAsSeen }
+not_r:
+    path:     /not/{id}
+    defaults: { _controller: ScolariteBundle:Notification:Reset }
+emploi_Eleve:
+    path:     /cl/{id}
+    defaults: { _controller: ScolariteBundle:Classe:FindEnfants }
+calcul_moy1:
+    path:     /moyenne1/{eleve}/{trimestre}/{classeE}
+    defaults: { _controller: ScolariteBundle:Coeff:C }
+supprimer_salle:
+    path:     /sc/{id}
+    defaults: { _controller: ScolariteBundle:Salle:supprimerSalle }
+supprimer_seance:
+    path:     /sec/{id}
+    defaults: { _controller: ScolariteBundle:Seance:supprimerSeance }
+search_seance:
+    path:     /search
+    defaults: { _controller: ScolariteBundle:Seance:search }

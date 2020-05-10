@@ -1,0 +1,66 @@
+gestion_homepage:
+    path:     /
+    defaults: { _controller: GestionBundle:Default:index }
+reclamationadd:
+    path:     /rec/{note}/{parent}
+    defaults: { _controller: GestionBundle:Reclamation:addreclamation }
+reclamationindex:
+    path:     /reclamation
+    defaults: { _controller: GestionBundle:Reclamation:index }
+permutationindex:
+    path:     /permutation
+    defaults: { _controller: GestionBundle:Permutation:index }
+attestationindex:
+    path:     /attestation
+    defaults: { _controller: GestionBundle:Attestation:index }
+reclamationinfo:
+    path:     /reclamationinfo/{id}
+    defaults: { _controller: GestionBundle:Reclamation:show }
+permutationinfo:
+    path:     /permutationinfo/{id}
+    defaults: { _controller: GestionBundle:Permutation:show }
+reclamationsupp:
+    path:     /reclamationdel/{id}
+    defaults: { _controller: GestionBundle:Reclamation:supprimer }
+permutationsupp:
+    path:     /permutationdel/{id}
+    defaults: { _controller: GestionBundle:Permutation:supprimer }
+attestationsupp:
+    path:     /attestationdel/{id}
+    defaults: { _controller: GestionBundle:Attestation:supprimer }
+attestationnew:
+    path:     /attestationnew/{parent}
+    defaults: { _controller: GestionBundle:Attestation:new }
+permutationnew:
+    path:     /permutationnew/{parent}
+    defaults: { _controller: GestionBundle:Permutation:new }
+reclamationadmin:
+    path:     /listerec
+    defaults: { _controller: GestionBundle:Reclamation:indexadmin }
+reclamationadmintraiter:
+    path:     /traiterlisterec/{id}
+    defaults: { _controller: GestionBundle:Reclamation:traiter }
+reclamationadminsup:
+    path:     /supplisterec/{id}
+    defaults: { _controller: GestionBundle:Reclamation:adminsupprimer }
+attestationadmin:
+    path:     /listeatt
+    defaults: { _controller: GestionBundle:Attestation:indexadmin }
+attestationadmintraiter:
+    path:     /traiterlisteatt/{id}
+    defaults: { _controller: GestionBundle:Attestation:traiter }
+attestationadminsup:
+    path:     /supplisteatt/{id}
+    defaults: { _controller: GestionBundle:Attestation:adminsupprimer }
+permutationadmin:
+    path:     /listeperm
+    defaults: { _controller: GestionBundle:Permutation:indexadmin }
+permutationadmintraiter:
+    path:     /traiterlisteperm/{id}
+    defaults: { _controller: GestionBundle:Permutation:traiter }
+permutationadminsup:
+    path:     /supplisteperm/{id}
+    defaults: { _controller: GestionBundle:Permutation:adminsupprimer }
+searchpermutationajax:
+    path:     /searchpermutationajax/{valeur}
+    defaults: { _controller: GestionBundle:Permutation:searchpermutationajax}

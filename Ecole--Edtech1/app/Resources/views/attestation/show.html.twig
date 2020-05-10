@@ -1,0 +1,35 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="section-title">Informations sur l'attestation</h1>
+    <table width="70%">
+        <tbody>
+        <tr>
+            <th><h4>Etat de la demande</h4></th>
+            <td><h4>{{ attestation.etat }}</h4></td>
+        </tr>
+            <tr>
+                <th><h4>Date de la demande</h4></th>
+                <td><h4>{% if attestation.date %}{{ attestation.date|date('Y-m-d H:i:s') }}{% endif %}</h4></td>
+            </tr>
+        </tbody>
+    </table>
+<br/>
+    <ul>
+        <li>
+            <a href="{{ path('attestation_index') }}" class="btn">Consulter vos demandes</a>
+        </li>
+        <br/>
+        {% if attestation.etat=='non traitee' %}
+        <li>
+            <a href="{{ path('supprimer_attestation', { 'id': attestation.id }) }}" class="btn">Supprimer cette demande</a>
+        </li>
+        {% endif %}
+    </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'base2.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    body {
+  margin: 2em;
+  font-family: Verdana, sans-serif;
+}
+#ol {
+  list-style-type: none;
+}
+.rr {
+  border: 2px solid #ccc;
+  margin-left: 0;
+  margin-bottom: 1em;
+  padding: 1em;
+  padding-left: 40px;
+  background-color: papayawhip;
+}
+.rr:hover {
+  border: 2px solid #aaa;
+}
+a {
+  text-decoration: none;
+  color: #333;
+  &:hover {
+    &::before {
+      color: coral;
+    }
+  }
+}
+a::before {
+  content: '► ';
+  font-size: 1.2em;
+  color: transparent;
+  margin-left: -24px;
+}
+</style>
+{% endblock stylesheets%}
+{% block sheet %}
+    {{ parent() }}
+    <link href="{{ asset('back/css/theme.css')}}" rel="stylesheet" media="all">
+
+    <style>
+        .content2 { margin-top:54px; }
+        .header {padding:15px; position:fixed; top:0; width:100%; z-index:9999; }
+        .left-title { width:80px; color:#FFF; font-size:18px; float:left; }
+        .right-title { width:150px; text-align:right; float:right; color:#FFF;  }
+        .quiz-body { margin-top:15px; padding-bottom:50px; }
+        .option-block-container { margin-top:20px; max-width:420px; }
+        .option-block { padding:10px; background:aliceblue; border:1px solid #84c5fe; margin-bottom:10px; cursor:pointer; }
+        .result-question { font-weight:bold; }
+        .c-wrong { margin-left:20px; color:#FF0000; }
+        .c-correct {  margin-left:20px; color:green; }
+        .last-row { border-bottom:1px solid #ccc; padding-bottom:25px; margin-bottom:25px; }
+        .res-header { border-bottom:1px solid #ccc; margin-bottom:15px; padding-bottom:15px; }
+    </style>
+{% endblock sheet %}
+
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+ {% block content %}
+     <div style="margin-top: 50px ;margin-bottom: 60px">
+         <h1 style="margin-bottom: 60px"> Liste des cours  </h1>
+     <ul id="ol">
+     {% for course in courses %}
+
+
+
+  <li class ="rr"><a href={{path('cours_detail' ,{ 'course': course.id }) }}>{{course.nom}}</a></li>
+</li>
+
+     {% endfor %}
+     </ul>
+     </div>
+ {% endblock %}
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+        {% block javascripts %}
+            {{ parent() }}
+
+            </script>
+
+
+
+        {% endblock %}

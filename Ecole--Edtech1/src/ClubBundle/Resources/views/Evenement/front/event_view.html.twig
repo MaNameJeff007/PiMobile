@@ -1,0 +1,54 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block title %}Page Parent{% endblock %}
+
+{% block base %}
+
+    <h1 style="position: absolute;right: 47%">Our Events</h1>
+    <br/><br/><br/><br/><br/>
+
+
+    <table class="table table-data2">
+
+        <thead>
+        <tr>
+            <th>Nom de l'evenement</th>
+            <th>Date et heure de début</th>
+            <th>Date et heure du fin</th>
+            <th>Club Organisé</th>
+            <th>Club</th>
+            <th>Responsable</th>
+            {% if is_granted('ROLE_ELEVE') %}
+                <th>participation</th>
+            {% endif %}
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="tr-shadow">
+
+        <tr class="spacer"></tr>
+
+        {% for c in Evenement %}
+            <tr class="tr-shadow">
+                <td class="main-content" ><a href="{{ path('front_event_member',{"idE":c.id}) }}"> {{ c.nomEvenement }}</a></td>
+                <td class="main-content">{{ c.heureDebut|date }}</td>
+                <td class="main-content">{{ c.heureFin|date }}</td>
+                <td class="main-content">{{ c.Club.nomclub }}</td>
+                <td><img src="{{ asset('images/') }}{{ c.nomImage }}" style="width: 50px;height: 50px"/></td>
+                <td class="main-content">{{ c.Club.User }}</td>
+                {% if USER not in c.Event and ( is_granted('ROLE_ELEVE'))  %}
+                    <td class="main-content">
+                        <button><a href="{{ path('inscrit_event',{"idE":c.id}) }}">S'inscrire</a></button>
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+
+        <tr class="spacer"></tr>
+        </tbody>
+    </table>
+    {# display navigation #}
+
+    <br/><br/><br/><br/>
+{% endblock %}

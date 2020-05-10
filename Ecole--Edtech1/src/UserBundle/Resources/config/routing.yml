@@ -1,0 +1,55 @@
+user_homepage:
+    path:     /showeleves
+    defaults: { _controller: UserBundle:User:showeleves }
+
+user_moyennesmatiere:
+    path:   /{id}/{matiere}/usermoyennesmatiere
+    defaults: { _controller: UserBundle:User:usermoyennesmatiere }
+
+user_indexenseignant:
+    path:     /indexenseignant
+    defaults: { _controller: UserBundle:User:indexenseignant }
+
+user_espaceparent:
+    path:     /espaceparent
+    defaults: { _controller: UserBundle:User:espaceparent }
+
+user_profile:
+    path:   /userprofile
+    defaults: { _controller: UserBundle:User:profile }
+
+user_moyennes:
+    path:   /{id}/usermoyennes
+    defaults: { _controller: UserBundle:User:usermoyennes}
+
+user_notes:
+    path:   /{id}/usernotes
+    defaults: { _controller: UserBundle:User:usernotes}
+
+user_absences:
+    path:   /{id}/userabsences
+    defaults: { _controller: UserBundle:User:userabsences }
+
+user_sanctions:
+    path:   /{id}/usersanctions
+    defaults: { _controller: UserBundle:User:usersanctions}
+
+user_indexclasses:
+    path:   /indexclasses
+    defaults: { _controller: UserBundle:User:indexclasses}
+
+user_admin:
+    path:     /adminhomepage
+    defaults: { _controller: UserBundle:User:adminPage }
+user_reclamation:
+    path:     /enseignantrec
+    defaults: { _controller: UserBundle:User:reclamationenseignant }
+reclam_enseignant:
+    path:   /reclamationenseignant
+    defaults: { _controller: UserBundle:User:reclam}
+traiterreclam_enseignant:
+    path:   /traiterreclamation/{id}
+    defaults: { _controller: UserBundle:User:traiterreclam}
+login_users:
+    path:     /loginMobile/{username}
+    defaults: { _controller: UserBundle:Default:login}

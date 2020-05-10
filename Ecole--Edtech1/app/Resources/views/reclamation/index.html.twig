@@ -1,0 +1,51 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="section-title">Liste de vos réclamations</h1>
+    <table width="100%">
+        <thead>
+            <tr>
+
+                <th>Type</th>
+                <th>Matiere</th>
+                <th>Note obtenue</th>
+                <th>Enseignant</th>
+                <th>Date de la réclamation</th>
+                <th>Etat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reclamation in reclamations %}
+            <tr>
+
+                <td>{{ reclamation.note.type }}</td>
+                <td>{{ reclamation.note.matiere }}</td>
+                <td>{{ reclamation.note.valeur }}</td>
+                <td>{{ reclamation.note.enseignant }}</td>
+                <td>{% if reclamation.date %}{{ reclamation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ reclamation.etat }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('reclamationinfo', { 'id': reclamation.id }) }}">Informations</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('reclamationsupp', { 'id': reclamation.id }) }}" {% if reclamation.etat=='traitee' %}hidden{% endif %}>Supprimer</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <br/>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

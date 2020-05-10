@@ -1,0 +1,50 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block title %}Page PARENT{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    <h1>Page PARENT</h1>
+
+    <div class="container">
+        <table border="1px solid black" style="position: center;background-color: #ffffff; width: 100%;">
+            {% for s in son %}
+                <tr>
+                    <th>Id</th>
+                    <td >{{ s.id }}</td>
+                </tr>
+                <tr>
+                    <th> Nom et prénom </th>
+                    <td >{{ s.nom }}  {{ s.prenom }} </td>
+                </tr>
+
+                <tr>
+                    <th>Classe </th>
+                    <td > {{ s.libelle }}</td>
+                </tr>
+
+                <tr>
+                    <th> </th>
+                    <td><a href="{{ path('emploi_classe1', { 'id': s.id }) }}"> <button  title="Emploi de temps">Consulter l'emlpoi du temps
+                            </button></a> </td>
+                </tr>
+
+                <td ><tr>
+                        <th> </th>
+                        <td><a href="{{ path('calcul_moy1', { 'eleve': s.id,'trimestre': 1, 'classeE': s.classe  } ) }}"> <button  title="Emploi de temps">Bulletin du premier semestre
+                                </button></a> </td>
+                    </tr></td>
+                {#<td ><tr>
+                    <th> </th>
+                    <td><a href="{{ path('calcul_moy1', { 'eleve': s.id } ,{ 'trimestre': 1 },{ 'classeE': s.classe } ) }}"> <button  title="Emploi de temps">Consulter l'emlpoi du temps
+                            </button> </td>
+                </tr></td>#}
+
+
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

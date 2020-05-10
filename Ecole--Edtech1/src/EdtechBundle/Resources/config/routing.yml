@@ -1,0 +1,43 @@
+edtech_course:
+    resource: "@EdtechBundle/Resources/config/routing/course.yml"
+    prefix:   /back/course
+
+edtech_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+
+edtech_homepage_back:
+  path:     /back
+  defaults: { _controller: AppBundle:Default:index }
+
+edtech_quiz:
+  path:     /quiz
+  defaults: { _controller: EdtechBundle:test:indexFront }
+
+edtech_quiz2:
+  path:     /quizq
+  defaults: { _controller: EdtechBundle:test:quizJson }
+
+toPdf:
+  path:     /topdf
+  defaults: { _controller: EdtechBundle:course:toPdf }
+
+cours:
+  path:     /cours/{type}
+  defaults: { _controller: EdtechBundle:course:coursType }
+
+cours_detail:
+  path:     /cours/detail/{course}
+  defaults: { _controller: EdtechBundle:course:coursdetail }
+
+course_exercice:
+  path:     /cours/exercice/{course}
+  defaults: { _controller: EdtechBundle:course:courseExercice }
+
+profile_ex:
+  path:     /cours/profile/{score}
+  defaults: { _controller: EdtechBundle:exercice:profilEx }
+
+new:
+    path:     editAction
+    defaults: { _controller: EdtechBundle:score:new }

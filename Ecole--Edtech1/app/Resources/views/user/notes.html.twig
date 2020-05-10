@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock head %}
+
+{% block body %}
+{% block fixednavbar %}
+    {{ parent() }}
+{% endblock fixednavbar %}
+
+{% block container %}
+<div class="container" style="margin-top: 65px; margin-bottom: 75px">
+<table class="table table-striped">
+    <tr>
+
+        <th>Type</th>
+        <th>Valeur</th>
+        <th>Id_trimestre</th>
+        <th>Enseignant</th>
+        <th>Eleve</th>
+        <th>Matiere</th>
+        <th></th>
+    </tr>
+    {% for note in notes %}
+        <tr>
+           <td>{{ note.type }}</td><td>{{ note.valeur }}</td><td>{{ note.idtrimestre }}</td>
+            <td>{{ note.enseignant }}</td><td>{{ note.eleve }}</td><td>{{ note.matiere }}</td>
+            <td><a href="{{ path('reclamationadd',
+                    { 'note': note.id,'parent':app.user.id  } ) }}"
+                   class="btn btn-secondary">Reclamation</a></td>
+        </tr>
+    {% endfor %}
+</table>
+</div>
+    <div class="container" id="div_chart">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            {% if(Chart is defined)%}{{ gc_draw(Chart, 'div_chart')}}{% endif %}
+        </script>
+    </div>
+{% endblock container %}
+    {% block footer %}
+    {{ parent() }}
+    {% endblock footer %}
+{% endblock body %}

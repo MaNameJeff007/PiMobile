@@ -1,0 +1,43 @@
+
+{% extends 'Front/front.base.html.twig' %}
+
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Page test hh</h1>
+
+    <div class="container">
+        <table border="1px solid black" style="position: center;background-color: #ffffff; width: 100%;">
+            {% for m in sp   %}
+
+                <tr>
+                    <th>Id</th>
+                    <td >{{ m.moyG }}</td>
+
+                </tr>
+                <tr>
+                    <th> Nom et prénom </th>
+                    <td ></td>
+                </tr>
+
+                <tr>
+                    <th>Classe </th>
+                    <td >{</td>
+                </tr>
+
+                <tr>
+                    <th> </th>
+
+                </tr>
+                {#<td >{{ s.classe }}</td>#}
+
+
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}

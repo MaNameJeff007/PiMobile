@@ -1,0 +1,28 @@
+{% extends 'Back/base.html.twig' %}
+
+{% block body %}
+    <h1>Coeff</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ coeff.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('coeff_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('coeff_edit', { 'id': coeff.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

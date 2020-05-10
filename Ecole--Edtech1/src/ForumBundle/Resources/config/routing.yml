@@ -1,0 +1,63 @@
+homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+forum_sujet:
+    path:     /forum/
+    defaults: { _controller: ForumBundle:Sujet:index }
+supprimer:
+    path:     /forumm/{id}
+    defaults: { _controller: ForumBundle:Sujet:supprimer }
+supprimer_commentaire:
+    path:     /forummm/{id}
+    defaults: { _controller: ForumBundle:Commentaire:supprimer }
+message_3bed:
+    path:     /addd
+    defaults: { _controller: AppBundle:Default:message }
+back_sujet:
+    path:     /backF/
+    defaults: { _controller: ForumBundle:Sujet:indexB }
+back_commentaire:
+    path:     /backF/commentaire/{id}
+    defaults: { _controller: ForumBundle:Commentaire:index }
+supprimerBack:
+    path:     /backF/forummm/{id}
+    defaults: { _controller: ForumBundle:Sujet:supprimerB }
+supprimerBackcommentaire:
+    path:     /backF/comm/{id}
+    defaults: { _controller: ForumBundle:Commentaire:supprimerB }
+like:
+    path:     /like/{id}
+    defaults: { _controller: ForumBundle:Likes:new }
+likeshow:
+    path:     /likeshow/{id}
+    defaults: { _controller: ForumBundle:Likes:newshow }
+dislike:
+    path:     /dislike/{id}
+    defaults: { _controller: ForumBundle:Likes:supprimer }
+dislikeshow:
+    path:     /dislikeshow/{id}
+    defaults: { _controller: ForumBundle:Likes:supprimershow }
+signaler_sujet:
+    path:     /signaleer/{id}
+    defaults: { _controller: ForumBundle:Signaler:new }
+signaler_commentaire:
+    path:     /signaleeer/{id}
+    defaults: { _controller: ForumBundle:Signaler:newcomm }
+back_signaler:
+    path:     /backF/signaler/
+    defaults: { _controller: ForumBundle:Signaler:index }
+back_signalersupp:
+    path:     /backF/signalersupp/{ id}
+    defaults: { _controller: ForumBundle:Signaler:supprimer }
+back_signalersuppall:
+    path:     /backF/signalersuppall/{id}
+    defaults: { _controller: ForumBundle:Signaler:supprimertous }
+getAllSujet:
+    path:     /forum/sujet/all
+    defaults: { _controller: ForumBundle:Sujet:getall }
+deleteSujetMobile:
+  path:     /forum/sujet/delete/{id}
+  defaults: { _controller: ForumBundle:Sujet:deleteMobile }
+addSujetMobile:
+    path:     /forum/sujet/add/{titre}/{description}/{createur_id}
+    defaults: { _controller: ForumBundle:Sujet:newMobile }

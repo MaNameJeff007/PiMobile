@@ -1,0 +1,274 @@
+{% extends 'base2.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets%}
+{% block sheet %}
+    {{ parent() }}
+    <link href="{{ asset('back/css/theme.css')}}" rel="stylesheet" media="all">
+
+    <style>
+        .content2 { margin-top:54px; }
+        .header {padding:15px; position:fixed; top:0; width:100%; z-index:9999; }
+        .left-title { width:80px; color:#FFF; font-size:18px; float:left; }
+        .right-title { width:150px; text-align:right; float:right; color:#FFF;  }
+        .quiz-body { margin-top:15px; padding-bottom:50px; }
+        .option-block-container { margin-top:20px; max-width:420px; }
+        .option-block { padding:10px; background:aliceblue; border:1px solid #84c5fe; margin-bottom:10px; cursor:pointer; }
+        .result-question { font-weight:bold; }
+        .c-wrong { margin-left:20px; color:#FF0000; }
+        .c-correct {  margin-left:20px; color:green; }
+        .last-row { border-bottom:1px solid #ccc; padding-bottom:25px; margin-bottom:25px; }
+        .res-header { border-bottom:1px solid #ccc; margin-bottom:15px; padding-bottom:15px; }
+    </style>
+{% endblock sheet %}
+
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+ {% block content %}
+
+     <div class="content2">
+         <div class="container-fluid">
+
+             <div class="row">
+                 <div class="col-sm-12">
+                     <div id="result" class="quiz-body">
+                         <form name="quizForm" onSubmit="">
+                             <fieldset class="form-group">
+                                 <h4><span id="qid">1.</span> <span id="question"></span></h4>
+
+                                 <div class="option-block-container" id="question-options">
+
+                                 </div> <!-- End of option block -->
+                             </fieldset>
+                             <button  name="previous" id="previous" class="btn btn-success">Previous</button>
+                             &nbsp;
+                             <button  name="next" id="next" class="btn btn-success">Next</button>
+                         </form>
+                     </div>
+                 </div> <!-- End of col-sm-12 -->
+
+             </div> <!-- End of row -->
+         </div> <!-- ENd of container fluid -->
+     </div> <!-- End of content -->
+
+
+ {% endblock %}
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+        {% block javascripts %}
+            {{ parent() }}
+
+            <script>
+                $.ajax({
+                    url: "{{ path('edtech_quiz2') }}",
+                    type: 'POST',
+                    dataType : 'json',
+                    success: function(quizs){
+                        console.log(55);
+                        console.log(quizs);
+                        donnee : datas;
+                    },
+                });
+                //var elt = {{quizs|json_encode()|raw}};
+                //var el = {{quizs|json_encode()}};
+
+                console.log({{ quizs | raw }});
+
+                var quiz = {{ quizs | raw }};
+                var quiz3 = [{"JS":{"id":2,"question":"pk","options":{"a":"hello","b":"world","c":"wafa","d":"boofy"},"answer":"pk","status":"","score":0}}
+                    ,{"JS":{"id":3,"question":"aaa","options":{"a":"hello","b":"world","c":"wafa","d":"boofy"},"answer":"aaaaa","status":"","score":0}}];
+
+
+
+
+
+                var quizApp = function() {
+                    var quiz = {{ quizs | raw}};
+                    this.score = 0;
+                    this.qno = 1;
+                    this.currentque = 0;
+                    var totalque = quiz.JS.length;
+                    var sc = 0;
+
+                    this.displayQuiz = function(cque) {
+                        this.currentque = cque;
+                        if(this.currentque <  totalque) {
+                            $("#tque").html(totalque);
+                            $("#previous").attr("disabled", false);
+                            $("#next").attr("disabled", false);
+                            $("#qid").html(quiz.JS[this.currentque].id + '.');
+
+
+                            $("#question").html(quiz.JS[this.currentque].question);
+                            $("#question-options").html("");
+                            for (var key in quiz.JS[this.currentque].options[0]) {
+                                if (quiz.JS[this.currentque].options[0].hasOwnProperty(key)) {
+
+                                    $("#question-options").append(
+                                        "<div class='form-check option-block'>" +
+                                        "<label class='form-check-label'>" +
+                                        "<input type='radio' class='form-check-input' name='option'   id='q"+key+"' value='" + quiz.JS[this.currentque].options[0][key] + "'><span id='optionval'>" +
+                                        quiz.JS[this.currentque].options[0][key] +
+                                        "</span></label>"
+                                    );
+                                }
+                            }
+                        }
+                        if(this.currentque <= 0) {
+                            $("#previous").attr("disabled", true);
+                        }
+                        if(this.currentque >= totalque) {
+                            $('#next').attr('disabled', true);
+                            for(var i = 0; i < totalque; i++) {
+                                this.score = this.score + quiz.JS[i].score;
+                            }
+                            return this.showResult(this.score);
+                        }
+                    }
+                    var maMap = new Map();
+                    var h1=0;
+                    var h2=0;
+                    var h3=0;
+
+                    this.showResult = function(scr) {
+                        $("#result").addClass('result');
+                        $("#result").html("<h1 class='res-header'>Total Score: &nbsp;" + scr  + '/' + totalque + "</h1>");
+                        for(var j = 0; j < totalque; j++) {
+
+
+
+                            if (quiz.JS[j].score ===1){
+                                sc += parseInt(quiz.JS[j].sc);
+                            }
+                            console.log("type intell " + quiz.JS[i].sc);
+
+
+
+
+
+                            var res;
+                            if(quiz.JS[j].score == 0) {
+                                res = '<span class="wrong">' + quiz.JS[j].score + '</span><i class="fa fa-remove c-wrong"></i>';
+                            } else {
+                                res = '<span class="correct">' + quiz.JS[j].score + '</span><i class="fa fa-check c-correct"></i>';
+                            }
+                            $("#result").append(
+                                '<div class="result-question"><span>Q ' + quiz.JS[j].id + '</span> &nbsp;' + quiz.JS[j].question + '</div>' +
+                                '<div><b>Correct answer:</b> &nbsp;' + quiz.JS[j].answer + '</div>' +
+                                '<div><b>Score Question:</b> &nbsp;' + quiz.JS[j].sc + '</div>' +
+                                '<div class="last-row"><b>Score:</b> &nbsp;' + res
+
+                            );
+                            if (j===(totalque-1)){
+                                var type = 1;
+
+                                var path2  = 'cours'+type;
+
+                                $("#result").append(
+                                    '<div><strong>Score Total: </strong>'+sc + '</div><br>');
+
+                                var url = '{{ path("profile_ex", {'score': 'score_id'}) }}';
+                                url = url.replace("score_id", sc);
+
+                                var score = '{{ 'score_id' }}';
+                                score = score.replace("score_id", sc);
+
+                                    $("#result").append(
+                                        '<a id ="boof" href='+url+'><button  class="btn btn-success">diriger vers le profil</button>');
+
+
+                            }
+                        }
+
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ path('edtech_quiz2') }}",
+                            data: {id: maMap},
+                            success: function(){
+                                console.log(maMap)
+                            },
+                            complete: function(xhr)
+                            {
+                                if (xhr.status == 302) {
+                                    location.href = xhr.getResponseHeader("Location");
+                                }
+                            }
+                        });
+                    }
+
+                    this.checkAnswer = function(option) {
+                        var answer = quiz.JS[this.currentque].answer;
+                        option = option.replace(/\</g,"&lt;")   //for <
+                        option = option.replace(/\>/g,"&gt;")   //for >
+                        option = option.replace(/"/g, "&quot;")
+
+                        if(option ==  quiz.JS[this.currentque].answer) {
+                            if(quiz.JS[this.currentque].score == "") {
+                                quiz.JS[this.currentque].score = 1;
+                                quiz.JS[this.currentque].status = "correct";
+                            }
+                        } else {
+                            quiz.JS[this.currentque].status = "wrong";
+                        }
+
+                    }
+
+                    this.changeQuestion = function(cque) {
+                        this.currentque = this.currentque + cque;
+                        this.displayQuiz(this.currentque);
+
+                    }
+
+                }
+
+
+                var jsq = new quizApp();
+
+                var selectedopt;
+                $(document).ready(function() {
+                    jsq.displayQuiz(0);
+
+                    $('#question-options').on('change', 'input[type=radio][name=option]', function(e) {
+
+                        //var radio = $(this).find('input:radio');
+                        $(this).prop("checked", true);
+                        selectedopt = $(this).val();
+                    });
+
+
+
+                });
+
+
+
+
+                $('#next').click(function(e) {
+                    e.preventDefault();
+                    if(selectedopt) {
+                        jsq.checkAnswer(selectedopt);
+                    }
+                    jsq.changeQuestion(1);
+                });
+
+                $('#previous').click(function(e) {
+                    e.preventDefault();
+                    if(selectedopt) {
+                        jsq.checkAnswer(selectedopt);
+                    }
+                    jsq.changeQuestion(-1);
+                });
+
+            </script>
+
+
+
+        {% endblock %}

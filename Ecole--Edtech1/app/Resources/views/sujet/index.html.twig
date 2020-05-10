@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <header id="head" class="secondary">
+        <div class="container">
+            <h1>FORUM</h1>
+        </div>
+    </header>
+    <ul style="float: right; margin-right: 200px">
+        <li>
+            <h3><a href="{{ path('sujet_new') }}">Nouveau Sujet</a></h3>
+        </li>
+    </ul>
+    <table>
+        <tbody>
+        {% for sujet in sujets %}
+
+
+            <div class="container" style="margin-bottom: 10px">
+                <div class="row">
+                    <!-- Article content -->
+                    <section class="col-sm-12 maincontent" style="border-style: groove">
+                        <h3><a href="{{ path('sujet_show', { 'id': sujet.id }) }}">{{ sujet.titre }}</a></h3>
+                        <h4>{{ sujet.date|date('Y-m-d H:i:s') }}</h4>
+                        <p>
+                            {{ sujet.description }}
+                        </p>
+                        <div style="margin-bottom: 5px">
+                            {% set break = false %}
+                            {% for a in aa if not break%}
+                                {% if sujet.id==a.sujet.id %}
+                                    <a href="{{ path('dislike', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: orangered;"><i class="fa fa-thumbs-up"></i></button></a> <span style="font-weight: bold">{{ sujet.score }}</span>
+                                    {% set break = true %}
+                                {% endif %}
+                                {% if sujet.id!=a.sujet.id  %}
+                                    <a href="{{ path('like', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightskyblue;"><i class="fa fa-thumbs-o-up"></i></button></a> <span style="font-weight: bold">{{ sujet.score }}</span>
+                                    {% set break = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if aa is empty %}
+                            <a href="{{ path('like', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightskyblue;"><i class="fa fa-thumbs-o-up"></i></button></a> <span style="font-weight: bold">{{ sujet.score }}</span>
+                            {% endif %}
+
+
+
+                            <a href="{{ path('sujet_show', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightskyblue;"><i class="fa fa-comment"></i></button></a>
+
+                            {% if app.user.id==sujet.createur  %}
+                                <a href="{{ path('sujet_edit', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightskyblue;"><i class="fa fa-pencil-square"> </i></button></a>
+                                <a href="{{ path('supprimer', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightskyblue;"><i class="fa fa-trash-o"> </i></button></a>
+                            {% else %}
+                                <a href="{{ path('signaler_sujet', { 'id': sujet.id }) }}"><button class="btn btn-dark" style="padding: 4px 10px;background-color: lightskyblue;"><i class="fa fa-exclamation-triangle"> </i></button></a>
+                            {% endif %}
+
+
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

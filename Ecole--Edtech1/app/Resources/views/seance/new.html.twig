@@ -1,0 +1,117 @@
+{% extends 'Back/base.html.twig' %}
+
+{% block body %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+{% block mainForm %}
+{{ form_start(form) }}
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Ajouter Seance</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <div action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                            </div>
+                            <div class="row form-group">
+                                {{ form_label(form.jour) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.jour,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                {{ form_label(form.hdeb) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.hdeb,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                {{ form_label(form.enseignant) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.enseignant,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                {{ form_label(form.classe) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.classe,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                {{ form_label(form.salle) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.salle,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+
+                            </div>
+
+                            <div class="row form-group">
+                                {{ form_label(form.matiere) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.matiere,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <input class="au-btn au-btn-icon au-btn--green au-btn--small" type="submit" value="Creer" />
+        {{ form_end(form) }}
+        {% endblock %}
+        <ul>
+            <li>
+                <a  class="btn btn-info" href="{{ path('seance_index') }}">Retouner à a liste</a>
+            </li>
+        </ul>
+        {% endblock %}
+
+
+
+

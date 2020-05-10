@@ -1,0 +1,41 @@
+{% extends 'Back/base.html.twig' %}
+
+
+{% block body %}
+    <h1>Seance</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ seance.id }}</td>
+            </tr>
+            <tr>
+                <th>Jour</th>
+                <td>{{ seance.jour }}</td>
+            </tr>
+            <tr>
+                <th>Hdeb</th>
+                <td>{% if seance.hdeb %}{{ seance.hdeb|date('H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Hfin</th>
+                <td>{% if seance.hfin %}{{ seance.hfin|date('H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('seance_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('seance_edit', { 'id': seance.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Update Event{% endblock %}
+{% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+    <br/><br/><br/><br/>
+    {{ form_start(form) }}
+    <h1>Update Event</h1>
+    <label>Donner le nom de l'evenement</label>
+    {{ form_widget(form.nomEvenement, { 'attr': {'class': "size20",'placeholder': "Evenement"} }) }}
+    {{ form_widget(form.heureDebut) }}
+    {{ form_widget(form.heureFin) }}
+    {{ form_widget(form.Club) }}
+    {{ form_end(form) }}
+    <button  class="au-btn au-btn-icon au-btn--green au-btn--small" type="submit">Update</button>
+
+{% endblock body %}

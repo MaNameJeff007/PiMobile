@@ -1,0 +1,57 @@
+{% extends 'Back/base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {% block emp %}
+
+<div class="main-content">
+    <div class="col-md-12">
+<table border="1px solid black" style="position: center;background-color: #ffffff; width: 100%;">
+
+    <tr>
+
+
+    </tr>
+    {% for f in fs %}
+    <tr>
+        <td>{{ f.js }}</td>
+
+        {% for t in st %}
+
+            {% if (f.js == t.jour) %}
+
+
+            <td style="background-color: #e6f3ff ;width: available;" >  {{ t.hdeb |date('H:i:s') }} - {{ t.hfin |date('H:i:s') }} <br>  {{   t.matiere.nom  }}  <br> <br> Salle: {{ t.salle.libelle }}<br></td>
+
+
+{% endif %}
+
+        {% endfor %}
+
+        {% endfor %}
+
+</table>
+    </div>
+</div>
+
+    {% endblock emp %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'Back/base.html.twig' %}
+{% block title %}Admin{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+<div class="main-content">
+    <h1>Liste des réclamations</h1>
+    <br/>
+    <div class="col-md-12">
+
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                <tr>
+                    <th>ID Parent</th>
+                    <th>ID Réclamation</th>
+                    <th>Type</th>
+                    <th>Nom de la matière</th>
+                    <th>Enseignant de la matière</th>
+                    <th>Date</th>
+                    <th>Etat</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="tr-shadow">
+                <tr class="spacer"></tr>
+
+                {% for reclamation in reclamations %}
+                    <tr class="tr-shadow">
+                        {% if reclamation.parent is not null %}
+                        <td class="main-content">{{ reclamation.parent.id }}</td>
+                        <td class="main-content">{{ reclamation.id }}</td>
+                        <td class="main-content">{{ reclamation.note.type }}</td>
+                        <td class="main-content">{{ reclamation.note.matiere }}</td>
+                        <td class="main-content">{{ reclamation.note.enseignant }}</td>
+                        <td class="main-content">{% if reclamation.date %}{{ reclamation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td class="main-content"><span
+                                    {% if reclamation.etat=='non traitee' %}
+                                    class="status--denied"
+                                    {% else %}
+                                    class="status--process"
+                                    {% endif %}>{{ reclamation.etat }}</span></td>
+
+                        <td>
+                            {% if reclamation.etat=='non traitee' %}
+                        <a href="{{ path('reclamationadmintraiter', { 'id': reclamation.id }) }}">Traiter <i class="zmdi zmdi-edit"></i></a>
+                            <br/>
+                            {% endif %}
+
+                        <a href="{{ path('reclamationadminsup', { 'id': reclamation.id }) }}">Supprimer <i class="zmdi zmdi-delete"></i></a></td>
+                        {% endif %}
+                    </tr>
+
+                {% endfor %}
+
+                <tr class="spacer"></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

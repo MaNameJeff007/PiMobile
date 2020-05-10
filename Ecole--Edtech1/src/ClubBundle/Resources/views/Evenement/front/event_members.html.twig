@@ -1,0 +1,44 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block title %}Page Parent{% endblock %}
+
+{% block base %}
+    <table class="table table-data2">
+        <thead>
+        <br/>
+        <tr>
+            <th>
+                <h3 style="position: absolute;right: 40%;">Nom de L'evenement: {{ Evenement.nomEvenement}}
+                    <a style="" href="{{ path('front_view_event') }}">
+                        <img src="{{ asset('images/icon/back.png') }}"
+                             style="width: 27px; position: absolute; left: 102%;"
+                             alt="back">
+                    </a>
+                </h3>
+                <br/><br/><br/></th>
+
+        </tr>
+
+        <tr>
+            <th>Les Participant</th>
+            <th>Role</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr class="tr-shadow">
+        <tr class="spacer"></tr>
+
+        {% for c in Evenement.Event %}
+            <tr class="tr-shadow">
+
+                <td class="main-content">{{ c.nom }} {{ c.prenom }}</td>
+                <td class="main-content">{{ c.roles[0] |slice(5) }}</td>
+
+            </tr>
+        {% endfor %}
+
+        <tr class="spacer"></tr>
+        </tbody>
+    </table>
+{% endblock %}

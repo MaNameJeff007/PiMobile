@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-danger">
+                Ajout echoué
+            </div>
+            <div style="position: center" class="alert alert-primary">
+                {{ message }}
+
+                {% for message in app.flashes('errorC') %}
+
+                   <a href="{{ path('classe_new') }}"> Veuillez ajouter nouvelle classe </a>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

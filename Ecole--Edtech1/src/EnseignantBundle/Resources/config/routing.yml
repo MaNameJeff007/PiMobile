@@ -1,0 +1,27 @@
+enseignant_notes:
+    resource: "@EnseignantBundle/Resources/config/routing/notes.yml"
+    prefix:   /notes
+
+enseignant_moyennes:
+    resource: "@EnseignantBundle/Resources/config/routing/moyennes.yml"
+    prefix:   /moyennes
+
+enseignant_absences:
+    resource: "@EnseignantBundle/Resources/config/routing/absences.yml"
+    prefix:   /absences
+
+enseignant_sanctions:
+    resource: "@EnseignantBundle/Resources/config/routing/sanctions.yml"
+    prefix:   /sanctions
+
+enseignant_homepage:
+    path:     /home
+    defaults: { _controller: EnseignantBundle:Default:index }
+
+enseignant_back:
+    path:     /back
+    defaults: { _controller: EnseignantBundle:Default:back }
+
+enseignant_liste:
+    path:     /liste
+    defaults: { _controller: EnseignantBundle:Default:liste }

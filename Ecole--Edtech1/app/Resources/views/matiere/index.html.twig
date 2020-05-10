@@ -1,0 +1,104 @@
+{% extends 'Back/base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {% block matieres %}
+    <h1>Matieres list</h1>
+    <div class="main-content">
+        <div class="col-md-12">
+            <h3 class="title-5 m-b-35">Matieres</h3>
+            <div class="table-data__tool">
+                <div class="table-data__tool-left">
+                    <div class="rs-select2--light rs-select2--md">
+                        <select  name="property">
+                            <option selected="selected"> All Properties</option>
+                            <option value="">Option 1</option>
+                            <option value="">Option 2</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                    <div >
+                        <select  name="time">
+                            <option selected="selected">Today</option>
+                            <option value="">3 Days</option>
+                            <option value="">1 Week</option>
+                        </select>
+                        <div class="dropDownSelect2"></div>
+                    </div>
+
+                </div>
+                <div class="table-data__tool-right">
+                    <a href="{{ path('matiere_new') }}"><button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                            <i class="zmdi zmdi-plus"></i>Ajouter une matiere</button></a>
+                    <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+
+                        <div class="dropDownSelect2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Libelle</th>
+                        <th>Nombre des heures</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for matiere in matieres %}
+                        <tr class="tr-shadow">
+                        <tr class="spacer"></tr>
+                        <tr class="tr-shadow">
+
+                            <td><a href="{{ path('matiere_show', { 'id': matiere.id }) }}">{{ matiere.id }}</a></td>
+
+                            <td>{{ matiere.nom }}</td>
+                            <td>{{ matiere.nbH }}</td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
+                                        <i class="zmdi zmdi-mail-send"></i>
+                                    </button>
+                                    <a href="{{ path('matiere_edit', { 'id': matiere.id }) }}"> <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="zmdi zmdi-edit"></i> </button></a>
+
+                                    <a href="{{ path('supprimer_matiere', { 'id': matiere.id }) }}"> <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </button></a>
+                                    <button class="item" data-toggle="tooltip" data-placement="top" title="More">
+                                        <i class="zmdi zmdi-more"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock matieres %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

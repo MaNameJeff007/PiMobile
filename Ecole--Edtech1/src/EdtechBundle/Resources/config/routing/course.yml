@@ -1,0 +1,33 @@
+course_index:
+    path:     /
+    defaults: { _controller: "EdtechBundle:course:index" }
+    methods:  GET
+
+course_show:
+    path:     /{id}/show
+    defaults: { _controller: "EdtechBundle:course:show" }
+    methods:  GET
+
+course_new:
+    path:     /new
+    defaults: { _controller: "EdtechBundle:course:new" }
+    methods:  [GET, POST]
+
+course_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EdtechBundle:course:edit" }
+    methods:  [GET, POST]
+
+course_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EdtechBundle:course:delete" }
+    methods:  DELETE
+
+supprimer_cours:
+    path:     /{id}/delete
+    defaults: { _controller: EdtechBundle:course:supprimer }
+
+chart_index:
+    path:     /chart
+    defaults: { _controller: "EdtechBundle:course:chart" }
+    methods:  GET

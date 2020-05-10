@@ -1,0 +1,74 @@
+{% extends 'Back/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+    <h1>Classe</h1>
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+<div class="col-lg-6">
+    <!-- TOP CAMPAIGN-->
+    <div class="top-campaign">
+        <h3 class="title-3 m-b-30">Classe</h3>
+        <div class="table-responsive">
+            <table class="table table-top-campaign">
+                <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>{{ classe.id }}</td>
+                </tr>
+                <tr>
+                    <td>Libelle</td>
+                    <td>{{ classe.libelle }}</td>
+                </tr>
+                <tr>
+                    <td>Niveau</td>
+                    <td>{{ classe.niveau }}</td>
+                </tr>
+                <tr>
+                    <td>Capacite</td>
+                    <td>{{ classe.capacite }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+            </div>
+
+</div>
+    <ul>
+        <li>
+            <a href="{{ path('classe_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('classe_edit', { 'id': classe.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input class="au-btn--submit" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

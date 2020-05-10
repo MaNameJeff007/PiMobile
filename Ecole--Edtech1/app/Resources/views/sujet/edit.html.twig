@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <header id="head" class="secondary" style="margin-bottom: 30px">
+        <div class="container">
+            <h1>FORUM</h1>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-light mt-20">
+                    {{ form_start(edit_form) }}
+                    <div class="form-group">
+                        <label>{{ form_label(edit_form.titre) }}</label>
+                        {{ form_widget(edit_form.titre, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <div class="form-group">
+                        <label>{{ form_label(edit_form.description) }}</label>
+                        {{ form_widget(edit_form.description, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                    <input type="submit" class="btn btn-two" value="Edit" />
+                    {{ form_end(edit_form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <ul>
+        <li>
+            <a style="float: right; margin-right: 200px" href="{{ path('sujet_index') }}">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

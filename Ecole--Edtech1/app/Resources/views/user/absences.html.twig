@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock head %}
+
+{% block body %}
+    {% block fixednavbar %}
+        {{ parent() }}
+    {% endblock fixednavbar %}
+
+    {% block container %}
+    <div class="container">
+        <div style="margin-top: 60px; margin-bottom: 60px">
+            <table class="table table-striped">
+                <tr>
+                    <th>ID</th>
+                    <th>Date_abs</th>
+                    <th>Justification</th>
+                    <th>Heuredebut</th>
+                    <th>Heurefin</th>
+                    <th>Eleve</th>
+                    <th>Enseignant</th>
+                    <th>Etat</th>
+                </tr>
+                {% for absence in absences %}
+                    <tr>
+                        <td>{{ absence.id }}</td><td>{% if absence.dateabs %}{{ absence.dateabs|date('Y-m-d') }}{% endif %}</td><td>{{ absence.justification }}</td>
+                        <td>{{ absence.heuredebut }}</td><td>{{ absence.heurefin }}</td><td>{{ absence.eleve }}</td><td>{{ absence.enseignant }}</td>
+                        <td>{% if absence.etat %}Yes{% else %}No{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endblock container %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock footer %}
+{% endblock body %}

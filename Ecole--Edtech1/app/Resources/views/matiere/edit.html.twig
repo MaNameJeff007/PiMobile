@@ -1,0 +1,78 @@
+{% extends 'Back/base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+    <h1>Matiere edit</h1>
+
+    {{ form_start(edit_form,{'attr': {'novalidate': 'novalidate' }}) }}
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Modifier matiere </strong> Form
+                        </div>
+                        <div class="card-body card-block">
+                            <div action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                            </div>
+                            <div class="row form-group">
+                                {{ form_label(edit_form.nom) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(edit_form.nom,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                {{ form_label(edit_form.nbH) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(edit_form.nbH,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+
+                            </div>
+
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+
+
+        <input  class="au-btn au-btn-icon au-btn--green au-btn--small" type="submit" value="Modifier " />
+
+        {{ form_end(edit_form) }}
+
+    <ul>
+        <li>
+            <a  lass="btn btn-info" href="{{ path('matiere_index') }}">Retourner a la liste </a>
+        </li>
+
+    </ul>
+{% endblock %}

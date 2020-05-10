@@ -1,0 +1,124 @@
+{% extends 'back/base.html.twig' %}
+
+{% block body %}
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {{ form_start(edit_form) }}
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Ajouter </strong> Cours
+                        </div>
+                        <div class="card-body card-block">
+                            <div action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                <label for="nom" class=" form-control-label">{{ form_label(edit_form.nom) }}</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    {{ form_widget(edit_form.nom,{ 'attr': {'class': 'form-control'}} )}}
+                                </div>
+                            </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                {{ form_label(edit_form.description) }}
+                                    </div>
+                                    <div class="col-12 col-md-9">
+
+                                    {{ form_widget(edit_form.description,{ 'attr': {'class': 'form-control'}} )}}
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col col-md-3">
+                                    {{ form_label(edit_form.contenu) }}
+                                    </div>
+                                    <div class="col-12 col-md-9">
+
+                                        {{ form_widget(edit_form.contenu,{ 'attr': {'class': 'form-control'}} )}}
+
+                                    </div>
+                                </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                        {{ form_label(edit_form.typeIntelligence) }}
+                                        </div>
+                                        <div class="col-12 col-md-9">
+
+                                            {{ form_widget(edit_form.typeIntelligence,{ 'attr': {'class': 'form-control'}} )}}
+
+                                        </div>
+                                    </div>
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                            {{ form_label(edit_form.niveau) }}
+                                            </div>
+                                            <div class="col-12 col-md-9">
+
+                                                {{ form_widget(edit_form.niveau,{ 'attr': {'class': 'form-control'}} )}}
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+
+
+
+
+                                            </div>
+
+
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <input  class="au-btn au-btn-icon au-btn--green au-btn--small" type="submit" value="Edit" />
+                    {{ form_end(edit_form) }}
+
+                    <ul>
+                        <li>
+                            <a href="{{ path('course_index') }}">Back to the list</a>
+                        </li>
+                        <li>
+                            {{ form_start(delete_form) }}
+                            <input class="au-btn--submit" type="submit" value="Delete">
+                            {{ form_end(delete_form) }}
+                        </li>
+                    </ul>
+                    {% endblock %}

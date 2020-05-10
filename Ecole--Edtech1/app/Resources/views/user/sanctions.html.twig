@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock head %}
+
+{% block body %}
+
+    {% block fixednavbar %}
+        {{ parent() }}
+    {% endblock fixednavbar %}
+
+{% block container %}
+    <div class="container">
+        <div style="margin-top: 65px; margin-bottom: 75px">
+            <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Date_sanction</th>
+                <th>Raisonsanction</th>
+                <th>Punition</th>
+                <th>Eleve</th>
+                <th>Enseignant</th>
+                <th>Etat</th>
+            </tr>
+            {% for sanction in sanctions %}
+                <tr>
+                    <td>{{ sanction.id }}</td><td>{% if sanction.datesanction %}{{ sanction.datesanction|date('Y-m-d') }}{% endif %}</td><td>{{ sanction.raisonsanction }}</td>
+                    <td>{{ sanction.punition }}</td><td>{{ sanction.eleve }}</td><td>{{ sanction.enseignant }}</td><td>{% if sanction.etat %}Yes{% else %}No{% endif %}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    {% endblock container %}
+    {% block footer %}
+        {{ parent() }}
+    {% endblock footer %}
+{% endblock body %}

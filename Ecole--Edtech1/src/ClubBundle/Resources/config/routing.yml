@@ -1,0 +1,94 @@
+club_homepage:
+  path:     /
+  defaults: { _controller: fos_user.security.controller:loginAction}
+addActivity:
+  path:     /addActivité
+  defaults: { _controller: ClubBundle:Activity:addActivity }
+FrontaddActivity:
+  path:     /addActivitéfront
+  defaults: { _controller: ClubBundle:Activity:front_view_activity }
+
+
+FrontvoteActivityplus:
+  path:     /voteActivitéfrontplus/{idA}
+  defaults: { _controller: ClubBundle:Activity:front_vote_activity_plus }
+
+FrontvoteActivityminus:
+  path:     /voteActivitéfrontminus/{idA}
+  defaults: { _controller: ClubBundle:Activity:front_vote_activity_minus }
+
+Front_tri_activity:
+  path:     /triActivity
+  defaults: { _controller: ClubBundle:Activity:tri_activity }
+
+
+deleteActivity:
+  path:     /deleteActivity/{id}
+  defaults: { _controller: ClubBundle:Activity:deleteActivity }
+updateActivity:
+  path:     /updateActivity/{id}
+  defaults: { _controller: ClubBundle:Activity:updateActivity }
+add:
+  path:     /add
+  defaults: { _controller: ClubBundle:Club:addClub }
+
+delete:
+  path:     /delete/{id}
+  defaults: { _controller: ClubBundle:Club:delete }
+
+update:
+  path:     /update/{id}
+  defaults: { _controller: ClubBundle:Club:update }
+
+addEvent:
+  path:     /addEvent
+  defaults: { _controller: ClubBundle:Evenement:addEvent }
+
+viewEvent:
+  path:     /viewEvent
+  defaults: { _controller: ClubBundle:Evenement:view }
+
+updateEvent:
+  path:     /updateEvent/{id}
+  defaults: { _controller: ClubBundle:Evenement:update }
+
+deleteEvent:
+  path:     /deleteEvent/{id}
+  defaults: { _controller: ClubBundle:Evenement:delete }
+searchclubajax:
+  path:     /searchclubajax/{valeur}
+  defaults: { _controller: ClubBundle:Club:searchclubajax}
+
+
+searchEvent:
+  path:     /searchEvent
+  defaults: { _controller: ClubBundle:Evenement:search }
+
+front_view_clubs:
+  path:     /front_view_clubs
+  defaults: { _controller: ClubBundle:Club:front_view_clubs}
+
+front_home_page:
+  path:     /front_home_page
+  defaults: { _controller: ClubBundle:Club:front_home_page}
+front_view_event:
+  path:     /front_view_event
+  defaults: { _controller: ClubBundle:Evenement:front_view_event }
+
+front_event_member:
+  path:     /front_event_members/{idE}
+  defaults: { _controller: ClubBundle:Evenement:front_event_members }
+
+inscrit_event:
+  path:     /inscrit_event/{idE}
+  defaults: { _controller: ClubBundle:Evenement:inscrit_event }
+
+setunseennotif:
+  path:     /setunseennotif
+  defaults: { _controller: ClubBundle:Club:setunseennotif }
+
+setoneunseennotif:
+  path:     /setoneunseennotif/{id}
+  defaults: { _controller: ClubBundle:Club:setoneunseennotif }
+
+

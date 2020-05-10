@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Signaler</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ signaler.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ signaler.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ signaler.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('signaler_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('signaler_edit', { 'id': signaler.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

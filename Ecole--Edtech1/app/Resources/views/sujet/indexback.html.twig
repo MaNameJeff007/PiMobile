@@ -1,0 +1,81 @@
+{% extends 'back/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {% block course %}
+
+        <div class="col-md-12" style="margin-top: 120px">
+            <!-- DATA TABLE -->
+            <h3 class="title-5 m-b-35">Sujets</h3>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ID Createur</th>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Score</th>
+                        <th>Vues</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for sujet in sujets %}
+                    <tr class="tr-shadow">
+
+                        <td><a href="{{ path('back_commentaire', { 'id': sujet.id }) }}">{{ sujet.id }}</a></td>
+                        <td>{{ sujet.createur }}</td>
+                        <td>
+                            <span class="block-email">{{ sujet.titre }}</span>
+                        </td>
+                        <td class="desc">{{ sujet.description }}</td>
+                        <td>{{ sujet.date|date('Y-m-d H:i:s') }}</td>
+                        <td>
+                            <span class="status--process">{{ sujet.score }} Likes</span>
+                        </td>
+                        <td>
+                            <span class="status--process">{{ sujet.vues }} vues</span>
+                        </td>
+                        <td>
+                            <div class="table-data-feature">
+                                <a href="{{ path('supprimerBack', { 'id': sujet.id }) }}"><button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    <i class="zmdi zmdi-delete"></i>
+                                    </button></a>
+
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE -->
+        </div>
+
+
+    {% endblock course %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

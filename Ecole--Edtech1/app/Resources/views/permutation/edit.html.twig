@@ -1,0 +1,48 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="section-title">Modifier une demande de permutation</h1>
+            <ul>
+                <li>
+                    {{ form_start(edit_form) }}
+                    <div class="form-group">
+
+                        <label>{{ form_label(edit_form.niveau) }}</label>
+                        {{ form_widget(edit_form.niveau, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+
+                        <label>Classe originale</label>
+                        {{ form_widget(edit_form.classeO, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+
+                        <label>Classe souhaitée</label>
+                        {{ form_widget(edit_form.classeS, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group">
+
+                        <label>Raison</label>
+                        {{ form_widget(edit_form.raison, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <input type="submit" value="Enregistrer les modifications" class="btn btn-two" />
+                    {{ form_end(edit_form) }}
+                </li>
+
+
+                <br/>
+        <li>
+            <a href="{{ path('permutation_index') }}" class="btn">Consulter vos demandes</a>
+        </li>
+                <br/>
+        <li>
+            <a href="{{ path('supprimer_permutation', { 'id': permutation.id }) }}" class="btn">Supprimer la demande</a>
+        </li>
+    </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

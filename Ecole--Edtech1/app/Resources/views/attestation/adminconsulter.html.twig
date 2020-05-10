@@ -1,0 +1,75 @@
+{% extends 'Back/base.html.twig' %}
+{% block title %}Admin{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+<div class="main-content">
+    <h1>Liste des demandes d'attestations</h1>
+    <br/>
+    <div class="col-md-12">
+
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                <tr>
+                    <th>ID Parent</th>
+                    <th>ID Attestation</th>
+                    <th>Date</th>
+                    <th>Etat</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="tr-shadow">
+                <tr class="spacer"></tr>
+
+                {% for attestation in attestations %}
+                    <tr class="tr-shadow">
+                        {% if attestation.parent is not null %}
+                        <td class="main-content">{{ attestation.parent.id }}</td>
+                        <td class="main-content">{{ attestation.id }}</td>
+                        <td class="main-content">{% if attestation.date %}{{ attestation.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td class="status--process"><span
+                                    {% if attestation.etat=='non traitee' %}
+                                    class="status--denied"
+                                    {% else %}
+                                        class="status--process"
+                                    {% endif %}>{{ attestation.etat }}</span></td>
+
+                        <td>
+                            {% if attestation.etat=='non traitee' %}
+                        <a href="{{ path('attestationadmintraiter', { 'id': attestation.id }) }}">Traiter <i class="zmdi zmdi-edit"></i></a>
+                                <br/>
+                            {% endif %}
+                        <a href="{{ path('attestationadminsup', { 'id': attestation.id }) }}">Supprimer <i class="zmdi zmdi-delete"></i></a>
+                        </td>
+                        {% endif %}
+                    </tr>
+
+                {% endfor %}
+
+                <tr class="spacer"></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}

@@ -1,0 +1,39 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="section-title">Envoyer une demande de permutation</h1>
+            <p>
+                Remplissez ce formulaire pour envoyer votre demande
+            </p>
+        {{ form_start(form) }}
+
+            <div class="form-group">
+                <label>Classe originale</label>
+                <br/>
+                {% for p in permutation %}
+                {{ p.classedeseleves.libelle }}
+                {% endfor %}
+            </div>
+            <div class="form-group">
+
+                <label>Classe souhaitée</label>
+                {{ form_widget(form.classeS, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="form-group">
+                <label>Raison</label>
+                {{ form_widget(form.raison, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+
+            <input type="submit" class="btn btn-two" value="Envoyer" />
+        {{ form_end(form) }}
+
+            <br/>
+                    <a href="{{ path('permutation_index') }}" class="btn">Consulter vos demandes</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

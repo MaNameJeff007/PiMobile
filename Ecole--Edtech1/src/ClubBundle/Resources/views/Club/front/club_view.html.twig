@@ -1,0 +1,42 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block title %}Page Parent{% endblock %}
+
+{% block base %}
+
+    <h1 style="position: absolute;right: 47%">Our Clubs</h1>
+    <br/><br/><br/><br/>
+    <input id="searchClub" type="text" name="coupon-code" placeholder="Recherche Par Nom Club"
+           style="position: absolute;width: 21%;right:40%"/>
+    <br/><br/><br/>
+    <table class="table table-data2" id="resultSearchClub">
+        <section class="col-sm-12 maincontent" style="border-style: groove">
+            <thead>
+            <tr class="row">
+                <th>Nom du club</th>
+                <th>Responsable du club</th>
+                <th>Club</th>
+            </tr>
+            </thead>
+        </section>
+        <tbody>
+
+        {% for c in clubs %}
+
+            <tr class="row">
+                <td class="main-content">{{ c.nomclub }}</td>
+                <td class="main-content">{{ c.User }}</td>
+                <td><img src="{{ asset('images/') }}{{ c.nomImage }}" style="width: 50px;height: 50px"/></td>
+
+            </tr>
+
+        {% endfor %}
+
+        <tr class="spacer"></tr>
+        </tbody>
+    </table>
+    {# display navigation #}
+
+    <br/><br/><br/><br/>
+
+{% endblock %}

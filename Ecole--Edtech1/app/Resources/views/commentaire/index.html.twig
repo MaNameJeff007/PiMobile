@@ -1,0 +1,75 @@
+{% extends 'back/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {% block course %}
+
+        <div class="col-md-12" style="margin-top: 120px">
+            <a style="float: right; margin-right: 200px" href="{{ path('sujet_index_back') }}">Back to the list</a>
+            <!-- DATA TABLE -->
+            <h3 class="title-5 m-b-35">Sujet {{sujet.id}} - {{ sujet.titre }}</h3>
+            <h4 class="title-5 m-b-35">{{sujet.description}}</h4>
+            <div class="table-responsive table-responsive-data2">
+                <table class="table table-data2">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ID Createur</th>
+                        <th>Texte</th>
+                        <th>Date</th>
+                        <th>Score</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for commentaire in commentaires %}
+                        <tr class="tr-shadow">
+
+                            <td>{{ commentaire.id }}</td>
+                            <td>{{ commentaire.createur }}</td>
+                            <td class="desc">{{ commentaire.texte }}</td>
+                            <td>{{ commentaire.date|date('Y-m-d H:i:s') }}</td>
+                            <td>
+                                <span class="status--process">{{ commentaire.score }} Likes</span>
+                            </td>
+                            <td>
+                                <div class="table-data-feature">
+                                    <a href="{{ path('supprimerBackcommentaire', { 'id': commentaire.id }) }}"><button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </button></a>
+
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE -->
+        </div>
+
+
+    {% endblock course %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

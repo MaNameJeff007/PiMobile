@@ -1,0 +1,73 @@
+{% extends 'back/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+    <h1>test</h1>
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- TOP CAMPAIGN-->
+                    <div class="top-campaign">
+                        <h3 class="title-3 m-b-30">tests</h3>
+                        <div class="table-responsive">
+                            <table class="table table-top-campaign">
+                                <tbody>
+                                <tr>
+                                    <td>Id</td>
+                                    <td>{{ test.id }}</td>
+                                </tr>
+                                <tr>
+                                    <td>nom</td>
+                                    <td>{{ test.question }}</td>
+                                </tr>
+                                <tr>
+                                    <td>description</td>
+                                    <td>{{ test.reponse }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Contenu</td>
+                                    <td>{{ test.typeIntell }}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <ul>
+            <li>
+                <a href="{{ path('test_index') }}">Back to the list</a>
+            </li>
+            <li>
+                <a href="{{ path('test_edit', { 'id': test.id }) }}">Edit</a>
+            </li>
+            <li>
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+                {{ form_end(delete_form) }}
+            </li>
+        </ul>
+        {% endblock %}
+        {% block javascripts %}
+        {{ parent() }}
+{% endblock %}

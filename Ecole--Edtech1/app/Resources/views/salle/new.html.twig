@@ -1,0 +1,66 @@
+{% extends 'Back/base.html.twig' %}
+
+
+{% block body %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+
+{% block mainForm %}
+{{ form_start(form,{'attr': {'novalidate': 'novalidate' }}) }}
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Ajouter Salle</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <div action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                            </div>
+                            <div class="row form-group">
+                                {{ form_label(form.libelle) }}
+                                <div class="col-12 col-md-9">
+
+                                    {{ form_widget(form.libelle,{ 'attr': {'class': 'form-control'}} )}}
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <input class="au-btn au-btn-icon au-btn--green au-btn--small" type="submit" value="Creer" />
+        {{ form_end(form) }}
+        {% endblock %}
+        <ul>
+            <li>
+                <a  class="btn btn-info" href="{{ path('salle_index') }}">Retouner à a liste</a>
+            </li>
+        </ul>
+        {% endblock %}
+
+

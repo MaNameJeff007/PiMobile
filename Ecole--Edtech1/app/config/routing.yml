@@ -1,0 +1,106 @@
+club:
+    resource: "@ClubBundle/Resources/config/routing.yml"
+    prefix:   /
+
+gestion_permutation:
+    resource: "@GestionBundle/Controller/PermutationController.php"
+    type:     annotation
+
+gestion_reclamation:
+    resource: "@GestionBundle/Controller/ReclamationController.php"
+    type:     annotation
+
+gestion_attestation:
+    resource: "@GestionBundle/Controller/AttestationController.php"
+    type:     annotation
+gestion:
+    resource: "@GestionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+scolarite:
+    resource: "@ScolariteBundle/Resources/config/routing.yml"
+    prefix:   /
+scolarite:
+    resource: "@ScolariteBundle/Resources/config/routing.yml"
+    prefix:   /
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+enseignant:
+    resource: "@EnseignantBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+scolarite_seance:
+    resource: "@ScolariteBundle/Controller/SeanceController.php"
+    type:     annotation
+
+scolarite_salle:
+    resource: "@ScolariteBundle/Controller/SalleController.php"
+    type:     annotation
+
+scolarite_coeff:
+    resource: "@ScolariteBundle/Controller/CoeffController.php"
+    type:     annotation
+
+
+scolarite_matiere:
+    resource: "@ScolariteBundle/Controller/MatiereController.php"
+    type:     annotation
+
+scolarite_classe:
+    resource: "@ScolariteBundle/Controller/ClasseController.php"
+    type:     annotation
+
+
+
+forum_signaler:
+    resource: "@ForumBundle/Controller/SignalerController.php"
+    type:     annotation
+
+forum_likes:
+    resource: "@ForumBundle/Controller/LikesController.php"
+    type:     annotation
+
+forum_commentaire:
+    resource: "@ForumBundle/Controller/CommentaireController.php"
+    type:     annotation
+
+forum_sujet:
+    resource: "@ForumBundle/Controller/SujetController.php"
+    type:     annotation
+
+forum:
+    resource: "@ForumBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix: /message
+
+edtech_test:
+    resource: "@EdtechBundle/Controller/testController.php"
+    type:     annotation
+
+edtech_course:
+    resource: "@EdtechBundle/Controller/courseController.php"
+    type:     annotation
+
+edtech:
+    resource: "@EdtechBundle/Resources/config/routing.yml"
+    prefix:   /
+
+edtech_exercice:
+    resource: "@EdtechBundle/Controller/exerciceController.php"
+    type:     annotation
+
+edtech_score:
+    resource: "@EdtechBundle/Controller/scoreController.php"
+    type:     annotation

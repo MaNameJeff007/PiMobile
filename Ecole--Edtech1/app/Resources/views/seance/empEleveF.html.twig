@@ -1,0 +1,45 @@
+{% extends 'Front/front.base.html.twig' %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+
+
+
+    <div class="container">
+        <table border="1px solid black" style="position: center;background-color: #ffffff; width: 100%;">
+
+            <tr>
+
+            </tr>
+            {% for f in fs %}
+            <tr>
+                <td style="background-color: #ffffff">{{ f.js }}</td>
+
+
+                {% for t in st %}
+
+                    {% if (f.js == t.jour) %}
+
+
+                        <td style="background-color: #f2f2f2 ;width: available;" >  {{ t.hdeb |date('H:i:s') }} - {{ t.hfin |date('H:i:s') }} <br>  {{   t.matiere.nom  }}  <br> <br> Salle: {{ t.salle.libelle }}<br></td>
+
+
+                    {% endif %}
+
+                {% endfor %}
+
+                {% endfor %}
+
+        </table>
+    </div>
+
+
+
+{% endblock body %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

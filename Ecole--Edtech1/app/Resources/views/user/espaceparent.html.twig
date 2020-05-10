@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock head %}
+
+{% block body %}
+{% block fixednavbar %}
+    {{ parent() }}
+{% endblock fixednavbar %}
+
+{% block container %}
+    <div class="container">
+        <div style="margin-top: 40px">
+        <h3 style="color: #1e88e5">La liste de vos enfants:</h3>
+            <table class="table table-striped">
+                <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Email</th>
+                <th scope="col">ID Classe</th>
+                <th scope="col">Niveau</th>
+                <th scope="col">Moyennes</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Absences</th>
+                <th scope="col">Sanctions</th>
+                    <th scope="col"></th>
+                    <th scope="col">Bulletin trimestre 1</th>
+                    <th scope="col">Bulletin trimestre 2</th>
+                    <th scope="col">Bulletin trimestre 3</th>
+                </tr>
+                {% for eleve in eleves %}
+                <tr>
+                    <td>{{ eleve.id }}</td>
+                    <td>{{ eleve.prenom }}</td>
+                    <td>{{ eleve.nom }}</td>
+                    <td>{{ eleve.email }}</td>
+                    <td>{{ eleve.classedeseleves}}</td>
+                    <td>{{ eleve.classedeseleves.niveau  }} {% if eleve.classedeseleves.niveau == 1 %}'ere annee {% else %}'eme annee {% endif %}</td>
+                    <td><a href="{{ path('user_moyennes', { 'id': eleve.id }) }}" class="btn btn-success" style="background: #1b5e20">Moyenne</a></td>
+                    <td><a href="{{ path('user_notes', { 'id': eleve.id }) }}"  class="btn btn-primary" style="background: #3d84e6">Notes</a></td>
+                    <td><a href="{{ path('user_absences', { 'id': eleve.id }) }}" style="background: #FF9B22" class="btn btn-warning">Absences</a></td>
+                    <td><a href="{{ path('user_sanctions', { 'id': eleve.id }) }}" class="btn btn-danger" style="background: #c9302c">Sanctions</a></td>
+                    <td><a href="{{ path('emploi_classe1', { 'id': eleve.classedeseleves }) }}"> <button class="btn btn-primary" style="background: #3d84e6" title="Emploi de temps">Emlpoi du temps
+                            </button></a> </td>
+                    <td><a href="{{ path('calcul_moy1', { 'eleve': eleve.id,'trimestre': 1, 'classeE': eleve.classedeseleves  } ) }}"> <button  style="background: whitesmoke" title="Emploi de temps">Bulletin
+                            </button></a> </td>
+                    <td><a href="{{ path('calcul_moy1', { 'eleve': eleve.id,'trimestre': 2, 'classeE': eleve.classedeseleves  } ) }}"> <button  style="background: whitesmoke" title="Emploi de temps">Bulletin
+                            </button></a> </td>
+                    <td><a href="{{ path('calcul_moy1', { 'eleve': eleve.id,'trimestre': 3, 'classeE': eleve.classedeseleves  } ) }}"> <button  style="background: whitesmoke" title="Emploi de temps">Bulletin
+                            </button></a> </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </div>
+{% endblock container %}
+{% block footer %}
+    {{ parent() }}
+{% endblock footer %}
+{% endblock body %}

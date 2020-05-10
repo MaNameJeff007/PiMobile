@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+{{ parent() }}
+{% endblock head %}
+
+{% block body %}
+{% block fixednavbar %}
+    {{ parent() }}
+{% endblock fixednavbar%}
+
+{% block container %}
+<div class="container">
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+</div>
+{% endblock container %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock footer %}
+{% endblock body %}

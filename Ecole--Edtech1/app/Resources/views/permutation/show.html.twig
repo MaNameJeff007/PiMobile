@@ -1,0 +1,49 @@
+{% extends 'Front/front.base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="section-title">Informations sur la demande de permutation</h1>
+            <table width="70%">
+        <tbody>
+
+            <tr>
+                <th><h4>Nom élève</h4></th>
+                <td><h4>{{ permutation.eleve.nom }}</h4></td>
+            </tr>
+            <tr>
+                <th><h4>Classe originale</h4></th>
+                <td><h4>{{ permutation.eleve.classedeseleves.libelle }}</h4></td>
+            </tr>
+            <tr>
+                <th><h4>Classe souhaitée</h4></th>
+                <td><h4>{{ permutation.classeS }}</h4></td>
+            </tr>
+            <tr>
+                <th><h4>Raison</h4></th>
+                <td><h4>{{ permutation.raison }}</h4></td>
+            </tr>
+            <tr>
+                <th><h4>Etat</h4></th>
+                <td><h4>{{ permutation.etat }}</h4></td>
+            </tr>
+            <tr>
+                <th><h4>Date</h4></th>
+                <td><h4>{% if permutation.date %}{{ permutation.date|date('Y-m-d H:i:s') }}{% endif %}</h4></td>
+            </tr>
+        </tbody>
+    </table>
+            <br/>
+    <ul>
+        <li>
+            <a href="{{ path('permutationindex') }}" class="btn">Consulter vos demandes</a>
+        </li>
+        <br/>
+        {% if permutation.etat=='non traitee' %}
+        <li>
+            <a href="{{ path('permutationsupp', { 'id': permutation.id }) }}" class="btn">Supprimer la demande</a>
+        </li>
+        {% endif %}
+    </ul>
+{% endblock %}

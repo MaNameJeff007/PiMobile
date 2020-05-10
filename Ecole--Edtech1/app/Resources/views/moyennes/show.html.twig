@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Moyenne</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ moyenne.id }}</td>
+            </tr>
+            <tr>
+                <th>Trimestre</th>
+                <td>{{ moyenne.trimestre }}</td>
+            </tr>
+            <tr>
+                <th>Moyenne</th>
+                <td>{{ moyenne.moyenne }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('moyennes_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('moyennes_edit', { 'id': moyenne.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'back/base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    {% block header %}
+        {{ parent() }}
+    {% endblock header  %}
+
+    {% block sideBar %}
+        {{ parent() }}
+    {% endblock  sideBar %}
+
+    {% block container %}
+        {{ parent() }}
+    {% endblock container %}
+
+    {% block course %}
+
+
+        <h1>course list</h1>
+        <div class="main-content">
+            <div class="col-md-12">
+                <h3 class="title-5 m-b-35">course</h3>
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <div class="rs-select2--light rs-select2--md">
+                            <select  name="property">
+                                <option selected="selected"> All Properties</option>
+                                <option value="">Option 1</option>
+                                <option value="">Option 2</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                        <div >
+                            <select  name="time">
+                                <option selected="selected">Today</option>
+                                <option value="">3 Days</option>
+                                <option value="">1 Week</option>
+                            </select>
+                            <div class="dropDownSelect2"></div>
+                        </div>
+
+                    </div>
+                    <div class="table-data__tool-right">
+                        <a href="{{ path('course_new') }}"><button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <i class="zmdi zmdi-plus"></i>Ajouter une course</button></a>
+                        <a href="{{ path('toPdf') }}"><button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <i class="zmdi zmdi-plus"></i>Exporter en PDF</button></a>
+                        <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+
+
+                            <div class="dropDownSelect2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table class="table table-data2">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>nom</th>
+                            <th>description</th>
+                            <th>Contenu</th>
+                            <th>type d'intelligence</th>
+
+                            <th>Niveau</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for course in courses %}
+                            <tr class="tr-shadow">
+                            <tr class="spacer">
+                            <tr class="tr-shadow">
+
+                                <td><a href="{{ path('course_show', { 'id': course.id }) }}">{{ course.id }}</a></td>
+                                <td>{{ course.nom }}</td>
+                                <td>{{ course.description }}</td>
+                                <td>{{ course.contenu }}</td>
+                                <td>{{ course.typeIntelligence }}</td>
+                                <td>{{ course.niveau }}</td>
+                                <td>
+                                    <div class="table-data-feature">
+                                        <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
+                                            <i class="zmdi zmdi-mail-send"></i>
+                                        </button>
+
+                                        <a href="{{ path('course_edit', { 'id': course.id }) }}"> <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <i class="zmdi zmdi-edit"></i> </button></a>
+
+                                        <a href="{{ path('supprimer_cours', { 'id': course.id }) }}"> <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button></a>
+                                        <button class="item" data-toggle="tooltip" data-placement="top" title="More">
+                                            <i class="zmdi zmdi-more"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tr></tr>
+                            <tr class="spacer"></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    {% endblock course %}
+{% endblock body %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
