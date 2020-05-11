@@ -15,6 +15,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
 import com.mycompany.myapp.entities.Sujet;
 import com.mycompany.myapp.services.ServiceSujet;
+import com.mycompany.myapp.services.ServiceUser;
 
 /**
  *
@@ -52,15 +53,21 @@ public class ForumForm extends Form {
         Container cnt1 = new Container(BoxLayout.y());
         Label l1 = new Label(Integer.toString(s.getSujet_id()));
         SpanLabel l2 = new SpanLabel(s.getTitre());
+        SpanLabel l4 = new SpanLabel(ServiceUser.getInstance().getUser(s.getCreateur_id()));
         SpanLabel l3 = new SpanLabel(s.getDescription());
         Button btnmail = new Button(Integer.toString(s.getSujet_id()));
         Button btnsupprimer = new Button("delete");
+        Button btnmodif = new Button("modif");
         cnt1.add(l1);
         cnt1.add(l2);
+        cnt1.add(l4);
         cnt1.add(l3);
         Container cnt3 = new Container(BoxLayout.x());
         cnt3.add(btnmail);
-        cnt3.add(btnsupprimer);
+        if (s.getCreateur_id() == new Login().getcurrentUser().getIdentifiant()) {
+            cnt3.add(btnsupprimer);
+            cnt3.add(btnmodif);
+        }
         cnt1.add(cnt3);
         cnt1.getStyle().setBorder(Border.createLineBorder(1));
         Container cnt2 = new Container(BoxLayout.y());
@@ -76,6 +83,9 @@ public class ForumForm extends Form {
             } else {
                 System.out.println(s.getTitre());
             }
+        });
+        btnmodif.addActionListener((e) -> {
+            new ModifierSujetForm(s.getSujet_id()).show();
         });
         return cnt2;
     }

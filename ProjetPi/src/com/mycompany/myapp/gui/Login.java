@@ -8,6 +8,7 @@ package com.mycompany.myapp.gui;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
@@ -27,7 +28,7 @@ public class Login extends com.codename1.ui.Form {
     private final TextField loginTf, passwordTf;
     private final Container mainContainer;
     private final Button addBtn;
-
+    Form current;
     static User currentUser = new User();
 
     public User getcurrentUser() {
@@ -65,9 +66,16 @@ public class Login extends com.codename1.ui.Form {
         addBtn.addActionListener((ActionListener) (ActionEvent evt) -> {
             SpanLabel sp = new SpanLabel();
             User s = ServiceUser.getInstance().getConnectedUser(loginTf.getText(), passwordTf.getText());
-            setcurrentUser(s);
+            if (s.getIdentifiant() != 0) {
+                setcurrentUser(s);
+                new ForumForm(current).show();
+            }
+            else
+            {
+                passwordTf.clear();
+            }
             //sp.setText(ServiceUser.getInstance().getConnectedUser(loginTf.getText(), passwordTf.getText()).toString());
-            System.out.println(getcurrentUser().getIdentifiant());
+            //System.out.println(getcurrentUser().getIdentifiant());
 
         });
         mainContainer.add(addBtn);

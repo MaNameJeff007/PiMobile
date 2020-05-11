@@ -63,9 +63,22 @@ public class ServiceSujet {
         return resultOK;
     }
 
+    public boolean ModifSujet(int i, String t, String d) {
+        String url = Statics.BASE_URL + "forum/sujet/modif/" + i + "/" + t + "/" + d;
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+
     public boolean deleteSujet(int i) {
         String url = Statics.BASE_URL + "forum/sujet/delete/" + i;
-        System.out.println(url);
         req.setUrl(url);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
@@ -84,14 +97,9 @@ public class ServiceSujet {
         try {
             sujet = new ArrayList<>();
             JSONParser j = new JSONParser();
-            Map<String, Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            // System.out.println("4");
-            List<Map<String, Object>> list = null;
-            // System.out.println("4.5");
-            list = (List<Map<String, Object>>) tasksListJson.get("root");
-            //System.out.println("5");
+            Map<String, Object> usersListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            List<Map<String, Object>> list = (List<Map<String, Object>>) usersListJson.get("root");
             for (Map<String, Object> obj : list) {
-                // System.out.println("6");
                 Sujet s = new Sujet();
                 s.setSujet_id(((int) Float.parseFloat(obj.get("id").toString())));
                 s.setCreateur_id(((int) Float.parseFloat(obj.get("createur").toString())));
@@ -101,7 +109,6 @@ public class ServiceSujet {
                 s.setDate(obj.get("date").toString());
                 sujet.add(s);
             }
-
         } catch (IOException ex) {
 
         }
@@ -112,17 +119,13 @@ public class ServiceSujet {
         String url = Statics.BASE_URL + "forum/sujet/all";
         req.setUrl(url);
         req.setPost(false);
-        // System.out.println("1");
-
         req.addResponseListener(new ActionListener<NetworkEvent>() {
 
             @Override
             public void actionPerformed(NetworkEvent evt) {
 
                 try {
-                    //    System.out.println("2");
                     sujet = parseSujet(new String(req.getResponseData()));
-                    //      System.out.println("3");
                 } catch (ParseException ex) {
 
                 }
@@ -131,6 +134,36 @@ public class ServiceSujet {
         });
         NetworkManager.getInstance().addToQueueAndWait(req);
         return sujet;
+    }
+
+    public Sujet getSujet(int id) {
+        String url = Statics.BASE_URL + "forum/sujet/all";
+        req.setUrl(url);
+        Sujet s = new Sujet();
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                try {
+                    sujet = parseSujet(new String(req.getResponseData()));
+                    for (Sujet obj : sujet) {
+                        if (obj.getSujet_id() == id) {
+                            s.setSujet_id(obj.getSujet_id());
+                            s.setCreateur_id(obj.getCreateur_id());
+                            s.setDescription(obj.getDescription());
+                            s.setTitre(obj.getTitre());
+                            s.setScore(obj.getScore());
+                            s.setDate(obj.getDate());
+                        }
+                    }
+                } catch (ParseException ex) {
+
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return s;
     }
 
 }

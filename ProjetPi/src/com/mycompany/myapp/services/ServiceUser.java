@@ -92,6 +92,28 @@ public class ServiceUser {
         return (password_verified);
     }
 
+    public String getUser(int u) {
+        String url = Statics.BASE_URL + "user/get/" + u;
+        User ss = new User();
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsers(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+
+                for (User obj : users) {
+                    ss.setNom(obj.getNom());
+                    ss.setPrenom(obj.getPrenom());
+                }
+
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ss.getNom() + " " + ss.getPrenom();
+    }
+
     public User getConnectedUser(String u, String p) {
         String url = Statics.BASE_URL + "loginMobile/" + u;
         User ss = new User();
