@@ -32,7 +32,7 @@ class SeanceController extends Controller
         $en->flush();
         $message = \Swift_Message::newInstance()
             ->setSubject('Une seance de cours est supprimée de votre emploi de temps')
-            ->setFrom('bennouri.olfa@gmail.com')
+            ->setFrom('topisland123@gmail.com')
             ->setTo($c->getEmail())
             ->setBody('Nous vous informons q un changement a occuré dans votre emploi de temps  \n');
         $this->get('mailer')->send($message);
@@ -90,7 +90,7 @@ class SeanceController extends Controller
 
         $message = \Swift_Message::newInstance()
             ->setSubject('Une seance de cours est modifiée dans votre emploi de temps')
-            ->setFrom('bennouri.olfa@gmail.com')
+            ->setFrom('topisland123@gmail.com')
             ->setTo($ens->getEmail())
             ->setBody('Nous vous informons q un changement a occuré dans votre emploi de temps  \n');
         $this->get('mailer')->send($message);
@@ -148,7 +148,7 @@ class SeanceController extends Controller
 
         $message = \Swift_Message::newInstance()
             ->setSubject('Une seance de cours est ajoutée à votre emploi de temps')
-            ->setFrom('bennouri.olfa@gmail.com')
+            ->setFrom('topisland123@gmail.com')
             ->setTo($ens->getEmail())
             ->setBody('Nous vous informons q un changement a occuré dans votre emploi de temps  \n');
         $this->get('mailer')->send($message);

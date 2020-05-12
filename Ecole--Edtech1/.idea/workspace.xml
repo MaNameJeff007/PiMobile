@@ -2,28 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d0e90d9-a2d3-4429-8416-030c089608f8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/routing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/symfony_requirements" beforeDir="false" afterPath="$PROJECT_DIR$/bin/symfony_requirements" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/ClasseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/ClasseController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/CoeffController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/CoeffController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/DefaultController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/DefaultController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/MatiereController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/MatiereController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/NotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/NotificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/SalleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/SalleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/parameters2.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Entity/Classe.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Entity/Classe.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Repository/ClasseRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Repository/ClasseRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Repository/CoeffRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Repository/CoeffRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Repository/MatiereRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Repository/MatiereRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Repository/NotificationRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Repository/NotificationRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Repository/SalleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Repository/SalleRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Repository/SeanceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Repository/SeanceRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ScolariteBundle/Resources/config/routing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/ScolariteBundle/Resources/config/routing.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/SymfonyRequirements.php" beforeDir="false" afterPath="$PROJECT_DIR$/var/SymfonyRequirements.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/config.php" beforeDir="false" afterPath="$PROJECT_DIR$/web/config.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -71,11 +52,47 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ScolariteBundle/Repository/MatiereRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="31" column="38" lean-forward="true" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+            <state>
+              <caret lean-forward="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="34" column="42" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/GestionBundle/Controller/ReclamationController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="529">
+              <caret line="180" column="45" lean-forward="true" selection-start-line="180" selection-start-column="45" selection-end-line="180" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="39" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="39" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="79" selection-start-line="79" selection-end-line="79" />
             </state>
           </provider>
         </entry>
@@ -102,12 +119,12 @@
         <option value="$PROJECT_DIR$/src/ScolariteBundle/Entity/Moyennesgenerales.php" />
         <option value="$PROJECT_DIR$/src/ScolariteBundle/Repository/MoyennesgeneralesRepository.php" />
         <option value="$PROJECT_DIR$/app/config/routing.yml" />
-        <option value="$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php" />
         <option value="$PROJECT_DIR$/src/ScolariteBundle/Repository/SeanceRepository.php" />
-        <option value="$PROJECT_DIR$/app/config/config.yml" />
         <option value="$PROJECT_DIR$/src/ScolariteBundle/Controller/MoyennesgeneralesController.php" />
         <option value="$PROJECT_DIR$/src/ScolariteBundle/Repository/MatiereRepository.php" />
         <option value="$PROJECT_DIR$/src/ScolariteBundle/Controller/MatiereController.php" />
+        <option value="$PROJECT_DIR$/app/config/config.yml" />
+        <option value="$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php" />
       </list>
     </option>
   </component>
@@ -387,17 +404,38 @@
       <workItem from="1588878657440" duration="3024000" />
       <workItem from="1589053773084" duration="1135000" />
       <workItem from="1589217855820" duration="259000" />
-      <workItem from="1589294855976" duration="9570000" />
+      <workItem from="1589294855976" duration="11026000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9829000" />
+    <option name="totallyTimeSpent" value="11285000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.3289689" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+    </layout>
+    <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25340393" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -417,7 +455,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -514,20 +552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="211" column="30" selection-start-line="211" selection-start-column="30" selection-end-line="211" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="69" lean-forward="true" selection-start-line="69" selection-end-line="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/GestionBundle/Controller/AttestationController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -539,13 +563,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="58" column="37" lean-forward="true" selection-start-line="58" selection-start-column="37" selection-end-line="58" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -591,10 +608,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters2.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="31" lean-forward="true" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/parameters.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="39" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/config.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ScolariteBundle/Repository/MatiereRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="31" column="38" lean-forward="true" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+        <state>
+          <caret lean-forward="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ScolariteBundle/Controller/SeanceController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="34" column="42" selection-start-line="34" selection-start-column="42" selection-end-line="34" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/GestionBundle/Controller/ReclamationController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="180" column="45" lean-forward="true" selection-start-line="180" selection-start-column="45" selection-end-line="180" selection-end-column="45" />
         </state>
       </provider>
     </entry>

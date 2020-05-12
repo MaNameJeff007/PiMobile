@@ -78,13 +78,6 @@ doctrine:
 #    password: '%mailer_password%'
 #    spool: { type: memory }
 
-# Swiftmailer Configuration
-swiftmailer:
-    transport: gmail
-    host: stmp.gmail.com
-    username: bennouri.olfa@gmail.com
-    password: espritpi12345
-    spool: { type: memory }
 
 sensio_framework_extra:
     router:
