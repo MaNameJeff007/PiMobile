@@ -20,7 +20,7 @@ emploi_En:
     path:     /emploiE/{id}
     defaults: { _controller: ScolariteBundle:Seance:seanceE }
 mail_Env:
-    path:     /mail
+    path:     /mail/{idEns}
     defaults: { _controller: ScolariteBundle:Classe:sendMail }
 not_show:
     path:     /not
@@ -49,3 +49,117 @@ supprimer_seance:
 search_seance:
     path:     /search
     defaults: { _controller: ScolariteBundle:Seance:search }
+new_classe_api:
+    path:     /classApi/new
+    defaults: { _controller: ScolariteBundle:Classe:newClassApi }
+all_class_api:
+    path:     /classA/allp
+    defaults: { _controller: ScolariteBundle:Classe:allp }
+all_salles_api:
+    path:     /allSalles/all
+    defaults: { _controller: ScolariteBundle:Salle:allS }
+all_mat_api:
+    path:     /allMatieres/all
+    defaults: { _controller: ScolariteBundle:Matiere:allM }
+all_se_api:
+    path:     /allSeances/all
+    defaults: { _controller: ScolariteBundle:Seance:allSC }
+all_coeff_api:
+    path:     /allCoeff/all
+    defaults: { _controller: ScolariteBundle:Coeff:allC }
+new_seance_api:
+    path:     /allSeances/new
+    defaults: { _controller: ScolariteBundle:Seance:newSeanceApi }
+new_salle_api:
+    path:     /Salle/new
+    defaults: { _controller: ScolariteBundle:Salle:ajouterSalleApi }
+all_matieres_api:
+    path:     /allMatiere/all
+    defaults: { _controller: ScolariteBundle:Matiere:allMat }
+select_matiere_api:
+    path:     /findMatiere/{name}
+    defaults: { _controller: ScolariteBundle:Matiere:findMat }
+select_classe_api:
+    path:     /findClasse/{libelle}
+    defaults: { _controller: ScolariteBundle:Classe:findClasse }
+select_classe1_api:
+    path:     /findClasseE/{ide}
+    defaults: { _controller: ScolariteBundle:Classe:findClasseElv }
+select1_classe1_api:
+    path:     /findClasseElv/{ide}
+    defaults: { _controller: ScolariteBundle:Classe:findClasseElv1 }
+new_coeff_api:
+    path:     /allCoeff/new
+    defaults: { _controller: ScolariteBundle:Coeff:newCoeffApi }
+delete_coeff_api:
+    path:     /Coeff/{id}
+    defaults: { _controller: ScolariteBundle:Coeff:supprimerCoeffApi }
+all_ens_api:
+    path:     /allEns/all
+    defaults: { _controller: ScolariteBundle:Seance:allEns }
+delete_salles_api:
+    path:     /Salles/{id}
+    defaults: { _controller: ScolariteBundle:Salle:supprimerSalleApi }
+all_moyG_api:
+    path:     /moyG/all
+    defaults: { _controller: ScolariteBundle:Salle:moy }
+edit_salle_api:
+    path:     /editSalle/{id}
+    defaults: { _controller: ScolariteBundle:Salle:editSalleApi }
+delete_classe_api:
+    path:     /Classe/{id}
+    defaults: { _controller: ScolariteBundle:Classe:supprimerClasseApi }
+delete_seance_api:
+    path:     /Seance/{id}
+    defaults: { _controller: ScolariteBundle:Seance:supprimerSeanceApi }
+edit_classe_api:
+    path:     /editClasse/{id}
+    defaults: { _controller: ScolariteBundle:Classe:editClasseApi }
+Stat1_trimestre_classe_api:
+    path:     /MoyGT/{cl}/{tr}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMT2 }
+Stat2_trimestre_classe_api:
+    path:     /MoyGT1/{cl}/{tr}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMT1 }
+Stat3_trimestre_classe_api:
+    path:     /MoyGT3/{cl}/{tr}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMT3 }
+Stat1_classe_api:
+    path:     /MoyGC1/{cl}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMGC1 }
+Stat2_classe_api:
+    path:     /MoyGC2/{cl}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMGC2 }
+Stat3_classe_api:
+    path:     /MoyGC3/{cl}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMGC3 }
+Stat4_classe_api:
+    path:     /MoyGC4/{cl}
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:StatMGC4 }
+updateMG_api:
+    path:     /MoyGC
+    defaults: { _controller: ScolariteBundle:Moyennesgenerales:updateMG }
+edit_seance_api:
+    path:     /editSeance/{id}
+    defaults: { _controller: ScolariteBundle:Seance:editSeanceApi }
+delete_matiere_api:
+    path:     /Matiere/{id}
+    defaults: { _controller: ScolariteBundle:Matiere:supprimerMatiereApi }
+new_matiere_api:
+    path:     /newMatiere
+    defaults: { _controller: ScolariteBundle:Matiere:newMatiereApi }
+edit_matiere_api:
+    path:     /editMatiere/{id}
+    defaults: { _controller: ScolariteBundle:Matiere:editMatiereApi }
+edit_coeff_api:
+    path:     /editCoeff/{id}
+    defaults: { _controller: ScolariteBundle:Coeff:editCoeffApi }
+find_seance_api:
+    path:     /SeancesC/{cl}
+    defaults: { _controller: ScolariteBundle:Seance:seanceClasse }
+get_elvB_api:
+    path:     /ElevesC
+    defaults: { _controller: ScolariteBundle:Seance:getEleves }
+get_elvM_api:
+    path:     /ElevesM/{c}
+    defaults: { _controller: ScolariteBundle:Seance:getMElevesParClasse }

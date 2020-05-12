@@ -22,4 +22,6 @@ class SalleRepository extends \Doctrine\ORM\EntityRepository
 
         return $products = $query->getResult();
     }
+
+
 }

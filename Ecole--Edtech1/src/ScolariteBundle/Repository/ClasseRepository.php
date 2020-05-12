@@ -10,11 +10,6 @@ use Doctrine\ORM\Query;
  */
 class ClasseRepository extends \Doctrine\ORM\EntityRepository
 {
-
-
-
-
-
     public function GetClasseEleve($idp)
     {
 
@@ -24,6 +19,30 @@ class ClasseRepository extends \Doctrine\ORM\EntityRepository
             'SELECT u.id , u.nom , u.prenom , c.libelle, c.id as classe
              FROM AppBundle:User u inner join ScolariteBundle:Classe c  with u.classe = c.id where
              u.parent = :idp '
+        )
+            ->setParameter('idp', $idp);
+        return $products = $query->getResult();
+    }
+
+    public function GetClasseEleve2($idp)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'SELECT c
+             FROM AppBundle:User u inner join ScolariteBundle:Classe c  with u.classedeseleves = c.id where
+             u.id = :idp '
+        )
+            ->setParameter('idp', $idp);
+        return $products = $query->getResult();
+    }
+
+    public function GetUserParClasseElv($idp)
+    {  //
+        $query = $this->getEntityManager()->createQuery(
+
+            'SELECT u
+             FROM AppBundle:User u inner join ScolariteBundle:Classe c  with u.classedeseleves = c.id where
+            c.libelle = :idp '
         )
             ->setParameter('idp', $idp);
         return $products = $query->getResult();

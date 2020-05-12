@@ -4,96 +4,98 @@
 
 {% endblock %}
 <head>
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
 
-        }
-        th, td {
-            padding: 5px;
-            text-align: left;
-        }
-    </style>
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+    }
+</style>
 </head>
 <body>
-<img src="{{ asset('assets/images/logo.png') }}">
+  <img src="{{ asset('assets/images/logo.png') }}">
 {% block body %}
 
 
     <div style="border-style: double;">
-    {% block content %}
-        <table style="width:100%">
+        {% block content %}
+            <table style="width:100%">
 
-            <tr>
-
-                <th> Eleve Id:</th>
-                <th>  Nom et Prenom :</th>
-                <th>Classe : </th>
-                <th>Niveau d'étude : </th>
-
-            </tr>
-            {% for f in e %}
-            <tr>
-                <td>{{ f.id }}</td>
-                <td>{{ f.nom  }} {{ f.prenom }}</td>
-                <td>{{ f.classedeseleves.libelle }}</td>
-                <td>{{ f.classedeseleves.niveau }}</td>
-                {% endfor %}
-            </tr>
-        </div>
-        </table>
-
-        <table style="width:100%">
-
-            <caption> <div><p1 >**** BULLETIN DE NOTES **** </p1></div></caption>
-
-
-
-
-            <tr>
-
-                <th>Matiere</th>
-                <th>Nombre des heures</th>
-                <th>Enseignant</th>
-                <th>Type</th>
-                <th>Note</th>
-            </tr>
-            {% for f in fr %}
-            <tr>
-                <td>{{ f.matiere.nom}}</td>
-                <td>{{ f.matiere.nbH}}</td>
-                <td> {{ f.enseignant}} {{ f.enseignant.nom }}</td>
-                <td>{{ f.type }}</td>
-                <td> {{ f.valeur}}</td>
-                {# {% if f.type == "CC" %}
-                    <th>cc</th> <td> {{ f.valeur}}</td>
-                {% elseif f.type == "Devoir de controle "  %}
-                    <td> {{ f.valeur}} </td>
-                {% elseif f.type == "Devoir de synthese "  %}
-                    <td> {{ f.valeur}}</td>
-                {% endif %}#}
-
-
-
-                {% endfor %}
-
-            </tr>
-            {% for h in hh %}
                 <tr>
-                    <td> La Moyenne Générale en  {{ h.matiere.nom }} est :  {{ h.moyenne }} </td>
-                </tr>
-            {% endfor %}
 
-            {% for bl in b %}
+                    <th> Eleve Id:</th>
+                    <th>  Nom et Prenom :</th>
+                    <th>Classe : </th>
+                    <th>Niveau d'étude : </th>
+
+
+                </tr>
+                {% for f in e %}
                 <tr>
-                    <td> La Moyenne Générale DU SEMESTRE N° {{ bl.trimestre }} est :  {{ bl.moyenne }} </td>
+                    <td>{{ f.id }}</td>
+                    <td>{{ f.nom  }} {{ f.prenom }}</td>
+                    <td>{{ f.classedeseleves.libelle }}</td>
+                    <td>{{ f.classedeseleves.niveau }}</td>
+
+                    {% endfor %}
                 </tr>
-            {% endfor %}
-        </table>
+            </div>
+            </table>
+
+            <table style="width:100%">
+
+                <caption> <div><p1 >**** BULLETIN DE NOTES **** </p1></div></caption>
 
 
-    {% endblock %}
+
+
+                <tr>
+
+                    <th>Matiere</th>
+                    
+                    <th>Enseignant</th>
+                     <th>Type</th>
+                    <th>Note</th>
+                </tr>
+           {% for f in fr %}
+                <tr>
+                    <td>{{ f.matiere.nom}} ( {{ f.matiere.nbH}} h )</td>
+                    
+                    <td> {{ f.enseignant}} {{ f.enseignant.nom }}</td>
+                    <td>{{ f.type }}</td>
+                    <td> {{  f.valeur  }}</td>
+                    {# {% if f.type == "CC" %}
+                        <th>cc</th> <td> {{ f.valeur}}</td>
+                    {% elseif f.type == "Devoir de controle "  %}
+                        <td> {{ f.valeur}} </td>
+                    {% elseif f.type == "Devoir de synthese "  %}
+                        <td> {{ f.valeur}}</td>
+                    {% endif %}#}
+
+
+
+                    {% endfor %}
+
+                </tr>
+                {% for h in hh %}
+                    <tr>
+                        <td> La Moyenne Générale en  {{ h.matiere.nom }} est :  {{ h.moyenne | round(2, 'floor') }} </td>
+                    </tr>
+                {% endfor %}
+
+                {% for bl in b %}
+                <tr>
+                    <td> La Moyenne Générale DU SEMESTRE N° {{ bl.trimestre }} est :  {{ bl.moyenne | round(2, 'floor')  }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+
+        {% endblock %}
     </div>
 {% endblock %}
 </body>

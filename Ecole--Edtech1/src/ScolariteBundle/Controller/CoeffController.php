@@ -7,10 +7,17 @@ use EnseignantBundle\Entity\Bulletin;
 use EnseignantBundle\Entity\Notes;
 use ScolariteBundle\Entity\Coeff;
 use EnseignantBundle\Repository;
+use ScolariteBundle\Entity\Moyennesgenerales;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
 /**
  * Coeff controller.
  *
@@ -18,6 +25,117 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CoeffController extends Controller
 {
+
+    public function editCoeffApiAction(Request $request,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cl = $this->getDoctrine()->getRepository(Coeff::class)->find($id);
+        $matiere = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findOneByNom($request->get('matiere'));
+
+        $niv = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Classe')
+            ->findOneByLibelle($request->get('niveau'));
+
+        $cl->setNiveau($niv);
+        $cl->setMatiere($matiere);
+
+
+        $cl->setValeur($request->get('valeur'));
+
+        $em->flush();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('matiere','niveau'));
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($cl, 'json');
+        $formatted1 = $serializer->normalize($cl);
+        return new JsonResponse($formatted1);
+    }
+
+    public function supprimerCoeffApiAction($id)
+    {
+        $c=$this->getDoctrine()->getRepository(Coeff::class)->find($id);
+        $en=$this->getDoctrine()->getManager();
+        $en->remove($c);
+        $en->flush();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('eleves','enseignants','matiere'));
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($c, 'json');
+        $formatted1 = $serializer->normalize($c);
+        return new JsonResponse($formatted1);
+
+    }
+    public function allCAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Coeff')
+            ->findAll();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('nbH','eleves','enseignants','capacite','moyennes','notes'));
+        // $normalizer->setIgnoredAttributes(['enseignants']);
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+    }
+
+    public function newCoeffApiAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cl = new Coeff();
+        $matiere = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findOneByNom($request->get('matiere'));
+
+        $niv = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Classe')
+            ->findOneByLibelle($request->get('niveau'));
+
+        $cl->setNiveau($niv);
+        $cl->setMatiere($matiere);
+
+
+        $cl->setValeur($request->get('valeur'));
+        $em->persist($cl);
+        $em->flush();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('matiere','niveau'));
+        // $normalizer->setIgnoredAttributes(['enseignants']);
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($cl, 'json');
+        $formatted1 = $serializer->normalize($cl);
+        return new JsonResponse($formatted1);
+    }
     /**
      * Lists all coeff entities.
      *
@@ -182,6 +300,8 @@ class CoeffController extends Controller
         return $this->redirectToRoute('coeff_index');
     }
 
+
+
     public function CAction(Request $request,$eleve,$trimestre,$classeE)
     {
         $moyenne = new Bulletin();
@@ -189,7 +309,10 @@ class CoeffController extends Controller
         $moyenne->setClasse($classeE);
         $moyenne->setTrimestre($trimestre);
         $em = $this->getDoctrine()->getManager()->getRepository(Coeff::class);
-        $results = $em->MEleve($classeE, $trimestre);
+      /*  $niv = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Classe')
+            ->findOneById($classeE);*/
+        $results = $em->MEleve($classeE, $trimestre,$eleve);
         //$results = $em->REleve1($eleve, $tr);
 
         foreach ($results as $row) {
@@ -204,36 +327,63 @@ class CoeffController extends Controller
         if (!count($ch))
         {
             $em = $this->getDoctrine()->getManager();
+        
             $em->persist($moyenne);
-
+            
             $em->flush();
-        }
 
-//        return $this->redirectToRoute('classe_index');
+            
+        }
+        else{
+
+             foreach ($ch as $row) {
+               
+                $res = $row['id'];
+                $club=$this->getDoctrine()->getRepository(Bulletin::class)->find($res);
+                $en=$this->getDoctrine()->getManager();
+                /* $niv = $this->getDoctrine()->getManager()
+                     ->getRepository('ScolariteBundle:Classe')
+                     ->findOneById($classeE);*/
+
+                $results = $em->MEleve($classeE, $trimestre,$eleve);
+       
+
+                   foreach ($results as $row) {
+                    $res=$row['moyG'];
+                
+                     $club->setMoyenne($res);
+
+                   }
+
+                      $en->flush();
+            }
+
+        }
 
         $em=$this->getDoctrine()->getManager()->getRepository(Coeff::class);
 
         $hh=$em->TrouverMatiere($trimestre,$eleve);
+        
         $n=$em-> TrouverNotes($trimestre,$eleve);
         $e=$em->TrouverE($eleve);
 
         //$html = $this->renderView('bulletin/bulletin.html.twig',array('fr'=>$n,'b'=>$ch));
-        $html = $this->renderView('bulletin/bulletin.html.twig',array('fr'=>$n,'b'=>$ch,'hh'=>$hh,'e'=>$e));
+        $html = $this->renderView('bulletin/bulletin.html.twig',array('fr'=>$n,'b'=>$ch,'hh'=>$hh,'e'=>$e,$trimestre));
         //$html = $this->renderView('default/bulletin.html.twig');
 
-        $filename = sprintf('test-%s.pdf', date('Y-m-d'));
+        $filename = sprintf('Bulletin-%s.pdf', date('Y-m-d'));
 
         return new Response(
             $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
             200,
             [
                 'Content-Type'        => 'application/pdf',
-                'Content-Disposition' => sprintf('inline; filename="%s"', $filename),
+                'Content-Disposition' => sprintf('attachment; filename="%s"', $filename),
             ]
         );
 
 
-
+//inline
 
     }
 

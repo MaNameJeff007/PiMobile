@@ -2,14 +2,20 @@
 
 namespace ScolariteBundle\Controller;
 
+use AppBundle\AppBundle;
 use ScolariteBundle\Entity\Notification;
 use ScolariteBundle\Entity\Seance;
 use ScolariteBundle\Repository\SeanceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use ScolariteBundle\Form\RechercheType;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
 /**
  * Seance controller.
  *
@@ -17,6 +23,294 @@ use ScolariteBundle\Form\RechercheType;
  */
 class SeanceController extends Controller
 {
+
+    public function supprimerSeanceApiAction($id)
+    {
+        $c=$this->getDoctrine()->getRepository(Seance::class)->find($id);
+        $en=$this->getDoctrine()->getManager();
+        $en->remove($c);
+        $en->flush();
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Une seance de cours est supprimée de votre emploi de temps')
+            ->setFrom('bennouri.olfa@gmail.com')
+            ->setTo($c->getEmail())
+            ->setBody('Nous vous informons q un changement a occuré dans votre emploi de temps  \n');
+        $this->get('mailer')->send($message);
+
+        return $this->render('default/index.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        ]);
+
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('matiere','enseignant','salle','classe'));
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($c, 'json');
+        $formatted1 = $serializer->normalize($c);
+        return new JsonResponse($formatted1);
+
+    }
+
+    public function editSeanceApiAction(Request $request,$id)
+    {
+
+        $cl = $this->getDoctrine()->getRepository(Seance::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $matiere = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findOneByNom($request->get('matiere'));
+
+        $niv = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Classe')
+            ->findOneByLibelle($request->get('classe'));
+
+        $salle = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Salle')
+            ->findOneByLibelle($request->get('salle'));
+        $ens = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:User')
+            ->findOneById($request->get('enseignant'));
+
+        $cl->setJour($request->get('jour'));
+        $cl->setHdeb($request->get('hdeb'));
+        $cl->setHfin($request->get('hfin'));
+        $cl->setClasse($niv);
+        $cl->setEnseignant($ens);
+        $cl->setMatiere($matiere);
+        $cl->setSalle($salle);
+        $em->persist($cl);
+        $em->flush();
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Une seance de cours est modifiée dans votre emploi de temps')
+            ->setFrom('bennouri.olfa@gmail.com')
+            ->setTo($ens->getEmail())
+            ->setBody('Nous vous informons q un changement a occuré dans votre emploi de temps  \n');
+        $this->get('mailer')->send($message);
+
+        return $this->render('default/index.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        ]);
+
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('matiere','enseignant','classe','salle'));
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($cl, 'json');
+        $formatted1 = $serializer->normalize($cl);
+        return new JsonResponse($formatted1);
+    }
+
+
+    public function newSeanceApiAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cl = new Seance();
+        $matiere = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findOneByNom($request->get('matiere'));
+
+        $niv = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Classe')
+            ->findOneByLibelle($request->get('classe'));
+
+        $salle = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Salle')
+            ->findOneByLibelle($request->get('salle'));
+        $ens = $this->getDoctrine()->getManager()
+            ->getRepository('AppBundle:User')
+            ->findOneById($request->get('enseignant'));
+
+        $cl->setJour($request->get('jour'));
+        $cl->setHdeb($request->get('hdeb'));
+        $cl->setHfin($request->get('hfin'));
+        $cl->setClasse($niv);
+        $cl->setEnseignant($ens);
+        $cl->setMatiere($matiere);
+        $cl->setSalle($salle);
+        $em->persist($cl);
+        $em->flush();
+        //$user = $this->container->get('security.token_storage')->getToken()->getUser();
+        //$user->getNom();
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Une seance de cours est ajoutée à votre emploi de temps')
+            ->setFrom('bennouri.olfa@gmail.com')
+            ->setTo($ens->getEmail())
+            ->setBody('Nous vous informons q un changement a occuré dans votre emploi de temps  \n');
+        $this->get('mailer')->send($message);
+
+        return $this->render('default/index.html.twig', [
+            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+        ]);
+
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('matiere','enseignant','classe','salle'));
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($cl, 'json');
+        $formatted1 = $serializer->normalize($cl);
+        return new JsonResponse($formatted1);
+    }
+
+
+    public function allSCAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Seance')
+            ->findAll();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer()); //'eleves','enseignants','capacite','niveau',
+        $normalizer[0]->setIgnoredAttributes(array('eleves','enseignants',
+            'enfants','parent','email','date_embauche','moyennes','notes','absenceseleve',
+            'dateEmbauche','groupNames','groups','superAdmin','location','lastLogin',
+            'emailCanonical','absences','roles','dateInscription','usernameCanonical','password',
+            'sanctions','credentialsNonExpired','confirmationToken','accountNonExpired',
+            'passwordRequestedAt','sanctionseleve','noteseleve'
+        ));
+
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+
+    }
+
+    public function seanceClasseAction($cl)
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Seance')
+            ->TrouverClasse($cl);
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer()); //'eleves','enseignants','capacite','niveau',
+        $normalizer[0]->setIgnoredAttributes(array('eleves','enseignants','classedeseleves',
+            'enfants','parent','email','date_embauche','moyennes','notes','absenceseleve',
+            'dateEmbauche','groupNames','groups','superAdmin','location','lastLogin',
+            'emailCanonical','absences','roles','dateInscription','usernameCanonical','password',
+            'sanctions','credentialsNonExpired','confirmationToken','accountNonExpired',
+            'passwordRequestedAt'
+        ));
+
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+
+    }
+
+    public function getElevesAction()
+    {
+        $car ='a:1:{i:0;s:10:"ROLE_ELEVE";}';
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Seance')
+            ->TrouverElv($car);
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer()); //'eleves','enseignants','capacite','niveau',
+        $normalizer[0]->setIgnoredAttributes(array('eleves','enseignants',
+            'enfants','parent','email','date_embauche','moyennes','notes','absenceseleve',
+            'dateEmbauche','groupNames','groups','superAdmin','location','lastLogin',
+            'emailCanonical','absences','roles','dateInscription','usernameCanonical','password',
+            'sanctions','credentialsNonExpired','confirmationToken','accountNonExpired',
+            'passwordRequestedAt','sanctionseleve','noteseleve'
+        ));
+
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+
+    }
+
+    public function getMElevesParClasseAction($c)
+    {
+
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Seance')
+            ->TrouverElvM($c);
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer()); //'eleves','enseignants','capacite','niveau',
+        $normalizer[0]->setIgnoredAttributes(array('eleves','enseignants',
+            'enfants','parent','email','date_embauche','moyennes','notes','absenceseleve',
+            'dateEmbauche','groupNames','groups','superAdmin','location','lastLogin',
+            'emailCanonical','absences','roles','dateInscription','usernameCanonical','password',
+            'sanctions','credentialsNonExpired','confirmationToken','accountNonExpired',
+            'passwordRequestedAt','sanctionseleve','noteseleve'
+        ));
+
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+
+    }
+
+    public function allEnsAction()
+    {
+        $car ='a:1:{i:0;s:15:"ROLE_ENSEIGNANT";}';
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository(Seance::class )
+            ->TrouverEns($car);
+        //$em1=$this->getDoctrine()->getManager() ->getRepository(Seance::class);
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('$parent','enfants','notes','noteseleve','absences','absenceseleve','sanctions','sanctionseleve','moyennes','classe','classedeseleves',
+        'dateInscription','dateEmbauche','lastLogin','groups','groupNames'));
+
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+
+    }
     /**
      * Lists all seance entities.
      *

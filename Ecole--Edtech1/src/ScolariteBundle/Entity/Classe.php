@@ -59,7 +59,6 @@ class Classe
      *
      * @ORM\Column(name="capacite", type="integer")
      * @Assert\NotBlank()
-     * @Assert\Length(min=15, max=35, minMessage="min non respecte",maxMessage="vous avez depassé la capacité maximale")
      */
     private $capacite;
 

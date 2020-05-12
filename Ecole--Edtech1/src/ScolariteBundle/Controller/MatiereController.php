@@ -3,9 +3,16 @@
 namespace ScolariteBundle\Controller;
 
 use ScolariteBundle\Entity\Matiere;
+use EnseignantBundle\Entity\Notes;
+use EnseignantBundle\Entity\Moyennes;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Matiere controller.
@@ -14,6 +21,107 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class MatiereController extends Controller
 {
+
+    public function newMatiereApiAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cl = new Matiere();
+        $cl->setNom($request->get('nom'));
+        $cl->setNbH($request->get('nbH'));
+        $em->persist($cl);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($cl);
+        return new JsonResponse($formatted);
+    }
+
+    public function editMatiereApiAction(Request $request,$id)
+    {
+        $cl=$this->getDoctrine()->getRepository(Matiere::class)->find($id);
+
+        $en=$this->getDoctrine()->getManager();
+        $cl->setNom($request->get('nom'));
+        $cl->setNbH($request->get('nbH'));
+        $en->flush();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('moyennes','notes'));
+        // $normalizer->setIgnoredAttributes(['enseignants']);
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $serializer = new Serializer($normalizer, $encoder);
+        $formatted = $serializer->serialize($cl, 'json');
+        $formatted1 = $serializer->normalize($cl);
+        return new JsonResponse($formatted1);
+    }
+
+    public function supprimerMatiereApiAction($id)
+    {
+        $c=$this->getDoctrine()->getRepository(Matiere::class)->find($id);
+        $en=$this->getDoctrine()->getManager();
+        $en->remove($c);
+        $en->flush();
+
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('moyennes','notes'));
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted = $serializer->serialize($c, 'json');
+        $formatted1 = $serializer->normalize($c);
+        return new JsonResponse($formatted1);
+
+    }
+
+    public function allMatAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findAll();
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('moyennes','notes'));
+        // $normalizer->setIgnoredAttributes(['enseignants']);
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted =$serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+    }
+
+    public function FindMatAction($name)
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findMatFilter($name);
+        $encoder = array (new JsonEncoder());
+        $normalizer = array(new ObjectNormalizer());
+        $normalizer[0]->setIgnoredAttributes(array('moyennes','notes'));
+        // $normalizer->setIgnoredAttributes(['enseignants']);
+        $normalizer[0]->setCircularReferenceLimit(1);
+        $normalizer[0]->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $serializer = new Serializer($normalizer, $encoder);
+
+        $formatted =$serializer->serialize($tasks, 'json');
+        $formatted1 = $serializer->normalize($tasks);
+        return new JsonResponse($formatted1);
+    }
+
     /**
      * Lists all matiere entities.
      *
@@ -172,5 +280,13 @@ class MatiereController extends Controller
         return $this->redirectToRoute('matiere_index');
     }
 
-
+    public function allMAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Matiere')
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tasks);
+        return new JsonResponse($formatted);
+    }
 }

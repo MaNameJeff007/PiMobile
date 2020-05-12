@@ -11,6 +11,56 @@ use Doctrine\ORM\EntityRepository;
  */
 class SeanceRepository extends EntityRepository
 {
+    public function TrouverEns($r)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'select n from AppBundle:User n where n.roles = :el '
+        )
+            ->setParameter('el', $r);
+        return $products = $query->getResult();
+    }
+
+    public function TrouverElvM($r)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'SELECT u.id,u.nom,u.prenom,m.moyG from ScolariteBundle:Moyennesgenerales m 
+            inner join AppBundle:User u with u.id = m.eleve
+            inner join ScolariteBundle:Classe c with c.id= m.classe 
+            WHERE c.libelle= :el ORDER BY m.moyG desc 
+             
+             '
+        )
+            ->setParameter('el', $r)
+        ->setMaxResults(3);
+        return $products = $query->getResult();
+    }
+
+
+    public function TrouverElv($r)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'select n from AppBundle:User n where n.roles = :el '
+        )
+            ->setParameter('el', $r);
+        return $products = $query->getResult();
+    }
+
+    public function TrouverClasse($r)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'select n.id,n.hdeb,n.hfin,n.jour,c.libelle as classe ,s.libelle as salle,u.nom,u.prenom,m.nom as matiere from ScolariteBundle:Seance n inner join ScolariteBundle:Classe c with 
+              n.classe = c.id inner join ScolariteBundle:Salle s with s.id=n.salle 
+              inner join AppBundle:User u with u.id=n.enseignant
+              inner join ScolariteBundle:Matiere m with m.id=n.matiere
+              where c.libelle = :el '
+        )
+            ->setParameter('el', $r);
+        return $products = $query->getResult();
+    }
 
     public function CheckSalleSeance($s, $deb,$j)
     {

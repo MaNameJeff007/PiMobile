@@ -5,7 +5,11 @@ namespace ScolariteBundle\Controller;
 use ScolariteBundle\Entity\Salle;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Salle controller.
@@ -14,6 +18,65 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class SalleController extends Controller
 {
+    public function allSAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Salle')
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tasks);
+        return new JsonResponse($formatted);
+    }
+
+    public function moyAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('ScolariteBundle:Moyennesgenerales')
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tasks);
+        return new JsonResponse($formatted);
+    }
+
+    public function supprimerSalleApiAction($id)
+    {
+        $c=$this->getDoctrine()->getRepository(Salle::class)->find($id);
+        $en=$this->getDoctrine()->getManager();
+        $en->remove($c);
+        $en->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($c);
+        return new JsonResponse($formatted);
+
+    }
+
+    public function editSalleApiAction(Request $request,$id)
+    {
+        $c=$this->getDoctrine()->getRepository(Salle::class)->find($id);
+
+        $en=$this->getDoctrine()->getManager();
+        $c->setLibelle($request->get('libelle'));
+        $en->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($c);
+        return new JsonResponse($formatted);
+
+    }
+
+    public function ajouterSalleApiAction(Request $request)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $cl = new Salle();
+        $cl->setLibelle($request->get('libelle'));
+        $en->persist($cl);
+        $en->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($cl);
+        return new JsonResponse($formatted);
+    }
+
+
+
     /**
      * Lists all salle entities.
      *
@@ -169,4 +232,7 @@ class SalleController extends Controller
 
         return $this->redirectToRoute('salle_index');
     }
+
+
+
 }

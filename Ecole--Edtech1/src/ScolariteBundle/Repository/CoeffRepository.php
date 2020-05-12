@@ -28,23 +28,28 @@ class CoeffRepository extends \Doctrine\ORM\EntityRepository
     }
 
 
-    public function MEleve($classe,$tr)
+    public function MEleve($classe,$tr,$eleve)
     {
         $query = $this->getEntityManager()->createQuery(
 
             'SELECT 
-            ( sum((coeff.valeur* moyennes.moyenne))/ sum(coeff.valeur) ) as moyG 
+            ( sum((coeff.valeur* moyennes.moyenne))/ sum(coeff.valeur) )as moyG 
             from ScolariteBundle:Coeff  coeff inner join EnseignantBundle:Moyennes moyennes with coeff.matiere= moyennes.matiere
-             and coeff.niveau= :niv and moyennes.trimestre= :m GROUP by moyennes.trimestre'
+            and moyennes.trimestre= :m inner join ScolariteBundle:Classe c with c.niveau= coeff.niveau
+              where moyennes.eleve= :ele  and c.niveau = :niv GROUP by moyennes.trimestre'
         )
             ->setParameters([
                 'niv' => $classe,
-                'm' => $tr
+                'm' => $tr,
+                'ele' => $eleve
+
 
 
             ]);
 
         return $results = $query->getArrayResult();
+
+
     }
 
     public function TrouverB($eleve,$tr)
@@ -59,7 +64,7 @@ class CoeffRepository extends \Doctrine\ORM\EntityRepository
 
 
             ]);
-        return $products = $query->getResult();
+        return $products = $query->getArrayResult();
     }
 
     public function TrouverE($eleve)
@@ -89,11 +94,13 @@ class CoeffRepository extends \Doctrine\ORM\EntityRepository
         return $products = $query->getResult();
     }
 
+   
+
     public function TrouverNotes($tr,$el)
     {
         $query = $this->getEntityManager()->createQuery(
 
-            'select n from EnseignantBundle:Notes n where n.id_trimestre = :idp and n.eleve = :el ORDER BY n.matiere  '
+            'select n from EnseignantBundle:Notes n where n.id_trimestre = :idp and n.eleve = :el GROUP BY n.matiere,n.type  '
         )
             //->setParameter('idp', $tr);
             ->setParameters([
@@ -104,4 +111,21 @@ class CoeffRepository extends \Doctrine\ORM\EntityRepository
             ]);
         return $products = $query->getResult();
     }
+
+  /*  public function ModifierB($tr,$el,$m)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'update EnseignantBundle:Bulletin b set b.moyenne = :m where b.eleve = :el and b.trimestre = :tr  '
+        )
+            //->setParameter('idp', $tr);
+            ->setParameters([
+                'm' => $m,
+                'el' => $el,
+                'tr' => $tr
+
+
+            ]);
+        return $products = $query->getResult();
+    }*/
 }

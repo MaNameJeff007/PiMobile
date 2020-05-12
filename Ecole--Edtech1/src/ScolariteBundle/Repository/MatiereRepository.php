@@ -22,4 +22,17 @@ class MatiereRepository extends \Doctrine\ORM\EntityRepository
         return $products = $query->getResult();
 
     }
+
+    public function findMatFilter($l)
+    {
+        $query = $this->getEntityManager()->createQuery(
+
+            'SELECT p
+             FROM ScolariteBundle:Matiere  p 
+              WHERE p.nom like :title'
+        )->setParameter('title', '%'.$l.'%');
+
+        return $products = $query->getResult();
+
+    }
 }
