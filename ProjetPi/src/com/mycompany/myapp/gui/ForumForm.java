@@ -5,17 +5,24 @@
  */
 package com.mycompany.myapp.gui;
 
+import com.codename1.components.ShareButton;
 import com.codename1.components.SpanLabel;
+import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
-import com.codename1.ui.Label;
+import com.codename1.ui.events.DataChangedListener;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.list.DefaultListModel;
 import com.codename1.ui.plaf.Border;
+import com.mycompany.myapp.entities.Likes;
 import com.mycompany.myapp.entities.Sujet;
+import com.mycompany.myapp.services.ServiceLike;
+import com.mycompany.myapp.services.ServiceSignaler;
 import com.mycompany.myapp.services.ServiceSujet;
-import com.mycompany.myapp.services.ServiceUser;
+import java.util.ArrayList;
 
 /**
  *
@@ -28,15 +35,50 @@ public class ForumForm extends Form {
      aux interfaces suivantes pour pouvoir y revenir plus tard en utilisant
      la méthode showBack*/
 
+    private ArrayList<String> searchLocations(String text) {
+        ArrayList<String> ss = new ArrayList<>();
+        for (Sujet s : ServiceSujet.getInstance().getAllSujet()) {
+            if (s.getTitre().contains(text)) {
+                System.out.println(text);
+                ss.add(s.getTitre());
+            }
+        }
+        return ss;
+    }
+
     public ForumForm(Form previous) {
         setLayout(BoxLayout.y());
         setTitle("List sujets");
-        System.out.println();
-        //setScrollableY(true);
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> new HomeForm().show());
-        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, e -> new AddSujetForm().show());
-        //System.out.println(new HomeForm().getcurrentUser().getIdentifiant());
-        //sp.setText(ServiceSujet.getInstance().getAllSujet().toString());
+        Container cnt1 = new Container(BoxLayout.x());
+        Button recherche = new Button("");
+
+        final DefaultListModel<String> options = new DefaultListModel<>();
+        AutoCompleteTextField auto = new AutoCompleteTextField(options) {
+            @Override
+            protected boolean filter(String text) {
+                if (text.length() == 0) {
+                    return false;
+                }
+                ArrayList<String> l = searchLocations(text);
+                if (l == null || l.size() == 0) {
+                    return false;
+                }
+                options.removeAll();
+                for (String s : l) {
+                    options.addItem(s);
+                }
+                return true;
+            }
+        };
+        auto.setMinimumElementsShownInPopup(5);
+        FontImage.setMaterialIcon(recherche, FontImage.MATERIAL_FIND_IN_PAGE);
+        cnt1.addAll(recherche, auto);
+        add(cnt1);
+        if (auto.getTensileLength() > 4) {
+            getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
+        }
+        getToolbar().addMaterialCommandToLeftSideMenu("forum", FontImage.MATERIAL_FORUM, e -> new ForumForm(current).show());
+        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD_CIRCLE, e -> new AddSujetForm().show());
         for (Sujet s : ServiceSujet.getInstance().getAllSujet()) {
             add(addItem(s));
         }
@@ -44,38 +86,97 @@ public class ForumForm extends Form {
 
     private void refresh() {
         removeAll();
+        Container cnt1 = new Container(BoxLayout.x());
+        Button recherche = new Button("");
+
+        final DefaultListModel<String> options = new DefaultListModel<>();
+        AutoCompleteTextField auto = new AutoCompleteTextField(options) {
+            @Override
+            protected boolean filter(String text) {
+                if (text.length() == 0) {
+                    return false;
+                }
+                ArrayList<String> l = searchLocations(text);
+                if (l == null || l.size() == 0) {
+                    return false;
+                }
+                options.removeAll();
+                for (String s : l) {
+                    options.addItem(s);
+                }
+                return true;
+            }
+        };
+        auto.setMinimumElementsShownInPopup(5);
+        FontImage.setMaterialIcon(recherche, FontImage.MATERIAL_FIND_IN_PAGE);
+        cnt1.addAll(recherche, auto);
+        add(cnt1);
+        if (auto.getTensileLength() > 4) {
+            getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
+        }
+       
         for (Sujet ss : ServiceSujet.getInstance().getAllSujet()) {
             add(addItem(ss));
+            show();
         }
     }
 
     private Container addItem(Sujet s) {
         Container cnt1 = new Container(BoxLayout.y());
-        Label l1 = new Label(Integer.toString(s.getSujet_id()));
+        //Label l1 = new Label(Integer.toString(s.getSujet_id()));
         SpanLabel l2 = new SpanLabel(s.getTitre());
-        SpanLabel l4 = new SpanLabel(ServiceUser.getInstance().getUser(s.getCreateur_id()));
+        //l2.setSize(new Dimension(250, 100));
+        //l2.setHeight(100);
+        SpanLabel l4 = new SpanLabel(Integer.toString(s.getScore()));
         SpanLabel l3 = new SpanLabel(s.getDescription());
-        Button btnmail = new Button(Integer.toString(s.getSujet_id()));
-        Button btnsupprimer = new Button("delete");
-        Button btnmodif = new Button("modif");
-        cnt1.add(l1);
+        Button btnsupprimer = new Button("");
+
+        FontImage.setMaterialIcon(btnsupprimer, FontImage.MATERIAL_DELETE);
+        Button btnmodif = new Button("");
+        FontImage.setMaterialIcon(btnmodif, FontImage.MATERIAL_EDIT);
+
+        Button btncomm = new Button("");
+        FontImage.setMaterialIcon(btncomm, FontImage.MATERIAL_CHAT);
+
+        Button btnreport = new Button("");
+        FontImage.setMaterialIcon(btnreport, FontImage.MATERIAL_REPORT);
+
+        Button btnlike = new Button("like");
+        Button btndislike = new Button("dislike");
+
+        ShareButton sb = new ShareButton();
+        sb.setTextToShare(s.getTitre() + " : " + s.getDescription());
+        cnt1.add(sb);
         cnt1.add(l2);
-        cnt1.add(l4);
         cnt1.add(l3);
         Container cnt3 = new Container(BoxLayout.x());
-        cnt3.add(btnmail);
+        cnt3.add(l4);
+        Likes ll = new Likes();
+        cnt3.add(btnlike);
+        for (Likes l : ServiceLike.getInstance().getAllLikes()) {
+            if (l.getSujet_id() == s.getSujet_id() && l.getCreateur_id() == new Login().getcurrentUser().getIdentifiant()) {
+                cnt3.add(btndislike);
+                ll.setLike_id(l.getLike_id());
+                cnt3.removeComponent(btnlike);
+            }
+        }
+        cnt3.add(btncomm);
         if (s.getCreateur_id() == new Login().getcurrentUser().getIdentifiant()) {
             cnt3.add(btnsupprimer);
             cnt3.add(btnmodif);
         }
+        cnt3.add(btnreport);
         cnt1.add(cnt3);
         cnt1.getStyle().setBorder(Border.createLineBorder(1));
         Container cnt2 = new Container(BoxLayout.y());
         cnt2.add(cnt1);
 
-        btnmail.addActionListener((e) -> {
-            System.out.println(s.getSujet_id());
-
+        btnsupprimer.addActionListener((e) -> {
+            if (ServiceSujet.getInstance().deleteSujet(s.getSujet_id())) {
+                refresh();
+            } else {
+                System.out.println(s.getTitre());
+            }
         });
         btnsupprimer.addActionListener((e) -> {
             if (ServiceSujet.getInstance().deleteSujet(s.getSujet_id())) {
@@ -84,8 +185,25 @@ public class ForumForm extends Form {
                 System.out.println(s.getTitre());
             }
         });
+        btnreport.addActionListener((e) -> {
+            if (ServiceSignaler.getInstance().addSignaleSujet(s)) {
+                Dialog.show("Report", "Sujet reported", "OK", "");
+            } else {
+                System.out.println(s.getTitre());
+            }
+        });
+        btndislike.addActionListener((e) -> {
+            if (ServiceLike.getInstance().deleteLike(ll.getLike_id())) {
+                refresh();
+            } else {
+                System.out.println(s.getTitre());
+            }
+        });
         btnmodif.addActionListener((e) -> {
             new ModifierSujetForm(s.getSujet_id()).show();
+        });
+        btncomm.addActionListener((e) -> {
+            new CommentForm(s).show();
         });
         return cnt2;
     }

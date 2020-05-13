@@ -11,7 +11,10 @@ import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
+import com.mycompany.myapp.entities.Commentaire;
 import com.mycompany.myapp.entities.Signaler;
+import com.mycompany.myapp.entities.Sujet;
+import com.mycompany.myapp.gui.Login;
 import com.mycompany.myapp.utils.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,60 +44,33 @@ public class ServiceSignaler {
         return instance;
     }
 
-    /*public boolean addLike(Likes t) {
-     String url ="";// Statics.BASE_URL + "/tasks/" + t.getName() + "/" + t.getStatus();
-     req.setUrl(url);
-     req.addResponseListener(new ActionListener<NetworkEvent>() {
-     @Override
-     public void actionPerformed(NetworkEvent evt) {
-     resultOK = req.getResponseCode() == 200; 
-     req.removeResponseListener(this); 
-               
-                
-     }
-     });
-     NetworkManager.getInstance().addToQueueAndWait(req);
-     return resultOK;
-     }*/
-
-    /*  public ArrayList<Likes> parseTasks(String jsonText){
-     try {
-     tasks=new ArrayList<>();
-     JSONParser j = new JSONParser();
-     Map<String,Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            
-           
-     List<Map<String,Object>> list = (List<Map<String,Object>>)tasksListJson.get("root");
-            
-        
-     for(Map<String,Object> obj : list){
-     Likes t = new Likes();
-     float id = Float.parseFloat(obj.get("id").toString());
-     t.setId((int)id);
-     t.setStatus(((int)Float.parseFloat(obj.get("status").toString())));
-     t.setName(obj.get("name").toString());
-              
-     tasks.add(t);
-     }
-            
-            
-     } catch (IOException ex) {
-            
-     }
-     return tasks;
-     }*/
-    /* public ArrayList<Likes> getAllTasks(){
-     String url = Statics.BASE_URL+"/tasks/all";
-     req.setUrl(url);
-     req.setPost(false);
-     req.addResponseListener(new ActionListener<NetworkEvent>() {
-     @Override
-     public void actionPerformed(NetworkEvent evt) {
-     // Likes = parseTasks(new String(req.getResponseData()));
-     req.removeResponseListener(this);
-     }
-     });
-     NetworkManager.getInstance().addToQueueAndWait(req);
-     return Likes;
-     }*/
+    public boolean addSignaleComm(Commentaire c) {
+        System.out.println(new Login().getcurrentUser().getIdentifiant());
+        String url = Statics.BASE_URL + "forum/report/add/comm/" + c.getCommentaire_id();
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
+    
+    public boolean addSignaleSujet(Sujet s) {
+        System.out.println(new Login().getcurrentUser().getIdentifiant());
+        String url = Statics.BASE_URL + "forum/report/add/sujet/" + s.getSujet_id();
+        req.setUrl(url);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return resultOK;
+    }
 }

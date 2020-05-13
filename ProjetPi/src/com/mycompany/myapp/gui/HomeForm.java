@@ -24,16 +24,14 @@ public class HomeForm extends Form {
         current = this;
         setTitle("Home");
         setLayout(BoxLayout.y());
-        add(new Label("Choose an option"));
-        Button btnListTasks = new Button("List Tasks");
-        Button MenuScolarite = new Button("Menu Scolarite");
+       // add(new Label("Choose an option"));
+        //Button btnListTasks = new Button("List Tasks");
 
         //btnAddTask.addActionListener(e -> new AddTaskForm(current).show());
-        btnListTasks.addActionListener(e -> new ForumForm(current).show());
-         MenuScolarite.addActionListener(e -> new HomeScolarite().show());
-        addAll(btnListTasks,MenuScolarite);
-        getToolbar().addMaterialCommandToLeftSideMenu("forum", FontImage.MATERIAL_ARROW_BACK, e -> new ForumForm(current).show());
-         getToolbar().addMaterialCommandToLeftSideMenu("login", FontImage.MATERIAL_ARROW_BACK, e -> new Login().show());
+        // btnListTasks.addActionListener(e -> new ForumForm(current).show());
+        // add(btnListTasks);
+        getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
+        getToolbar().addMaterialCommandToLeftSideMenu("forum", FontImage.MATERIAL_FORUM, e -> new ForumForm(current).show());
     }
 
 }

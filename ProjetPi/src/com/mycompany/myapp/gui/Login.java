@@ -68,7 +68,7 @@ public class Login extends com.codename1.ui.Form {
             User s = ServiceUser.getInstance().getConnectedUser(loginTf.getText(), passwordTf.getText());
             if (s.getIdentifiant() != 0) {
                 setcurrentUser(s);
-                new ForumForm(current).show();
+                new HomeForm().show();
             }
             else
             {

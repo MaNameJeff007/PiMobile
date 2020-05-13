@@ -17,7 +17,9 @@ import com.codename1.ui.validation.GroupConstraint;
 import com.codename1.ui.validation.LengthConstraint;
 import com.codename1.ui.validation.RegexConstraint;
 import com.codename1.ui.validation.Validator;
+import com.mycompany.myapp.entities.Commentaire;
 import com.mycompany.myapp.entities.Sujet;
+import com.mycompany.myapp.services.ServiceCommentaire;
 import com.mycompany.myapp.services.ServiceSujet;
 
 /**
@@ -25,31 +27,26 @@ import com.mycompany.myapp.services.ServiceSujet;
  *
  * @author admin
  */
-public class AddSujetForm extends Form {
+public class ModifCommentForm extends com.codename1.ui.Form {
+private Form current;
 
-    private Form current;
-
-    public AddSujetForm() {
+    public ModifCommentForm(Commentaire c,Sujet s) {
+        TextModeLayout tm = new TextModeLayout(4, 2);
         setLayout(new BorderLayout());
-        setTitle("new sujets");
+        setTitle("Modif Comment");
         Container content = new Container();
 
-        TextComponent name = new TextComponent().labelAndHint("Titre");
-        content.add(name);
-
         TextComponent desc = new TextComponent().labelAndHint("Description").multiline(true).rows(3);
+       
+        desc.getField().setText(c.getTexte());
         content.add(desc);
 
-        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> new ForumForm(current).show());
-        Button submit = new Button("Add");
+        getToolbar().addMaterialCommandToLeftBar("", FontImage.MATERIAL_ARROW_BACK, e -> new CommentForm(s).show());
+        Button submit = new Button("Modif");
         FontImage.setMaterialIcon(submit, FontImage.MATERIAL_DONE);
         submit.addActionListener(e -> {
-            Sujet s = new Sujet();
-            s.setCreateur_id(new Login().getcurrentUser().getIdentifiant());
-            s.setTitre(name.getText());
-            s.setDescription(desc.getText());
-            if (ServiceSujet.getInstance().addSujet(s)) {
-                 new ForumForm(current).show();
+            if (ServiceCommentaire.getInstance().ModifCommentaire(c.getCommentaire_id(), desc.getText())) {
+                 new CommentForm(s).show();
             } else {
                 Dialog.show("Dialog Title", "mochekla", "OK", null);
             }
@@ -59,8 +56,7 @@ public class AddSujetForm extends Form {
 
         Validator val = new Validator();
         val.setShowErrorMessageForFocusedComponent(true);
-        val.addConstraint(name, new GroupConstraint(new LengthConstraint(10), new RegexConstraint("^([a-zA-Z ]*)$", "Please only use latin characters for name"))).addSubmitButtons(submit);
-        val.addConstraint(desc, new GroupConstraint(new LengthConstraint(15), new RegexConstraint("^([a-zA-Z ]*)$", "Please only use latin characters for name"))).addSubmitButtons(submit);
+        val.addConstraint(desc, new GroupConstraint(new LengthConstraint(30), new RegexConstraint("^([a-zA-Z ]*)$", "Please only use latin characters for name"))).addSubmitButtons(submit);
 
     }
 }
