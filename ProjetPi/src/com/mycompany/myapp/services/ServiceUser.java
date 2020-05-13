@@ -166,5 +166,113 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return ss;
     }
+    
+    /** **/
+    public ArrayList<User> parseUsersScolarite(String jsonText) {
+        try {
+            users = new ArrayList<>();
+            JSONParser j = new JSONParser();
+            Map<String, Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            
+            List<Map<String, Object>> list = (List<Map<String, Object>>) tasksListJson.get("root");
+            for (Map<String, Object> obj : list) {
+                User t = new User();
+             
+                t.setIdentifiant(((int) Float.parseFloat(obj.get("id").toString())));
+                t.setNom(obj.get("nom").toString());
+                t.setPrenom(obj.get("prenom").toString());
+                users.add(t);
+            }
+            
+        } catch (IOException ex) {
+            
+        }
+        return users;
+    }
+    
+    public ArrayList<User> getAllEnseigants() {
+        String url = Statics.BASE_URL + "allEns/all";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsersScolarite(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return users;
+    }
+    
+    public ArrayList<User> getAllEleves() {
+        String url = Statics.BASE_URL + "ElevesC";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsersScolarite(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return users;
+    }
+    
+     public ArrayList<User> getElevesClasse(String libelle) {
+        String url = Statics.BASE_URL + "findClasseElv/"+libelle+"";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsersScolarite(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return users;
+    }
+     
+     public ArrayList<User> GetMaxMoyC(String libelle) {
+        String url = Statics.BASE_URL + "ElevesM/"+libelle+"";
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsersMoy(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return users;
+    }
+     
+     public ArrayList<User> parseUsersMoy(String jsonText) {
+        try {
+            users = new ArrayList<>();
+            JSONParser j = new JSONParser();
+            Map<String, Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            
+            List<Map<String, Object>> list = (List<Map<String, Object>>) tasksListJson.get("root");
+            for (Map<String, Object> obj : list) {
+                User t = new User();
+            
+                
+                t.setIdentifiant(((int) Float.parseFloat(obj.get("id").toString())));
+                t.setNom(obj.get("nom").toString());
+                t.setPrenom(obj.get("prenom").toString());
+                t.setMoyG(Float.parseFloat(obj.get("moyG").toString()));
+               
+                users.add(t);
+            }
+            
+        } catch (IOException ex) {
+            
+        }
+        return users;
+    }
 
 }
