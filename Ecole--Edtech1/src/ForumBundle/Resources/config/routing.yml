@@ -55,9 +55,51 @@ back_signalersuppall:
 getAllSujet:
     path:     /forum/sujet/all
     defaults: { _controller: ForumBundle:Sujet:getall }
+getrechSujet:
+  path:     /forum/sujet/rech/{texte}
+  defaults: { _controller: ForumBundle:Sujet:get }
 deleteSujetMobile:
   path:     /forum/sujet/delete/{id}
   defaults: { _controller: ForumBundle:Sujet:deleteMobile }
 addSujetMobile:
     path:     /forum/sujet/add/{titre}/{description}/{createur_id}
     defaults: { _controller: ForumBundle:Sujet:newMobile }
+modifMobile:
+    path:     /forum/sujet/modif/{id}/{titre}/{description}
+    defaults: { _controller: ForumBundle:Sujet:modifMobile }
+
+getAllComments:
+  path:     /forum/comm/all
+  defaults: { _controller: ForumBundle:Commentaire:getall }
+addCommtMobile:
+    path:     /forum/comm/add/{texte}/{sujet}/{createur_id}
+    defaults: { _controller: ForumBundle:Commentaire:newMobile }
+deleteCommMobile:
+  path:     /forum/comm/delete/{id}
+  defaults: { _controller: ForumBundle:Commentaire:deleteMobile }
+modifMobileComm:
+  path:     /forum/comm/modif/{id}/{texte}
+  defaults: { _controller: ForumBundle:Commentaire:modifMobile }
+
+addLikeMobile:
+  path:     /forum/like/add/{id}/{user}
+  defaults: { _controller: ForumBundle:Likes:newMobile }
+addLikecommMobile:
+  path:     /forum/like/add/comm/{id}/{user}
+  defaults: { _controller: ForumBundle:Likes:newCommMobile }
+getLikeMobile:
+  path:     /forum/like/all
+  defaults: { _controller: ForumBundle:Likes:getall }
+deleteLikeMobile:
+  path:     /forum/like/delete/{id}
+  defaults: { _controller: ForumBundle:Likes:deleteMobile }
+deleteLikeCommMobile:
+  path:     /forum/like/comm/delete/{id}
+  defaults: { _controller: ForumBundle:Likes:deleteMobileComm }
+
+addReportSujetMobile:
+  path:     /forum/report/add/sujet/{id}
+  defaults: { _controller: ForumBundle:Signaler:newMobileSujet }
+addReportCommMobile:
+  path:     /forum/report/add/comm/{id}
+  defaults: { _controller: ForumBundle:Signaler:newMobileComm }

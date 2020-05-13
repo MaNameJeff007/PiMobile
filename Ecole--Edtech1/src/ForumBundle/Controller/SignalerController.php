@@ -7,7 +7,11 @@ use ForumBundle\Entity\Signaler;
 use ForumBundle\Entity\Sujet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Signaler controller.
@@ -78,6 +82,52 @@ class SignalerController extends Controller
         }
         $id = $this->get('session')->get('id');
         return $this->redirectToRoute('sujet_show',["id"=>$id]);
+    }
+
+    public function newMobileSujetAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $s = $em->getRepository(Sujet::class)->find($id);
+        $ss = $em->getRepository(Signaler::class)->findOneBy(array("sujet"=>$s));
+        if ($ss==null)
+        {
+            $signaler = new Signaler();
+            $signaler->setSujet($s);
+            $signaler->setType("sujet");
+            $em->persist($signaler);
+            $em->flush();
+        }
+        else{
+            $ss->setNombre($ss->getNombre()+1);
+            $em->persist($ss);
+            $em->flush();
+        }
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($ss);
+        return new JsonResponse($formatted);
+    }
+
+    public function newMobileCommAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $s = $em->getRepository(Commentaire::class)->find($id);
+        $ss = $em->getRepository(Signaler::class)->findOneBy(array("commentaire"=>$s));
+        if ($ss==null)
+        {
+            $signaler = new Signaler();
+            $signaler->setCommentaire($s);
+            $signaler->setType("commentaire");
+            $em->persist($signaler);
+            $em->flush();
+        }
+        else{
+            $ss->setNombre($ss->getNombre()+1);
+            $em->persist($ss);
+            $em->flush();
+        }
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($ss);
+        return new JsonResponse($formatted);
     }
 
     /**

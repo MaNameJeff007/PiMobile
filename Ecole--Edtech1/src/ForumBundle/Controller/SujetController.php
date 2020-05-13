@@ -217,6 +217,25 @@ class SujetController extends Controller
         return new JsonResponse($formatted);
     }
 
+    public function getAction($texte)
+    {
+        $sujet = $this->getDoctrine()->getManager()->getRepository('ForumBundle:Sujet')->findBy(array('titre'=>$texte));
+        $serializer = new Serializer([new DateTimeNormalizer('yy-m-d H:m:s'), new GetSetMethodNormalizer()], array('jso  n' => new JsonEncoder()));
+        $formatted = $serializer->normalize($sujet);
+        return new JsonResponse($formatted);
+    }
+
+    public function modifMobileAction($id,$titre,$description)
+    {
+        $sujet = $this->getDoctrine()->getManager()->getRepository('ForumBundle:Sujet')->find($id);
+        $sujet->setTitre($titre);
+        $sujet->setDescription($description);
+        $this->getDoctrine()->getManager()->flush();
+        $serializer = new Serializer([new DateTimeNormalizer('yy-m-d H:m:s'), new GetSetMethodNormalizer()], array('jso  n' => new JsonEncoder()));
+        $formatted = $serializer->normalize($sujet);
+        return new JsonResponse($formatted);
+    }
+
     public function newMobileAction($titre,$description,$createur_id)
     {
         $em = $this->getDoctrine()->getManager();

@@ -2,11 +2,20 @@
 
 namespace ForumBundle\Controller;
 
+use AppBundle\Entity\User;
+use ForumBundle\Entity\Commentaire;
 use ForumBundle\Entity\Likes;
 use ForumBundle\Entity\Sujet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Like controller.
@@ -54,6 +63,77 @@ class LikesController extends Controller
         return $this->redirectToRoute('sujet_index', array('aa' => $aa));
     }
 
+    public function newMobileAction($id,$user)
+    {
+        $user=$this->getDoctrine()->getRepository(User::class)->find($user);
+        $sujet=$this->getDoctrine()->getRepository(Sujet::class)->find($id);
+        $like = new Likes();
+        $like->setSujet($sujet);
+        $like->setType("sujet");
+        $like->setCreateur($user->getId());
+        $em = $this->getDoctrine()->getManager();
+        $sujet->setScore($sujet->getScore()+1);
+        $em->persist($like);
+        $em->persist($sujet);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($like);
+        return new JsonResponse($formatted);
+    }
+
+    public function newCommMobileAction($id,$user)
+    {
+        $user=$this->getDoctrine()->getRepository(User::class)->find($user);
+        $comm=$this->getDoctrine()->getRepository(Commentaire::class)->find($id);
+        $like = new Likes();
+        $like->setCommentaire($comm);
+        $like->setType("commentaire");
+        $like->setCreateur($user->getId());
+        $em = $this->getDoctrine()->getManager();
+        $comm->setScore($comm->getScore()+1);
+        $em->persist($like);
+        $em->persist($comm);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($like);
+        return new JsonResponse($formatted);
+    }
+
+    public function getallAction()
+    {
+        $like = $this->getDoctrine()->getManager()->getRepository('ForumBundle:Likes')->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($like);
+        return new JsonResponse($formatted);
+    }
+
+    public function deleteMobileAction($id)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $aa = $en->getRepository(Likes::class)->find($id);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($aa);
+        $en->remove($aa);
+        $sujet=$en->getRepository(Sujet::class)->find($aa->getSujet()->getId());
+        $sujet->setScore($sujet->getScore()-1);
+        $en->persist($sujet);
+        $en->flush();
+        return new JsonResponse($formatted);
+    }
+
+    public function deleteMobileCommAction($id)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $aa = $en->getRepository(Likes::class)->find($id);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($aa);
+        $en->remove($aa);
+        $comm=$en->getRepository(Commentaire::class)->find($aa->getCommentaire()->getId());
+        $comm->setScore($comm->getScore()-1);
+        $en->persist($comm);
+        $en->flush();
+        return new JsonResponse($formatted);
+    }
 
     public function newshowAction(Request $request, Sujet $sujet)
     {

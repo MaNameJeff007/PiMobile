@@ -2,11 +2,19 @@
 
 namespace ForumBundle\Controller;
 
+use AppBundle\Entity\User;
 use ForumBundle\Entity\Commentaire;
 use ForumBundle\Entity\Sujet;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Commentaire controller.
@@ -140,6 +148,52 @@ class CommentaireController extends Controller
         return $this->redirect('http://127.0.0.1:8000/backF/commentaire/'.$id);
     }
 
+
+    public function getallAction()
+    {
+        $c = $this->getDoctrine()->getManager()->getRepository('ForumBundle:Commentaire')->findAll();
+        $serializer = new Serializer([new DateTimeNormalizer('yy-m-d H:m:s'), new GetSetMethodNormalizer()], array('jso  n' => new JsonEncoder()));
+        $formatted = $serializer->normalize($c);
+        return new JsonResponse($formatted);
+    }
+
+    public function newMobileAction($texte,$sujet,$createur_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $c = new Commentaire();
+        $user=$this->getDoctrine()->getRepository(User::class)->find($createur_id);
+        $c->setSujet( $this->getDoctrine()->getManager()->getRepository('ForumBundle:Sujet')->find($sujet));
+        $c->setCreateur($user->getId());
+        $c->setTexte($texte);
+        $c->setDate(new \DateTime('now'));
+        $c->setScore(0);
+        $em->persist($c);
+        $em->flush();
+        $serializer = new Serializer([new DateTimeNormalizer('yy-m-d H:m:s'), new GetSetMethodNormalizer()], array('jso  n' => new JsonEncoder()));
+        $formatted = $serializer->normalize($c);
+        return new JsonResponse($formatted);
+    }
+
+    public function deleteMobileAction($id)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $aa = $en->getRepository(Commentaire::class)->find($id);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($aa);
+        $en->remove($aa);
+        $en->flush();
+        return new JsonResponse($formatted);
+    }
+
+    public function modifMobileAction($id,$texte)
+    {
+        $c = $this->getDoctrine()->getManager()->getRepository('ForumBundle:Commentaire')->find($id);
+        $c->setTexte($texte);
+        $this->getDoctrine()->getManager()->flush();
+        $serializer = new Serializer([new DateTimeNormalizer('yy-m-d H:m:s'), new GetSetMethodNormalizer()], array('jso  n' => new JsonEncoder()));
+        $formatted = $serializer->normalize($c);
+        return new JsonResponse($formatted);
+    }
     /**
      * Creates a form to delete a commentaire entity.
      *
