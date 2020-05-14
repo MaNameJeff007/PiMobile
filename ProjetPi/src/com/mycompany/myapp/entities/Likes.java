@@ -17,6 +17,9 @@ public class Likes {
     private int createur_id;
     private String type;
 
+    public Likes() {
+    }
+
     public Likes(int sujet_id, int createur_id, String type) {
         this.like_id = like_id;
         this.sujet_id = sujet_id;

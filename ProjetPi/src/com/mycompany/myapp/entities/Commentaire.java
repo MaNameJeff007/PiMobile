@@ -28,6 +28,9 @@ public class Commentaire {
         this.score = score;
     }
 
+    public Commentaire() {
+    }
+
     public Commentaire(int sujet_id, int createur_id, String texte, String date, int score) {
         this.sujet_id = sujet_id;
         this.createur_id = createur_id;
