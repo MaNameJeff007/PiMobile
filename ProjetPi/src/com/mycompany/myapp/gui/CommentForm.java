@@ -42,6 +42,7 @@ public class CommentForm extends com.codename1.ui.Form {
 
     public CommentForm(Sujet s) {
         refresh(s);
+        revalidate();
     }
 
     private void refresh(Sujet s) {

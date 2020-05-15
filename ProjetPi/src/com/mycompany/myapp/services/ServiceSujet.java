@@ -136,6 +136,27 @@ public class ServiceSujet {
         return sujet;
     }
 
+    public ArrayList<Sujet> getRechSujet(String s) {
+        String url = Statics.BASE_URL + "forum/sujet/rech/"+s;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+
+                try {
+                    sujet = parseSujet(new String(req.getResponseData()));
+                } catch (ParseException ex) {
+
+                }
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return sujet;
+    }
+
     public Sujet getSujet(int id) {
         String url = Statics.BASE_URL + "forum/sujet/all";
         req.setUrl(url);

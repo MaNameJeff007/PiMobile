@@ -77,6 +77,12 @@ public class ForumForm extends Form {
         if (auto.getTensileLength() > 4) {
             getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
         }
+        recherche.addActionListener((e) -> {
+           for (Sujet ss : ServiceSujet.getInstance().getRechSujet(auto.getText())) {
+               resh();
+                add(addItem(ss));
+            }
+        });
         getToolbar().addMaterialCommandToLeftSideMenu("forum", FontImage.MATERIAL_FORUM, e -> new ForumForm(current).show());
         getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD_CIRCLE, e -> new AddSujetForm().show());
         for (Sujet s : ServiceSujet.getInstance().getAllSujet()) {
@@ -84,6 +90,38 @@ public class ForumForm extends Form {
         }
     }
 
+private void resh()
+{
+    removeAll();
+        Container cnt1 = new Container(BoxLayout.x());
+        Button recherche = new Button("");
+
+        final DefaultListModel<String> options = new DefaultListModel<>();
+        AutoCompleteTextField auto = new AutoCompleteTextField(options) {
+            @Override
+            protected boolean filter(String text) {
+                if (text.length() == 0) {
+                    return false;
+                }
+                ArrayList<String> l = searchLocations(text);
+                if (l == null || l.size() == 0) {
+                    return false;
+                }
+                options.removeAll();
+                for (String s : l) {
+                    options.addItem(s);
+                }
+                return true;
+            }
+        };
+        auto.setMinimumElementsShownInPopup(5);
+        FontImage.setMaterialIcon(recherche, FontImage.MATERIAL_FIND_IN_PAGE);
+        cnt1.addAll(recherche, auto);
+        add(cnt1);
+        if (auto.getTensileLength() > 4) {
+            getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
+        }
+}
     private void refresh() {
         removeAll();
         Container cnt1 = new Container(BoxLayout.x());
@@ -114,13 +152,17 @@ public class ForumForm extends Form {
         if (auto.getTensileLength() > 4) {
             getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
         }
-       
+       recherche.addActionListener((e) -> {
+           for (Sujet ss : ServiceSujet.getInstance().getRechSujet(auto.getText())) {
+               resh();
+                add(addItem(ss));
+            }
+        });
         for (Sujet ss : ServiceSujet.getInstance().getAllSujet()) {
             add(addItem(ss));
             show();
         }
     }
-
     private Container addItem(Sujet s) {
         Container cnt1 = new Container(BoxLayout.y());
         //Label l1 = new Label(Integer.toString(s.getSujet_id()));
@@ -178,8 +220,8 @@ public class ForumForm extends Form {
                 System.out.println(s.getTitre());
             }
         });
-        btnsupprimer.addActionListener((e) -> {
-            if (ServiceSujet.getInstance().deleteSujet(s.getSujet_id())) {
+        btnlike.addActionListener((e) -> {
+            if (ServiceLike.getInstance().addLike(s)) {
                 refresh();
             } else {
                 System.out.println(s.getTitre());
