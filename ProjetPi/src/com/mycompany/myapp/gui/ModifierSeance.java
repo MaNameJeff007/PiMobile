@@ -38,7 +38,8 @@ public class ModifierSeance extends Form {
     public boolean checkSeances(Seance t) {
         for (int i = 0; i < ServiceSeance.getInstance().getAllSeances().size(); i++) {
             Seance sc = ServiceSeance.getInstance().getAllSeances().get(i);
-            if ((t.getSalle().getLibelle().equals(sc.getSalle().getLibelle())) && (t.getHdeb().equals(sc.getHdeb()))) {
+            if ((t.getSalle().getLibelle().equals(sc.getSalle().getLibelle())) && (t.getHdeb().equals(sc.getHdeb()))
+                    && (t.getJour().equals(sc.getJour()))  ) {
                 return true;
             }
 
@@ -47,6 +48,7 @@ public class ModifierSeance extends Form {
                 return true;
 
             }
+
         }
         return false;
     }
