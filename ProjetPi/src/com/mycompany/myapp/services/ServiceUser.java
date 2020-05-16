@@ -69,6 +69,13 @@ public class ServiceUser {
                 u.setPrenom(obj.get("prenom").toString());
                 u.setEmail(obj.get("email").toString());
                 u.setRoles(obj.get("roles").toString());
+                
+                if(u.getRoles().contains("ENSEIGNANT"))
+                {u.setClasseenseignant_id(obj.get("classeenseignant_id").toString());}
+                else if(u.getRoles().contains("ELEVE"))
+                {u.setClasseeleve_id(obj.get("classeeleve_id").toString());}
+                
+           
                 // System.out.println(obj.get("classedeseleves").toString());
                 users.add(u);
             }
@@ -145,6 +152,10 @@ public class ServiceUser {
                             ss.setPrenom(obj.getPrenom());
                             ss.setEmail(obj.getEmail());
                             ss.setRoles(obj.getRoles());
+                            
+                            if(ss.getRoles().contains("ENSEIGNANT"))
+                            {ss.setClasseenseignant_id(obj.getClasseenseignant_id());}
+                            
                             test = true;
                         }
                     }

@@ -26,3 +26,27 @@ sanctions_changeretat:
     path:   /{id}/changeretat
     defaults: { _controller: "EnseignantBundle:Sanctions:changeretat" }
 
+sanctions_all:
+    path:   /all/{id}
+    defaults: { _controller: "EnseignantBundle:Sanctions:all" }
+
+sanctions_sanctionseleve:
+    path:   /sanctionseleve/{id}
+    defaults: { _controller: "EnseignantBundle:Sanctions:sanctionseleve" }
+
+sanctions_ajouter:
+    path:   /ajouter
+    defaults: { _controller: "EnseignantBundle:Sanctions:ajouter" }
+
+sanctions_modifier:
+    path:   /modifier
+    defaults: { _controller: "EnseignantBundle:Sanctions:modifier" }
+
+sanctions_supprimer:
+    path:   /supprimer
+    defaults: { _controller: "EnseignantBundle:Sanctions:supprimer" }
+
+
+
+
+

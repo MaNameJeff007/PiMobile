@@ -25,3 +25,27 @@ absences_delete:
 absences_changeretat:
     path:   /{id}/changeretat
     defaults: { _controller: "EnseignantBundle:Absences:changeretat" }
+
+absences_all:
+    path:   /all/{id}
+    defaults: { _controller: "EnseignantBundle:Absences:all" }
+
+absences_absenceseleve:
+    path:   /absenceseleve/{id}
+    defaults: { _controller: "EnseignantBundle:Absences:absenceseleve" }
+
+absences_ajouter:
+    path:   /ajouter
+    defaults: { _controller: "EnseignantBundle:Absences:ajouter" }
+
+absences_modifier:
+    path:   /modifier
+    defaults: { _controller: "EnseignantBundle:Absences:modifier" }
+
+absences_supprimer:
+    path:   /supprimer
+    defaults: { _controller: "EnseignantBundle:Absences:supprimer" }
+
+absences_verifier:
+    path:   /verifier
+    defaults: { _controller: "EnseignantBundle:Absences:verifier" }

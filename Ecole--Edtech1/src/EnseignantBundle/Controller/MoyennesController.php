@@ -188,4 +188,186 @@ class MoyennesController extends Controller
             ->getForm()
         ;
     }
+
+
+    public function ajouterAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $moy = new Moyennes();
+
+        $eleve = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneById($request->get('eleve'));
+        $matiere = $this->getDoctrine()->getManager()->getRepository('EnseignantBundle:Matiere')->findOneById($request->get('matiere'));
+
+        $moy->setTrimestre($request->get('trimestre'));
+        $moy->setMatiere($matiere);
+        $moy->setEleve($eleve);
+        $moy->setMoyenne($request->get('moyenne'));
+
+        $em->persist($moy);
+        $em->flush();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setIgnoredAttributes(array('eleve', 'matiere'));
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($moy);
+        return new JsonResponse($formatted);
+    }
+
+    public function modifierAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $moy=$em->getRepository('EnseignantBundle:Moyennes')->findOneById($request->get('id'));
+        $moy->setMoyenne($request->get('moyenne'));
+        $em->flush();
+        return new JsonResponse("modification reussie.");
+    }
+
+    public function verifierAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql="SELECT * FROM moyennes WHERE eleve_id=? AND matiere=? AND trimestre=?";
+        $statement = $em->getConnection()->prepare($sql);
+        $statement->bindValue(3, $request->get('trimestre'));
+        $statement->bindValue(1, $request->get('eleve'));
+        $statement->bindValue(2, $request->get('matiere'));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+    public function allAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT moyennes.id, moyennes.trimestre, moyennes.eleve_id, moyennes.matiere, user.prenom, user.nom as eleve_nom, matiere.nom as matiere_nom, moyennes.moyenne FROM `moyennes` INNER JOIN user ON moyennes.eleve_id=user.id INNER JOIN matiere ON moyennes.matiere=matiere.id WHERE user.classeeleve_id=? ORDER BY eleve_id ASC";
+
+        $statement = $em->getConnection()->prepare($sql);
+        $statement->bindValue(1, $request->get('classeenseignant'));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+    public function moyenneseleveAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT moyennes.id, moyennes.trimestre, moyennes.eleve_id, moyennes.matiere, user.prenom, user.nom as eleve_nom, matiere.nom as matiere_nom, moyennes.moyenne FROM `moyennes` INNER JOIN user ON moyennes.eleve_id=user.id INNER JOIN matiere ON moyennes.matiere=matiere.id WHERE user.id=? ORDER BY eleve_id ASC";
+
+        $statement = $em->getConnection()->prepare($sql);
+        $statement->bindValue(1, $request->get('id'));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+    public function supprimerAction(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $moy = $entityManager->getRepository('EnseignantBundle:Moyennes')->findOneById($request->get('id'));
+        $entityManager->remove($moy);
+        $entityManager->flush();
+        return new JsonResponse("suppression reussie.");
+    }
+
+    public function moyennestatsAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql="SELECT moyennes.id, moyennes.trimestre, moyennes.eleve_id, moyennes.matiere, user.prenom, user.nom as eleve_nom, matiere.nom as matiere_nom, moyennes.moyenne FROM `moyennes` INNER JOIN user ON moyennes.eleve_id=user.id INNER JOIN matiere ON moyennes.matiere=matiere.id WHERE eleve_id =? AND matiere =? ORDER BY moyennes.trimestre ASC";;
+
+        $statement = $em->getConnection()->prepare($sql);
+        $statement->bindValue(1, $request->get('eleve'));
+        $statement->bindValue(2, $request->get('matiere'));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+    public function getMatiereStatsMoyennesAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql="SELECT matiere.id,  matiere.nom, moyennes.moyenne FROM `moyennes` INNER JOIN user ON moyennes.eleve_id=user.id INNER JOIN matiere ON moyennes.matiere=matiere.id WHERE eleve_id =? GROUP BY matiere.id";
+
+        $statement = $em->getConnection()->prepare($sql);
+        $statement->bindValue(1, $request->get('eleve'));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
 }

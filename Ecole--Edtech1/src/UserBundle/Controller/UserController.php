@@ -180,6 +180,7 @@ class UserController extends Controller
             'moyennes' => $moyennes,));
     }
 
+
     public function usernotesAction($id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -266,4 +267,48 @@ class UserController extends Controller
         ));
     }
 
+    
+    public function listeelevesAction($classe)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT * FROM `user` WHERE classeeleve_id=? AND `roles` LIKE 'a:1:{i:0;s:10:\"ROLE_ELEVE\";}'";
+
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $classe);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+    public function elevesparparentAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT user.id, user.prenom, user.nom, user.classeeleve_id, user.roles, classe.niveau FROM user INNER JOIN classe ON user.classeeleve_id = classe.id WHERE user.parent_id=?";
+
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $request->get("parentid"));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
 }

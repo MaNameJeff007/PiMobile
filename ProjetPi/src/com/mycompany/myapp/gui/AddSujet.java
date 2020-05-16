@@ -11,7 +11,7 @@ public class AddSujet extends Form  {
         initGuiBuilderComponents(resourceObjectInstance);
     }
 
-//-- DON'T EDIT BELOW THIS LINE!!!
+////-- DON'T EDIT BELOW THIS LINE!!!
 
 
 // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
@@ -22,5 +22,6 @@ public class AddSujet extends Form  {
         setTitle("AddSujet");
         setName("AddSujet");
     }// </editor-fold>
+
 //-- DON'T EDIT ABOVE THIS LINE!!!
 }

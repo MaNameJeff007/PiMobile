@@ -43,6 +43,12 @@ public class Matiere {
         this.nom = nom;
         this.nbH = nbH;
     }
+    
+     public Matiere(String id, String nom)
+    {
+        this.nom=nom;
+        this.id=id;
+    }
 
     public Matiere() {
     }

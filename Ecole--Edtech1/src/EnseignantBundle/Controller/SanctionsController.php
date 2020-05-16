@@ -136,4 +136,114 @@ class SanctionsController extends Controller
             ->getForm()
         ;
     }
+
+        public function allAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql="SELECT sanctions.id, sanctions.enseignant_id, sanctions.eleve_id, sanctions.date_sanction, sanctions.raisonsanction, sanctions.etat, sanctions.punition, user.prenom, user.nom FROM `sanctions` INNER JOIN user ON user.id=sanctions.eleve_id WHERE enseignant_id=? ORDER BY sanctions.eleve_id ASC";
+        $statement = $em->getConnection()->prepare($sql);
+
+        // Set parameters
+        $statement->bindValue(1, $id);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+
+    public function sanctionseleveAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql="SELECT sanctions.id, sanctions.enseignant_id, sanctions.eleve_id, sanctions.date_sanction, sanctions.raisonsanction, sanctions.etat, sanctions.punition, user.prenom, user.nom FROM `sanctions` INNER JOIN user ON user.id=sanctions.eleve_id WHERE eleve_id=? ORDER BY sanctions.punition ASC";
+        $statement = $em->getConnection()->prepare($sql);
+
+        // Set parameters
+        $statement->bindValue(1, $id);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+    public function ajouterAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sanction=new Sanctions();
+
+        $enseignant = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneById($request->get('enseignant'));
+        $eleve = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneById($request->get('eleve'));
+
+        $sanction->setEnseignant($enseignant);
+        $sanction->setEleve($eleve);
+        $sanction->setEtat($request->get('etat'));
+
+        $literalTime    =   \DateTime::createFromFormat("Y-m-d", $request->get('date'));
+        $sanction->setDateSanction($literalTime);
+        $sanction->setPunition($request->get('punition'));
+        $sanction->setRaisonsanction($request->get('raison'));
+
+        $em->persist($sanction);
+        $em->flush();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setIgnoredAttributes(array('enseignant', 'eleve'));
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($sanction);
+        return new JsonResponse($formatted);
+    }
+
+    public function modifierAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sanction=$em->getRepository('EnseignantBundle:Sanctions')->findOneById($request->get('id'));
+        $sanction->setPunition($request->get('punition'));
+        $sanction->setRaisonsanction($request->get('justification'));
+        $em->flush();
+        return new JsonResponse("modification reussie.");
+    }
+
+    public function supprimerAction(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $sanction = $entityManager->getRepository('EnseignantBundle:Sanctions')->findOneById($request->get('id'));
+        $entityManager->remove($sanction);
+        $entityManager->flush();
+        return new JsonResponse("suppression reussie.");
+    }
 }

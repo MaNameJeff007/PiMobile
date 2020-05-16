@@ -21,3 +21,43 @@ notes_edit:
 notes_delete:
     path:     /{id}/delete
     defaults: { _controller: "EnseignantBundle:Notes:delete" }
+
+notes_ajouter:
+    path:   /ajouter
+    defaults: { _controller: "EnseignantBundle:Notes:ajouter" }
+
+notes_all:
+    path:   /all/{id}
+    defaults: { _controller: "EnseignantBundle:Notes:all" }
+
+notes_noteseleve:
+    path:   /noteseleve/{id}
+    defaults: { _controller: "EnseignantBundle:Notes:noteseleve" }
+
+notes_supprimer:
+    path:   /supprimer
+    defaults: { _controller: "EnseignantBundle:Notes:supprimer" }
+
+notes_getMatieres:
+    path:   /getMatieres
+    defaults: { _controller: "EnseignantBundle:Notes:getMatieres" }
+
+notes_verifiernote:
+    path:   /verifiernote
+    defaults: { _controller: "EnseignantBundle:Notes:verifiernote" }
+
+notes_modifierNote:
+    path:   /modifierNote
+    defaults: { _controller: "EnseignantBundle:Notes:modifierNote" }
+
+notes_getnotespourmoyenne:
+    path:   /getnotespourmoyenne
+    defaults: { _controller: "EnseignantBundle:Notes:getnotespourmoyenne" }
+
+notes_mailnote:
+    path:   /mailnote
+    defaults: { _controller: "EnseignantBundle:Notes:mailnote"}
+
+notes_notestats:
+    path:   /notestats
+    defaults:  { _controller: "EnseignantBundle:Notes:notestats"}

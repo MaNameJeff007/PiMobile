@@ -41,15 +41,27 @@ user_indexclasses:
 user_admin:
     path:     /adminhomepage
     defaults: { _controller: UserBundle:User:adminPage }
+    
 user_reclamation:
     path:     /enseignantrec
     defaults: { _controller: UserBundle:User:reclamationenseignant }
+
 reclam_enseignant:
     path:   /reclamationenseignant
     defaults: { _controller: UserBundle:User:reclam}
+
 traiterreclam_enseignant:
     path:   /traiterreclamation/{id}
     defaults: { _controller: UserBundle:User:traiterreclam}
+
 login_users:
     path:     /loginMobile/{username}
     defaults: { _controller: UserBundle:Default:login}
+
+user_listeeleves:
+    path:   /listeeleves/{classe}
+    defaults: { _controller: UserBundle:User:listeeleves}
+    
+user_elevesparparent:
+    path:   /elevesparparent
+    defaults: { _controller: UserBundle:User:elevesparparent}

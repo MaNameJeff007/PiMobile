@@ -21,3 +21,36 @@ moyennes_edit:
 moyennes_delete:
     path:     /{id}/delete
     defaults: { _controller: "EnseignantBundle:Moyennes:delete" }
+
+moyennes_ajouter:
+    path:   /ajouter
+    defaults: { _controller: "EnseignantBundle:Moyennes:ajouter" }
+
+moyennes_supprimer:
+    path:   /supprimer
+    defaults: { _controller: "EnseignantBundle:Moyennes:supprimer" }
+
+moyennes_verifier:
+    path:   /verifier
+    defaults: { _controller: "EnseignantBundle:Moyennes:verifier" }
+
+moyennes_modifier:
+    path:   /modifier
+    defaults: { _controller: "EnseignantBundle:Moyennes:modifier" }
+
+moyennes_all:
+    path:   /all
+    defaults: { _controller: "EnseignantBundle:Moyennes:all" }
+
+moyennes_moyenneseleve:
+    path:   /moyenneseleve
+    defaults: { _controller: "EnseignantBundle:Moyennes:moyenneseleve" }
+
+moyennes_moyennestats:
+    path:   /moyennestats
+    defaults:  { _controller: "EnseignantBundle:Moyennes:moyennestats"}
+
+moyennes_getMatiereStatsMoyennes:
+    path:   /getMatiereStatsMoyennes
+    defaults:  { _controller: "EnseignantBundle:Moyennes:getMatiereStatsMoyennes"}
+

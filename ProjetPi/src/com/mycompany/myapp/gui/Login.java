@@ -42,6 +42,9 @@ public class Login extends com.codename1.ui.Form {
         currentUser.setPrenom(u.getPrenom());
         currentUser.setEmail(u.getEmail());
         currentUser.setRoles(u.getRoles());
+        
+        if(currentUser.getRoles().contains("ENSEIGNANT"))
+            currentUser.setClasseenseignant_id(u.getClasseenseignant_id());
     }
 
     public Login() {

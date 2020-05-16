@@ -25,10 +25,48 @@ public class User {
     private float MoyG;
     private static int workload = 5;
     private int code;
+    private String classe;
 
     public User() {
 
     }
+    
+    //amine//
+    
+     public User(int identifiant, String nom, String prenom, String role, String classeeleve_id, String classeenseignant_id, String parent_id) 
+    {
+        this.identifiant = identifiant;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.roles=role;
+        this.classeeleve_id = classeeleve_id;
+        this.classeenseignant_id = classeenseignant_id;
+        this.parent_id = parent_id;
+    }
+    
+    public User(int identifiant, String nom, String prenom, String role, String classeeleve_id, String classeenseignant_id, String parent_id, String classe) 
+    {
+        this.identifiant = identifiant;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.roles=role;
+        this.classeeleve_id = classeeleve_id;
+        this.classeenseignant_id = classeenseignant_id;
+        this.parent_id = parent_id;
+        this.classe=classe;
+    }
+
+    public User(String nom, String prenom, String role, String classeeleve_id, String classeenseignant_id, String parent_id) 
+    {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.roles=role;
+        this.classeeleve_id = classeeleve_id;
+        this.classeenseignant_id = classeenseignant_id;
+        this.parent_id = parent_id;
+    }
+
+    //amine//
 
     public User(int identifiant, String prenom, String nom, String id_classe) {
         this.identifiant = identifiant;
@@ -216,5 +254,13 @@ public class User {
 
     public void setCode(int code) {
         this.code = code;
+    }
+    
+    public String getClasse() {
+        return classe;
+    }
+
+    public void setClasse(String classe_niveau) {
+        this.classe = classe_niveau;
     }
 }

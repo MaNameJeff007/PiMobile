@@ -135,4 +135,146 @@ class AbsencesController extends Controller
             ->getForm()
         ;
     }
+
+    
+    public function allAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql = "SELECT absences.id, absences.dateabs, absences.justification, absences.heuredebut, absences.heurefin, absences.etat, absences.enseignant_id, absences.eleve_id, user.prenom, user.nom FROM `absences` INNER JOIN user ON absences.eleve_id=user.id WHERE enseignant_id=? ORDER BY absences.eleve_id ASC";
+        $statement = $em->getConnection()->prepare($sql);
+
+        // Set parameters
+        $statement->bindValue(1, $id);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+
+    public function absenceseleveAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $sql = "SELECT absences.id, absences.dateabs, absences.justification, absences.heuredebut, absences.heurefin, absences.etat, absences.enseignant_id, absences.eleve_id, user.prenom, user.nom FROM `absences` INNER JOIN user ON absences.eleve_id=user.id WHERE eleve_id=?";
+        $statement = $em->getConnection()->prepare($sql);
+
+        // Set parameters
+        $statement->bindValue(1, $id);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+
+    public function ajouterAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $absence=new Absences();
+
+        $enseignant = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneById($request->get('enseignant'));
+        $eleve = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneById($request->get('eleve'));
+
+        $absence->setEnseignant($enseignant);
+        $absence->setEleve($eleve);
+        $absence->setJustification($request->get('justification'));
+        $absence->setEtat($request->get('etat'));
+        $absence->setHeuredebut($request->get('heuredebut'));
+        $absence->setHeurefin($request->get('heurefin'));
+
+        $literalTime    =   \DateTime::createFromFormat("Y-m-d", $request->get('date'));
+        $absence->setDateAbs($literalTime);
+
+        $em->persist($absence);
+        $em->flush();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setIgnoredAttributes(array('enseignant', 'eleve'));
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($absence);
+        return new JsonResponse($formatted);
+    }
+
+    public function modifierAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $abs=$em->getRepository('EnseignantBundle:Absences')->findOneById($request->get('id'));
+        $bool=filter_var($request->get('etat'), FILTER_VALIDATE_BOOLEAN);
+        $abs->setEtat($bool);
+        $abs->setJustification($request->get('justification'));
+        $em->flush();
+        return new JsonResponse("modification reussie.");
+    }
+
+    public function supprimerAction(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $abs = $entityManager->getRepository('EnseignantBundle:Absences')->findOneById($request->get('id'));
+        $entityManager->remove($abs);
+        $entityManager->flush();
+        return new JsonResponse("suppression reussie.");
+    }
+
+    public function verifierAction(Request $request)
+    {
+        $sql="SELECT * FROM absences WHERE heuredebut=? AND heurefin=? and dateabs=? AND eleve_id=?";
+        $em = $this->getDoctrine()->getManager();
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $request->get('heuredebut'));
+        $statement->bindValue(2, $request->get('heurefin'));
+        $statement->bindValue(3, $request->get('date'));
+        $statement->bindValue(4, $request->get('eleve'));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceHandler(function ($object)
+        {
+            return $object->getId();
+        });
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
 }
