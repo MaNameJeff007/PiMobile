@@ -41,13 +41,13 @@ public class HomeForm extends Form {
         add(menuScolarite);
         if(currentUser.getRoles().contains("ENSEIGNANT"))
         {
-          getToolbar().addMaterialCommandToLeftSideMenu("Enseignant", FontImage.MATERIAL_NOTE, e -> new HomeForm().show());  
+          getToolbar().addMaterialCommandToLeftSideMenu("Enseignant", FontImage.MATERIAL_NOTE, e -> new HomeEnseignantForm().show());  
         }
         
         
         else if(currentUser.getRoles().contains("PARENT"))
         {
-          getToolbar().addMaterialCommandToLeftSideMenu("Parent", FontImage.MATERIAL_PERSON, e -> new HomeForm().show());     
+          getToolbar().addMaterialCommandToLeftSideMenu("Parent", FontImage.MATERIAL_PERSON, e -> new ListElevesParentForm().show());     
         }
         
         getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());

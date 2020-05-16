@@ -10,6 +10,8 @@ import com.codename1.ui.util.Resources;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.myapp.gui.HomeForm;
+import com.mycompany.myapp.gui.Login;
+import com.mycompany.myapp.gui.LoginForm;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -91,7 +93,8 @@ public class MyApplication {
          home.show();*/
 
         Toolbar.setGlobalToolbar(true);
-        new HomeForm().show();
+        //new HomeForm().show();
+        new Login().show();
     }
 
     private void showOKForm(String name) {

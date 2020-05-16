@@ -50,7 +50,8 @@ public class ServiceUser {
         return instance;
     }
 
-    public ArrayList<User> parseUsers(String jsonText) {
+    public ArrayList<User> parseUsers(String jsonText) 
+    {
         try {
             users = new ArrayList<>();
             JSONParser j = new JSONParser();

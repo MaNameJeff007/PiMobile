@@ -70,11 +70,8 @@ public class MoyennesEleveForm extends Form
             @Override
             public void actionPerformed(ActionEvent evt) 
             {
-                String mt=matieres.getSelectedItem().substring(0,2);
-
-    
-                        
-                        
+                ListElevesParentForm.stats=1;    
+                String mt=matieres.getSelectedItem().substring(0,2);         
                 Boolean flag = Character.isDigit(mt.charAt(1));
                 if(flag) 
                 {

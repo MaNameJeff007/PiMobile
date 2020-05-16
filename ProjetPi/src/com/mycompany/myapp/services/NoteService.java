@@ -196,7 +196,7 @@ public class NoteService
     
     public ArrayList<Note> getNotesEleve(int eleve_id)
     {
-        String url = Statics.BASE_URL+"/notes/noteseleve/"+eleve_id;
+        String url = Statics.BASE_URL+"notes/noteseleve/"+eleve_id;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {

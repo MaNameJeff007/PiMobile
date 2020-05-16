@@ -19,6 +19,7 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
 import com.mycompany.myapp.entities.User;
+import static com.mycompany.myapp.gui.Login.currentUser;
 import com.mycompany.myapp.services.UserService;
 import java.util.ArrayList;
 
@@ -28,17 +29,19 @@ import java.util.ArrayList;
  * @author rami2
  */
 public class ListElevesParentForm extends Form 
-{   
+{
+    static int stats=-1;
+    
     public ListElevesParentForm(/*Form previous*/)
     {
         setTitle("Liste de vos enfants: ");
         Form list = new Form("Vos enfants:", BoxLayout.y());
         ArrayList<User> arr = new ArrayList<>();
-       
+        int id=currentUser.getIdentifiant();
         
-        for (int i = 0; i < UserService.getInstance().getElevesparparent(8).size(); i++) 
+        for (int i = 0; i < UserService.getInstance().getElevesparparent(id).size(); i++) 
         {
-            arr.add(UserService.getInstance().getElevesparparent(8).get(i));
+            arr.add(UserService.getInstance().getElevesparparent(id).get(i));
         }
 
         for (User us : arr) 

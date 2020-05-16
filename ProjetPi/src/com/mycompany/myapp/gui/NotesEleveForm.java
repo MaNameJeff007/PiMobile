@@ -23,6 +23,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
 import com.mycompany.myapp.entities.Note;
 import com.mycompany.myapp.entities.User;
+import static com.mycompany.myapp.gui.Login.currentUser;
 import com.mycompany.myapp.services.MatiereService;
 import com.mycompany.myapp.services.NoteService;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 public class NotesEleveForm extends Form{
     
     private Form current;
-   public static int eleveNote;
+    public static int eleveNote;
     public static int matiereNote;
     public static String typeNote;
     public static String nomMatiereNote;
@@ -44,8 +45,7 @@ public class NotesEleveForm extends Form{
         setTitle("Liste des notes de l'eleve: "+U.getPrenom());
         Form list = new Form("Notes:", BoxLayout.y());
         ArrayList<Note> arr = new ArrayList<>();
-       
-        
+            
         for (int i = 0; i < NoteService.getInstance().getNotesEleve(U.getIdentifiant()).size(); i++) 
         {
             arr.add(NoteService.getInstance().getNotesEleve(U.getIdentifiant()).get(i));
@@ -78,11 +78,8 @@ public class NotesEleveForm extends Form{
             @Override
             public void actionPerformed(ActionEvent evt) 
             {
-                String mt=matieres.getSelectedItem().substring(0,2);
-
-    
-                        
-                        
+                ListElevesParentForm.stats=1;
+                String mt=matieres.getSelectedItem().substring(0,2);           
                 Boolean flag = Character.isDigit(mt.charAt(1));
                 if(flag) 
                 {
@@ -98,6 +95,7 @@ public class NotesEleveForm extends Form{
                 matiereNote=Integer.valueOf(mt);
                 typeNote=types.getSelectedItem();
                 nomMatiereNote=matieres.getSelectedItem();
+                
                 ChartDemosForm demos = new ChartDemosForm();
                 current= demos;
                 demos.show(); 

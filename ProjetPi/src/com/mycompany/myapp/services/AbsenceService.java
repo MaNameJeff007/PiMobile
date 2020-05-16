@@ -154,7 +154,7 @@ public class AbsenceService
     
     public ArrayList<Absence> getAbsences(int enseignant_id)
     {
-        String url = Statics.BASE_URL+"/absences/all/"+enseignant_id;
+        String url = Statics.BASE_URL+"absences/all/"+enseignant_id;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -171,7 +171,7 @@ public class AbsenceService
     
     public ArrayList<Absence> getAbsencesEleve(int eleve_id)
     {
-        String url = Statics.BASE_URL+"/absences/absenceseleve/"+eleve_id;
+        String url = Statics.BASE_URL+"absences/absenceseleve/"+eleve_id;
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {

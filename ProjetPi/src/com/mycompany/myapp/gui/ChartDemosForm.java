@@ -40,17 +40,27 @@ public class ChartDemosForm extends Form
         }
     }
     
-    ListOption[] options = new ListOption[]{
-        //new ListOption(AverageCubicTemperatureChart.class, "Avg. Cubic Temperature"),
+    ListOption[] options = new ListOption[]{new ListOption(NotesChart.class, "Notes")};
+
         
-        new ListOption(NotesChart.class, "Notes"),
-        new ListOption(MoyennesChart.class, "Moyennes"),
-        //new ListOption(AverageTemperatureChart.class, "Avg. Temperature"),
-    };
+    //    new ListOption(NotesChart.class, "Notes"),
+     //   new ListOption(MoyennesChart.class, "Moyennes"),
+    //};
     
     public ChartDemosForm()
     {
-        super("A Chart Engine Demo");
+        super("Statistiques");
+         
+        if(ListElevesParentForm.stats==1)
+        {
+          options[0]=new ListOption(NotesChart.class, "Notes");  
+        }
+        else if(ListElevesParentForm.stats==0)
+        {
+          options[0]=new ListOption(MoyennesChart.class, "Moyennes");
+        }
+        
+        
         formMenu = new List();
         for ( int i=0; i<options.length; i++){
             formMenu.addItem(options[i]);

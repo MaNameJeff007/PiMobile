@@ -17,15 +17,17 @@ class DefaultController extends Controller
 
     public function loginAction($username)
     {
-        $entityManager = $this->getDoctrine()->getManager();
-        $query = $entityManager->createQuery(
-            'SELECT u
-             FROM AppBundle:User u        
-             WHERE u.username = :username'
-        )->setParameters(array(
-                'username'=>$username)
-        );
-       $user = $query->getResult();
+        $em = $this->getDoctrine()->getManager();
+
+
+        $req="SELECT * FROM `user` WHERE username=?";
+        $statement = $em->getConnection()->prepare($req);
+
+        // Set parameters
+        $statement->bindValue(1, $username);
+        $statement->execute();
+        $result = $statement->fetchAll();
+
         $normalizer = new ObjectNormalizer();
         $normalizer->setCircularReferenceLimit(0);
 
@@ -34,7 +36,7 @@ class DefaultController extends Controller
         });
         $normalizers = array($normalizer);
         $serializer = new Serializer($normalizers);
-        $formatted = $serializer->normalize($user);
+        $formatted = $serializer->normalize($result);
         return new JsonResponse($formatted);
-    }
+    }    
 }
