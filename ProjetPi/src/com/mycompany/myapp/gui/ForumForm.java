@@ -183,8 +183,11 @@ private void resh()
         Button btnreport = new Button("");
         FontImage.setMaterialIcon(btnreport, FontImage.MATERIAL_REPORT);
 
-        Button btnlike = new Button("like");
-        Button btndislike = new Button("dislike");
+        Button btnlike = new Button("");
+        FontImage.setMaterialIcon(btnlike, FontImage.MATERIAL_THUMB_UP);
+        
+        Button btndislike = new Button("");
+        FontImage.setMaterialIcon(btndislike, FontImage.MATERIAL_THUMB_DOWN);
 
         ShareButton sb = new ShareButton();
         sb.setTextToShare(s.getTitre() + " : " + s.getDescription());

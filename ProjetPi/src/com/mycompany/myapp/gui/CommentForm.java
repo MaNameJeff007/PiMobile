@@ -109,8 +109,11 @@ public class CommentForm extends com.codename1.ui.Form {
         FontImage.setMaterialIcon(btnmodif, FontImage.MATERIAL_EDIT);
         Button btnreport = new Button("");
         FontImage.setMaterialIcon(btnreport, FontImage.MATERIAL_REPORT);
-        Button btnlike = new Button("like");
-        Button btndislike = new Button("dislike");
+        Button btnlike = new Button("");
+        FontImage.setMaterialIcon(btnlike, FontImage.MATERIAL_THUMB_UP);
+        
+        Button btndislike = new Button("");
+        FontImage.setMaterialIcon(btndislike, FontImage.MATERIAL_THUMB_DOWN);
         cnt1.add(l2);
         cnt1.add(l4);
         cnt1.add(l3);
