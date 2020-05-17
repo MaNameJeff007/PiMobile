@@ -6,7 +6,14 @@ use GestionBundle\Entity\Attestation;
 use GestionBundle\Entity\Reclamation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use UserBundle\Entity\User;
 
 /**
@@ -149,7 +156,59 @@ class AttestationController extends Controller
         $en->flush();
         return $this->redirectToRoute('attestationadmin');
     }
+    public function getAllAction($id)
+    {
+        $a=$this->getDoctrine()->getManager()->getRepository(Attestation::class)->findBy(array('parent' => $id));
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($a);
+        return new JsonResponse($formatted);
+    }
 
+    public function newMobileAction($parent,$enf)
+    {
+        $att = new Attestation();
+        $att->setDate(new \DateTime('now'));
+        $att->setEtat("non traitee");
+        $att->setEnfant($enf);
+        $em = $this->getDoctrine()->getManager();
+        $p=$em->getRepository(\AppBundle\Entity\User::class)->find($parent);
+        $att->setParent($p);
+        $em->persist($att);
+        $em->flush();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($att);
+        return new JsonResponse($formatted);
+    }
+
+    public function deleteMobileAction($id)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $aa = $en->getRepository(Attestation::class)->find($id);
+        $en->remove($aa);
+        $en->flush();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($aa);
+        return new JsonResponse($formatted);
+    }
 
     /**
      * Creates a form to delete a attestation entity.

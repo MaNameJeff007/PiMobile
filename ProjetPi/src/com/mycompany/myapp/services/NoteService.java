@@ -227,4 +227,20 @@ public class NoteService
         NetworkManager.getInstance().addToQueueAndWait(req);
         return notes;
     }
+	
+	     // Travail de Selim: récupère la note d'une matière
+    public ArrayList<Note> getValeurNote(int ideleve) {
+        String url = Statics.BASE_URL + "getvaleurnote/" + ideleve;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                notes = parseNotes(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return notes;
+    }
 }

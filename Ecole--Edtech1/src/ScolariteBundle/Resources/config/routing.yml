@@ -163,3 +163,9 @@ get_elvB_api:
 get_elvM_api:
     path:     /ElevesM/{c}
     defaults: { _controller: ScolariteBundle:Seance:getMElevesParClasse }
+getclasseparniveau:
+    path:   /getclasseniv/{niveau}
+    defaults: { _controller: ScolariteBundle:Classe:getClasseParNiveau}
+getniveauclasseparid:
+    path:   /getnivclasse/{id}
+    defaults: { _controller: ScolariteBundle:Classe:getNiveauClasseParID}

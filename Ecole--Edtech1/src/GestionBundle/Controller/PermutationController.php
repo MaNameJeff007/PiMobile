@@ -2,6 +2,8 @@
 
 namespace GestionBundle\Controller;
 
+use EnseignantBundle\Entity\Notes;
+use ForumBundle\Entity\Sujet;
 use GestionBundle\Entity\Attestation;
 use GestionBundle\Entity\Permutation;
 use GestionBundle\Entity\Reclamation;
@@ -11,6 +13,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use UserBundle\Entity\User;
 
 /**
@@ -35,6 +42,62 @@ class PermutationController extends Controller
         return $this->render('permutation/index.html.twig', array(
             'permutations' => $permutations,
         ));
+    }
+
+    public function getAllAction($id)
+    {
+        $permutation = $this->getDoctrine()->getManager()->getRepository('GestionBundle:Permutation')->findBy(array('parent' => $id));
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($permutation);
+        return new JsonResponse($formatted);
+    }
+    public function newMobileAction($classe_S,$raison,$eleve,$parent,$enfant)
+    {
+        $per = new Permutation();
+        $per->setDate(new \DateTime('now'));
+        $per->setEtat("non traitee");
+        $per->setRaison($raison);
+        $per->setClasseS($classe_S);
+        $per->setEnfant($enfant);
+        $em = $this->getDoctrine()->getManager();
+        $p=$em->getRepository(\AppBundle\Entity\User::class)->find($parent);
+        $per->setParent($p);
+        $e=$em->getRepository(\AppBundle\Entity\User::class)->find($eleve);
+        $per->setEleve($e);
+        $em->persist($per);
+        $em->flush();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($per);
+        return new JsonResponse($formatted);
+    }
+
+    public function deleteMobileAction($id)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $aa = $en->getRepository(Permutation::class)->find($id);
+        $en->remove($aa);
+        $en->flush();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($aa);
+        return new JsonResponse($formatted);
     }
 
 

@@ -120,4 +120,20 @@ public class MatiereService
         
         return matieres;         
     }
+	
+	     // Travail de Selim: récupère le nom d'une matière
+    public ArrayList<Matiere> getNomMatiere(int id) {
+        String url = Statics.BASE_URL + "getnommatiere/" + id;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                matieres = parseMatieres(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return matieres;
+    }
 }

@@ -11,6 +11,10 @@ use EnseignantBundle\Entity\Sanctions;
 use ScolariteBundle\Entity\Notification;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\User;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
 {
@@ -299,6 +303,53 @@ class UserController extends Controller
         $statement = $em->getConnection()->prepare($sql);
 
         $statement->bindValue(1, $request->get("parentid"));
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+	
+	    //Travail de Selim: récupère lidentifiant dune classe dun eleve
+    public function getClasseIDEleveAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT * FROM `user` WHERE id=?";
+
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $id);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+
+    //Travail de Selim: récupère la liste des enfants d'un parent
+    public function listeEnfantsAction($parent)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT * FROM `user` WHERE parent_id=?";
+
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $parent);
         $statement->execute();
 
         $result = $statement->fetchAll();

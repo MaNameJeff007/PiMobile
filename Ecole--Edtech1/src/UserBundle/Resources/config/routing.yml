@@ -73,3 +73,9 @@ user_listeeleves:
 user_elevesparparent:
     path:   /elevesparparent
     defaults: { _controller: UserBundle:User:elevesparparent}
+user_listeenfants:
+    path:   /listeenf/{parent}
+    defaults: { _controller: UserBundle:User:listeEnfants}
+user_getclasseideleve:
+    path:   /niveaueleve/{id}
+    defaults: { _controller: UserBundle:User:getClasseIDEleve}

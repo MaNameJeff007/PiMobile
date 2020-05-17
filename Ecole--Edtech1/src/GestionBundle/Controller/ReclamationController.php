@@ -3,11 +3,19 @@
 namespace GestionBundle\Controller;
 
 use EnseignantBundle\Entity\Notes;
+use ForumBundle\Entity\Sujet;
 use GestionBundle\Entity\Attestation;
 use GestionBundle\Entity\Reclamation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use UserBundle\Entity\User;
 
 /**
@@ -175,6 +183,63 @@ class ReclamationController extends Controller
         $this->get('mailer')->send($message);
 
         return $this->redirectToRoute('reclamationadmin');
+    }
+
+    public function getAllAction($id)
+    {
+        $r=$this->getDoctrine()->getManager()->getRepository(Reclamation::class)->findBy(array('parent' => $id));
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($r);
+        return new JsonResponse($formatted);
+    }
+
+    public function newMobileAction($note,$parent,$details)
+    {
+        $rec = new Reclamation();
+        $rec->setDate(new \DateTime('now'));
+        $rec->setEtat("non traitee");
+
+        $em = $this->getDoctrine()->getManager();
+        $p=$em->getRepository(\AppBundle\Entity\User::class)->find($parent);
+        $rec->setParent($p);
+        $n=$em->getRepository(Notes::class)->find($note);
+        $rec->setNote($n);
+        $rec->setDetails($details);
+        $em->persist($rec);
+        $em->flush();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($rec);
+        return new JsonResponse($formatted);
+    }
+
+    public function deleteMobileAction($id)
+    {
+        $en=$this->getDoctrine()->getManager();
+        $aa = $en->getRepository(Reclamation::class)->find($id);
+        $en->remove($aa);
+        $en->flush();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($aa);
+        return new JsonResponse($formatted);
     }
 
     /**

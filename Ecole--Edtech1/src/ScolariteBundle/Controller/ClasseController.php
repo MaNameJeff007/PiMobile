@@ -15,6 +15,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Swift_Mailer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Classe controller.
  *
@@ -387,5 +390,51 @@ class ClasseController extends Controller
         $formatted1 = $serializer->normalize($c);
         return new JsonResponse($formatted1);
 
+    }
+	
+	    //Travail de Selim: récupère la liste des classes d'un niveau
+    public function getClasseParNiveauAction($niveau)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT * FROM `classe` WHERE niveau=?";
+
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $niveau);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
+    }
+
+//Travail de Selim: récupère une classe par son identifiant
+    public function getNiveauClasseParIDAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $sql="SELECT * FROM `classe` WHERE id=?";
+
+        $statement = $em->getConnection()->prepare($sql);
+
+        $statement->bindValue(1, $id);
+        $statement->execute();
+
+        $result = $statement->fetchAll();
+
+        $encoder = array (new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $normalizers[0]->setCircularReferenceLimit(1);
+        $serializer = new Serializer($normalizers, $encoder);
+        $formatted = $serializer->normalize($result);
+        return new JsonResponse($formatted);
     }
 }

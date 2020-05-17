@@ -147,4 +147,36 @@ public class ServiceClasse {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return classes;
     }
+	
+	    // Travail de Selim: récupère l'id de classe de cet élève
+    public ArrayList<Classe> getClasseParNiveau(int niveau) {
+        String url = Statics.BASE_URL + "getclasseniv/" + niveau;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                classes = parseTasks(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return classes;
+    }
+
+    // Travail de Selim: récupère l'id de classe de cet élève
+    public ArrayList<Classe> getNiveauClasseParID(int id) {
+        String url = Statics.BASE_URL + "getnivclasse/" + id;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                classes = parseTasks(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return classes;
+    }
 }

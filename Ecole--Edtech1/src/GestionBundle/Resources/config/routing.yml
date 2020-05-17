@@ -64,3 +64,36 @@ permutationadminsup:
 searchpermutationajax:
     path:     /searchpermutationajax/{valeur}
     defaults: { _controller: GestionBundle:Permutation:searchpermutationajax}
+getAllAttestation:
+    path:     /attt/{id}
+    defaults: { _controller: GestionBundle:Attestation:getAll }
+getAllReclamation:
+    path:     /recc/{id}
+    defaults: { _controller: GestionBundle:Reclamation:getAll }
+getAllPermutation:
+    path:     /permm/{id}
+    defaults: { _controller: GestionBundle:Permutation:getAll }
+deleteReclamationMobile:
+    path:     /recc/delete/{id}
+    defaults: { _controller: GestionBundle:Reclamation:deleteMobile }
+deleteAttestationMobile:
+    path:     /attt/delete/{id}
+    defaults: { _controller: GestionBundle:Attestation:deleteMobile }
+deletePermutationMobile:
+    path:     /permm/delete/{id}
+    defaults: { _controller: GestionBundle:Permutation:deleteMobile }
+addPermutationMobile:
+    path:     /permm/add/{classe_S}/{raison}/{eleve}/{parent}/{enfant}
+    defaults: { _controller: GestionBundle:Permutation:newMobile }
+addReclamationMobile:
+    path:     /recc/add/{note}/{parent}/{details}
+    defaults: { _controller: GestionBundle:Reclamation:newMobile }
+addAttestationMobile:
+    path:     /attt/add/{parent}/{enf}
+    defaults: { _controller: GestionBundle:Attestation:newMobile }
+getvaleurnote:
+    path:   /getvaleurnote/{ideleve}
+    defaults: { _controller: EnseignantBundle:Notes:getValeurNote}
+getnommatiere:
+    path:   /getnommatiere/{id}
+    defaults: { _controller: GestionBundle:Default:getNomMatiere}

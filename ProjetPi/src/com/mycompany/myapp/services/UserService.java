@@ -127,5 +127,36 @@ public class UserService
         return users;
     }
     
+        // Travail de Selim: récupère la liste des enfants d'un parent
+    public ArrayList<User> getEnfants(int parent) {
+        String url = Statics.BASE_URL + "listeenf/" + parent;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsers(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return users;
+    }
     
+    // Travail de Selim: récupère l'id de classe de cet élève
+    public ArrayList<User> getClasseIDEleve(int eleve) {
+        String url = Statics.BASE_URL + "niveaueleve/" + eleve;
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseUsers(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return users;
+    }
+	
 }
