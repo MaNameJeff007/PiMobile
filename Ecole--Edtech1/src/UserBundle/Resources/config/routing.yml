@@ -58,6 +58,14 @@ login_users:
     path:     /loginMobile/{username}
     defaults: { _controller: UserBundle:Default:login}
 
+register_users:
+    path:     /registerMobile/{nom}/{prenom}/{email}/{username}/{role}/{code}
+    defaults: { _controller: UserBundle:Default:register}
+
+NomPrenom_users:
+    path:     /user/get/{username}
+    defaults: { _controller: UserBundle:Default:Nom}
+
 user_listeeleves:
     path:   /listeeleves/{classe}
     defaults: { _controller: UserBundle:User:listeeleves}

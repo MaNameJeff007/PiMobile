@@ -27,7 +27,7 @@ public class Login extends com.codename1.ui.Form {
     private final Label login, password;
     private final TextField loginTf, passwordTf;
     private final Container mainContainer;
-    private final Button addBtn;
+    private final Button addBtn, addBtn2;
     Form current;
     static User currentUser = new User();
 
@@ -42,9 +42,10 @@ public class Login extends com.codename1.ui.Form {
         currentUser.setPrenom(u.getPrenom());
         currentUser.setEmail(u.getEmail());
         currentUser.setRoles(u.getRoles());
-        
-        if(currentUser.getRoles().contains("ENSEIGNANT"))
+
+        if (currentUser.getRoles().contains("ENSEIGNANT")) {
             currentUser.setClasseenseignant_id(u.getClasseenseignant_id());
+        }
     }
 
     public Login() {
@@ -66,22 +67,26 @@ public class Login extends com.codename1.ui.Form {
 
         //login.getUnselectedStyle().setAlignment(Component.CENTER);
         addBtn = new Button("Login");
+        addBtn2 = new Button("Register");
+
         addBtn.addActionListener((ActionListener) (ActionEvent evt) -> {
             SpanLabel sp = new SpanLabel();
             User s = ServiceUser.getInstance().getConnectedUser(loginTf.getText(), passwordTf.getText());
             if (s.getIdentifiant() != 0) {
                 setcurrentUser(s);
                 new HomeForm().show();
-            }
-            else
-            {
+            } else {
                 passwordTf.clear();
             }
             //sp.setText(ServiceUser.getInstance().getConnectedUser(loginTf.getText(), passwordTf.getText()).toString());
             //System.out.println(getcurrentUser().getIdentifiant());
 
         });
+        addBtn2.addActionListener((ActionListener) (ActionEvent evt) -> {
+            new Register().show();
+        });
         mainContainer.add(addBtn);
+        mainContainer.add(addBtn2);
         this.add(BorderLayout.NORTH, mainContainer);
     }
 }

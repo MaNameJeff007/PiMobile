@@ -50,8 +50,7 @@ public class ServiceUser {
         return instance;
     }
 
-    public ArrayList<User> parseUsers(String jsonText) 
-    {
+    public ArrayList<User> parseUsers(String jsonText) {
         try {
             users = new ArrayList<>();
             JSONParser j = new JSONParser();
@@ -70,17 +69,31 @@ public class ServiceUser {
                 u.setPrenom(obj.get("prenom").toString());
                 u.setEmail(obj.get("email").toString());
                 u.setRoles(obj.get("roles").toString());
-                
-                if(u.getRoles().contains("ENSEIGNANT"))
-                {u.setClasseenseignant_id(obj.get("classeenseignant_id").toString());}
-                else if(u.getRoles().contains("ELEVE"))
-                {u.setClasseeleve_id(obj.get("classeeleve_id").toString());}
-                
-           
+
+                if (u.getRoles().contains("ENSEIGNANT")) {
+                    u.setClasseenseignant_id(obj.get("classeenseignant_id").toString());
+                } else if (u.getRoles().contains("ELEVE")) {
+                    u.setClasseeleve_id(obj.get("classeeleve_id").toString());
+                }
+
                 // System.out.println(obj.get("classedeseleves").toString());
                 users.add(u);
             }
 
+        } catch (IOException ex) {
+
+        }
+        return users;
+    }
+
+    public ArrayList<User> parseRegister(String jsonText) {
+        try {
+            users = new ArrayList<>();
+            JSONParser j = new JSONParser();
+
+            Map<String, Object> usersListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+
+            List<Map<String, Object>> list = (List<Map<String, Object>>) usersListJson.get("root");
         } catch (IOException ex) {
 
         }
@@ -153,10 +166,11 @@ public class ServiceUser {
                             ss.setPrenom(obj.getPrenom());
                             ss.setEmail(obj.getEmail());
                             ss.setRoles(obj.getRoles());
-                            
-                            if(ss.getRoles().contains("ENSEIGNANT"))
-                            {ss.setClasseenseignant_id(obj.getClasseenseignant_id());}
-                            
+
+                            if (ss.getRoles().contains("ENSEIGNANT")) {
+                                ss.setClasseenseignant_id(obj.getClasseenseignant_id());
+                            }
+
                             test = true;
                         }
                     }
@@ -178,30 +192,32 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return ss;
     }
-    
-    /** **/
+
+    /**
+     * *
+     */
     public ArrayList<User> parseUsersScolarite(String jsonText) {
         try {
             users = new ArrayList<>();
             JSONParser j = new JSONParser();
             Map<String, Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            
+
             List<Map<String, Object>> list = (List<Map<String, Object>>) tasksListJson.get("root");
             for (Map<String, Object> obj : list) {
                 User t = new User();
-             
+
                 t.setIdentifiant(((int) Float.parseFloat(obj.get("id").toString())));
                 t.setNom(obj.get("nom").toString());
                 t.setPrenom(obj.get("prenom").toString());
                 users.add(t);
             }
-            
+
         } catch (IOException ex) {
-            
+
         }
         return users;
     }
-    
+
     public ArrayList<User> getAllEnseigants() {
         String url = Statics.BASE_URL + "allEns/all";
         req.setUrl(url);
@@ -216,7 +232,7 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return users;
     }
-    
+
     public ArrayList<User> getAllEleves() {
         String url = Statics.BASE_URL + "ElevesC";
         req.setUrl(url);
@@ -231,9 +247,9 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return users;
     }
-    
-     public ArrayList<User> getElevesClasse(String libelle) {
-        String url = Statics.BASE_URL + "findClasseElv/"+libelle+"";
+
+    public ArrayList<User> getElevesClasse(String libelle) {
+        String url = Statics.BASE_URL + "findClasseElv/" + libelle + "";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -246,9 +262,9 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return users;
     }
-     
-     public ArrayList<User> GetMaxMoyC(String libelle) {
-        String url = Statics.BASE_URL + "ElevesM/"+libelle+"";
+
+    public ArrayList<User> GetMaxMoyC(String libelle) {
+        String url = Statics.BASE_URL + "ElevesM/" + libelle + "";
         req.setUrl(url);
         req.setPost(false);
         req.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -261,30 +277,45 @@ public class ServiceUser {
         NetworkManager.getInstance().addToQueueAndWait(req);
         return users;
     }
-     
-     public ArrayList<User> parseUsersMoy(String jsonText) {
+
+    public ArrayList<User> parseUsersMoy(String jsonText) {
         try {
             users = new ArrayList<>();
             JSONParser j = new JSONParser();
             Map<String, Object> tasksListJson = j.parseJSON(new CharArrayReader(jsonText.toCharArray()));
-            
+
             List<Map<String, Object>> list = (List<Map<String, Object>>) tasksListJson.get("root");
             for (Map<String, Object> obj : list) {
                 User t = new User();
-            
-                
+
                 t.setIdentifiant(((int) Float.parseFloat(obj.get("id").toString())));
                 t.setNom(obj.get("nom").toString());
                 t.setPrenom(obj.get("prenom").toString());
                 t.setMoyG(Float.parseFloat(obj.get("moyG").toString()));
-               
+
                 users.add(t);
             }
-            
+
         } catch (IOException ex) {
-            
+
         }
         return users;
+    }
+    
+    public User Register(String nom, String prenom, String email, String username, String role, String code) {
+        String url = Statics.BASE_URL + "registerMobile/" + nom + "/" + prenom + "/" + email + "/" + username + "/" + role + "/" + code;
+        User ss = new User();
+        req.setUrl(url);
+        req.setPost(false);
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                users = parseRegister(new String(req.getResponseData()));
+                req.removeResponseListener(this);
+            }
+        });
+        NetworkManager.getInstance().addToQueueAndWait(req);
+        return ss;
     }
 
 }

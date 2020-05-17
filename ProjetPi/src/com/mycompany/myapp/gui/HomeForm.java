@@ -51,7 +51,8 @@ public class HomeForm extends Form {
         }
         
         getToolbar().addMaterialCommandToLeftSideMenu("Home", FontImage.MATERIAL_HOME, e -> new HomeForm().show());
-        getToolbar().addMaterialCommandToLeftSideMenu("forum", FontImage.MATERIAL_FORUM, e -> new ForumForm(current).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Forum", FontImage.MATERIAL_FORUM, e -> new ForumForm(current).show());
+        getToolbar().addMaterialCommandToLeftSideMenu("Disconnect", FontImage.MATERIAL_CLOSE, e -> new Login().show());
     }
 
 }
