@@ -4,13 +4,25 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/services/SanctionService.java</file>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/NotesEleveForm.java</file>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/utils/Statics.java</file>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/services/MoyenneService.java</file>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ChartDemosForm.java</file>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/MoyennesEleveForm.java</file>
-            <file>file:/C:/Users/rami2/OneDrive/Documents/GitHub/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ListElevesParentForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/entities/Club.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/AddTaskForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/services/ServiceEvent.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ReportForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ClubsForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/EventsForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/HomeNoteForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ForumForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/services/ServiceActivite.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/entities/Evenement.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ListTasksForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/services/ServiceTask.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/entities/Absence.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/HomeForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/HomeForm1.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/gui/ActivitiesForm.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/services/ServiceClub.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/entities/User_1.java</file>
+            <file>file:/C:/Users/Mohamed%20Turki/Desktop/integration%20M/PiMobile/ProjetPi/src/com/mycompany/myapp/entities/Activite.java</file>
         </group>
     </open-files>
 </project-private>
