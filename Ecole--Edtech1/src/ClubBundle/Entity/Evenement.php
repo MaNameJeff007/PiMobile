@@ -183,7 +183,7 @@ class Evenement implements NotifiableInterface, \JsonSerializable
 
     public function getWebPath()
     {
-        return null === $this->nomImage ? null : $this->getUploadDir . '/' . $this->nomImage;
+        return null === $this->nomImage ? null : $this->getUploadDir() . '/' . $this->nomImage;
     }
 
     protected function getUploadRootDir()

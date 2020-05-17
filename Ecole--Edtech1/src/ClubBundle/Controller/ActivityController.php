@@ -3,9 +3,13 @@
 namespace ClubBundle\Controller;
 
 use ClubBundle\Entity\Activity;
+use ClubBundle\Entity\Club;
 use ClubBundle\Form\ActivityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class ActivityController extends Controller
 {
@@ -80,7 +84,6 @@ class ActivityController extends Controller
         $r->addUsersVote($this->getUserr());
         $em->flush();
 
-
         return $this->redirectToRoute("FrontaddActivity");
     }
 
@@ -103,4 +106,48 @@ class ActivityController extends Controller
 
     }
 
+    public function afficherActivityMobileAction($idu)
+    {
+
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+        $Activity=$this->getDoctrine()->getRepository(Activity::class)->findAllByUser($idu);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($Activity);
+        return new JsonResponse($formatted);
+
+
+    }
+    public function front_vote_activity_plusMobileAction($idA)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $r = $this->getDoctrine()->getRepository(Activity::class)->find($idA);
+        $r->setVote($r->getVote()+1);
+       // $r->addUsersVote($this->getUserr());
+        $em->flush();
+        return new JsonResponse("done");
+    }
+
+
+    public function front_vote_activity_minusMobileAction($idA)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $r = $this->getDoctrine()->getRepository(Activity::class)->find($idA);
+        $r->setVote($r->getVote()-1);
+       // $r->removeUsersVote($this->getUserr());
+        $em->flush();
+        return new JsonResponse("done");
+    }
+    public function tri_activityMobileAction(){
+        $Activity= $this->getDoctrine()->getRepository(Activity::class)->findAllOrderedByRate();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Activity);
+        return new JsonResponse($formatted);
+    }
 }

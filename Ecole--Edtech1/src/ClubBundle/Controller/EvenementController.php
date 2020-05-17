@@ -2,12 +2,15 @@
 
 namespace ClubBundle\Controller;
 
+use ClubBundle\Entity\Activity;
 use ClubBundle\Entity\Evenement;
 use ClubBundle\Form\EvenementType;
 use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 
 class EvenementController extends Controller
@@ -39,6 +42,14 @@ class EvenementController extends Controller
         return $this->render('@Club/Evenement/add.html.twig', array(
             'form' => $form->createView(), 'Evenement' => $evenementx
         ));
+    }
+
+    public function afficherEventMobileAction($idc)
+    {
+        $Evenement=$this->getDoctrine()->getRepository(Evenement::class)->findAllByidClub($idc);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($Evenement);
+        return new JsonResponse($formatted);
     }
 
     public function viewAction()

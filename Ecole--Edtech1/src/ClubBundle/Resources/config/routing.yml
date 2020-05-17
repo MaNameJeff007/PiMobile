@@ -8,7 +8,6 @@ FrontaddActivity:
   path:     /addActivitéfront
   defaults: { _controller: ClubBundle:Activity:front_view_activity }
 
-
 FrontvoteActivityplus:
   path:     /voteActivitéfrontplus/{idA}
   defaults: { _controller: ClubBundle:Activity:front_vote_activity_plus }
@@ -20,7 +19,6 @@ FrontvoteActivityminus:
 Front_tri_activity:
   path:     /triActivity
   defaults: { _controller: ClubBundle:Activity:tri_activity }
-
 
 deleteActivity:
   path:     /deleteActivity/{id}
@@ -58,8 +56,6 @@ deleteEvent:
 searchclubajax:
   path:     /searchclubajax/{valeur}
   defaults: { _controller: ClubBundle:Club:searchclubajax}
-
-
 searchEvent:
   path:     /searchEvent
   defaults: { _controller: ClubBundle:Evenement:search }
@@ -78,17 +74,33 @@ front_view_event:
 front_event_member:
   path:     /front_event_members/{idE}
   defaults: { _controller: ClubBundle:Evenement:front_event_members }
-
 inscrit_event:
   path:     /inscrit_event/{idE}
   defaults: { _controller: ClubBundle:Evenement:inscrit_event }
-
 setunseennotif:
   path:     /setunseennotif
   defaults: { _controller: ClubBundle:Club:setunseennotif }
-
 setoneunseennotif:
   path:     /setoneunseennotif/{id}
   defaults: { _controller: ClubBundle:Club:setoneunseennotif }
 
 
+
+afficherclubMobile:
+  path:     /afficherclubMobile
+  defaults: { _controller: ClubBundle:Club:afficherclubMobile}
+afficherActivityMobile:
+  path:     /afficherActivityMobile/{idu}
+  defaults: { _controller: ClubBundle:Activity:afficherActivityMobile}
+afficherEventMobile:
+  path:     /afficherEventMobile/{idc}
+  defaults: { _controller: ClubBundle:Evenement:afficherEventMobile}
+FrontvoteActivityplusMobile:
+  path:     /voteActivitéfrontplusMobile/{idA}
+  defaults: { _controller: ClubBundle:Activity:front_vote_activity_plusMobile }
+FrontvoteActivityminusMobile:
+  path:     /voteActivitéfrontminusMobile/{idA}
+  defaults: { _controller: ClubBundle:Activity:front_vote_activity_minusMobile }
+tri_activityMobile:
+  path:     /tri_activityMobile
+  defaults: { _controller: ClubBundle:Activity:tri_activityMobile }

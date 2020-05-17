@@ -8,7 +8,7 @@ use SBC\NotificationsBundle\Model\BaseNotification;
 /**
  * Notification
  *
- * @ORM\Table(name="notification")
+ * @ORM\Table(name="notificationn")
  * @ORM\Entity(repositoryClass="ClubBundle\Repository\NotificationRepository")
  */
 class Notification extends BaseNotification implements \JsonSerializable

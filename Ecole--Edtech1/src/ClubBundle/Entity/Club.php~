@@ -190,28 +190,4 @@ class Club implements NotifiableInterface, \JsonSerializable
     {
         return get_object_vars($this);
     }
-
-    /**
-     * Set voteClub
-     *
-     * @param integer $voteClub
-     *
-     * @return Club
-     */
-    public function setVoteClub($voteClub)
-    {
-        $this->voteClub = $voteClub;
-
-        return $this;
-    }
-
-    /**
-     * Get voteClub
-     *
-     * @return integer
-     */
-    public function getVoteClub()
-    {
-        return $this->voteClub;
-    }
 }

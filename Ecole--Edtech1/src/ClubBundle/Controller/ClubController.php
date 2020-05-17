@@ -9,6 +9,8 @@ use Knp\Component\Pager\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class ClubController extends Controller
 {
@@ -210,4 +212,27 @@ class ClubController extends Controller
             'form' => $form->createView()
         ));
     }
+    public function afficherclubMobileAction()
+    {
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setCircularReferenceLimit(0);
+        $normalizer->setCircularReferenceHandler(function ($object) {
+            return $object->getId();
+        });
+
+        $club=$this->getDoctrine()->getRepository(Club::class)->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $normalizers = array($normalizer);
+        $serializer2=new Serializer($normalizers);
+        $formatted = $serializer2->normalize($club);
+        return new JsonResponse($formatted);
+    }
+
+
+
+
+
+
+
+
 }
